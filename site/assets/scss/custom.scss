@@ -1,0 +1,16 @@
+/* Small, local additions to Stack; theme templates remain intact. */
+:root { --body-background: #eaeef5; --accent-color: #4b6385; --card-border-radius: 18px; }
+body { background-image: radial-gradient(#526b9210 1px,transparent 1px); background-size: 18px 18px; font-family: system-ui,"Microsoft YaHei",sans-serif; }
+.article-content { line-height: 1.95; overflow-wrap: anywhere; }
+.article-title { letter-spacing: .02em; }
+.article-image img { max-height: 430px; object-fit: cover; }
+.community { margin-top: 24px; padding: 28px; background: var(--card-background); border-radius: 18px; box-shadow: var(--shadow-l1); }
+.community input,.community textarea { display: block; width: 100%; box-sizing: border-box; margin: 6px 0 14px; padding: 10px; border: 1px solid #80948b; border-radius: 8px; background: var(--body-background); color: var(--card-text-color-main); font: inherit; }
+.community button { border: 1px solid #7b9289; border-radius: 8px; padding: 8px 12px; margin: 4px; cursor: pointer; background: var(--body-background); color: var(--card-text-color-main); }
+.community button:disabled { opacity: .45; cursor: not-allowed; }
+.community article { border-top: 1px solid #9aaea566; padding: 16px 0; }
+.community article p { white-space: pre-wrap; }
+.service-status { border-left: 4px solid #d68b64; padding-left: 12px; }
+.community [hidden] { display: none !important; }
+.community label { display: block; }
+@media(max-width: 600px) { .community { padding: 18px; } .article-title { font-size: 2.4rem; } }

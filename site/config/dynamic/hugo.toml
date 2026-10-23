@@ -1,0 +1,3 @@
+# Explicit local/future integration mode; never selected by the Pages workflow.
+[params.comments]
+enabled = true

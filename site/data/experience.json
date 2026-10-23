@@ -1,0 +1,11 @@
+{
+  "music": {
+    "enabled": true,
+    "tracks": [
+      {"id": "hou-lai", "title": "后来", "artist": "", "src": "", "cover": ""},
+      {"id": "koi-ame", "title": "恋如雨止", "artist": "", "src": "", "cover": ""},
+      {"id": "ce-lian", "title": "侧脸", "artist": "", "src": "", "cover": ""}
+    ]
+  },
+  "motion": {"trail": true, "background": true, "maxParticles": 16, "lifetimeMs": 520, "intensity": 0.32}
+}

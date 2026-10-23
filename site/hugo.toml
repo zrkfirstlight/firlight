@@ -1,0 +1,95 @@
+# 正式 baseURL 由 GitHub Pages 元数据传入，本地预览由命令行指定。
+locale = "zh-CN"
+defaultContentLanguage = "zh"
+hasCJKLanguage = true
+title = "待填写的博客名"
+theme = "stack"
+enableRobotsTXT = true
+[outputs]
+home = ["HTML", "RSS", "Discussions"]
+[outputFormats.Discussions]
+mediaType = "application/json"
+baseName = "discussions"
+isPlainText = true
+notAlternative = true
+[pagination]
+pagerSize = 6
+[permalinks]
+post = "/post/:slug/"
+page = "/:slug/"
+[taxonomies]
+category = "categories"
+tag = "tags"
+[markup.goldmark.extensions.passthrough]
+enable = true
+[markup.goldmark.extensions.passthrough.delimiters]
+block = [["\\[", "\\]"], ["$$", "$$"]]
+inline = [["\\(", "\\)"]]
+[markup.highlight]
+noClasses = false
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 3
+[params]
+mainSections = ["post"]
+description = "个人博客 · 记录、阅读与小小的发现（占位介绍）"
+apiBase = ""
+[params.sidebar]
+subtitle = "这里填写你的简介 · 当前为占位内容"
+[params.dateFormat]
+published = "2006年01月02日"
+lastUpdated = "2006年01月02日"
+[params.footer]
+since = 2026
+customText = "个人资料待填写 · 示例内容不代表真实经历"
+[params.article]
+math = true
+toc = true
+readingTime = true
+[params.article.list]
+showTags = true
+[params.comments]
+enabled = true
+provider = "local"
+[params.colorScheme]
+toggle = true
+default = "light"
+[params.widgets]
+homepage = [{type="search"}, {type="categories"}, {type="tag-cloud"}]
+page = [{type="toc"}]
+[[menu.main]]
+identifier = "home"
+name = "首页"
+url = "/"
+weight = 1
+params = {icon="home"}
+[[menu.main]]
+name = "文章"
+url = "/post/"
+weight = 2
+params = {icon="archives"}
+[[menu.main]]
+name = "归档"
+url = "/archives/"
+weight = 3
+params = {icon="archives"}
+[[menu.main]]
+name = "搜索"
+url = "/search/"
+weight = 4
+params = {icon="search"}
+[[menu.main]]
+name = "项目"
+url = "/projects/"
+weight = 5
+params = {icon="link"}
+[[menu.main]]
+name = "关于"
+url = "/about/"
+weight = 7
+params = {icon="user"}
+[[menu.main]]
+name = "RSS 订阅"
+url = "/index.xml"
+weight = 8
+params = {icon="rss"}

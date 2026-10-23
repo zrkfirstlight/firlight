@@ -1,0 +1,63 @@
+name: Hugo Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: false
+env:
+  HUGO_VERSION: 0.168.0
+  HUGO_LINUX_SHA256: 787f100057328824f38c6ad7c87ff10d6451ae0a7bc39cedaad0dd2bcde17e53
+  TZ: Asia/Shanghai
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Audit tracked files and history
+        run: python3 tools/audit_git.py
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+        id: pages
+      - name: Install fixed Hugo Extended
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          curl -fL -o hugo.tar.gz "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          echo "${HUGO_LINUX_SHA256}  hugo.tar.gz" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/hugo-bin"
+          tar -xzf hugo.tar.gz -C "$RUNNER_TEMP/hugo-bin"
+          echo "$RUNNER_TEMP/hugo-bin" >> "$GITHUB_PATH"
+      - name: Build
+        env:
+          PAGES_BASE: ${{ steps.pages.outputs.base_url }}
+        run: hugo --source site --environment production --gc --minify --cleanDestinationDir --baseURL "${PAGES_BASE%/}/"
+      - name: Verify links and public boundary
+        env:
+          PAGES_BASE: ${{ steps.pages.outputs.base_url }}
+        run: python3 tools/check_static.py site/public "${PAGES_BASE%/}/" --release
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site/public
+          include-hidden-files: false
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        id: deployment

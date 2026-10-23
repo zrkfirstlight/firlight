@@ -1,0 +1,17 @@
+{{ define "main" }}
+    {{- $paginator := partial "helper/paginator.html" . -}}
+    {{ if eq $paginator.PageNumber 1 }}
+    <section class="first-visit" aria-labelledby="first-visit-title">
+        {{ if hugo.Data.experience.motion.background }}<div class="ambience-window" aria-hidden="true"><div class="ambience-orbit"></div><i></i><i></i><i></i></div>{{ end }}
+        <div class="first-visit-copy"><span class="eyebrow">阅读 · 探索 · 一点留白</span><h2 id="first-visit-title">从这里，慢慢读起</h2>
+        <p>这是一个以文字为中心的个人空间。</p>
+        <nav aria-label="初次来访"><a href="{{ relref . "/post/about-this-site" }}">关于网站 ↗</a><a href="{{ relref . "/post/start-here" }}">浏览指南 ↗</a><a href="{{ relref . "/post/how-to-interact" }}">互动说明 ↗</a><a href="#reading-settings">音乐与动效 ↓</a></nav></div>
+    </section>
+    {{ end }}
+    <section class="article-list">
+        {{ range $index, $element := $paginator.Pages }}{{ partial "article-list/default" . }}{{ end }}
+    </section>
+    {{- partial "pagination.html" . -}}
+    {{- partial "footer/footer" . -}}
+{{ end }}
+{{ define "right-sidebar" }}{{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}{{ end }}

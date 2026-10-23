@@ -1,0 +1,11 @@
+# GitHub Pages release: static only. No browser API requests or account UI.
+ignoreFiles = ['(^|[/\\])page[/\\]guestbook([/\\]|$)']
+[params]
+apiBase = ""
+[params.comments]
+enabled = false
+
+[[module.mounts]]
+source = "static"
+target = "static"
+files = ["! js/community.js", "! js/community-api.js"]

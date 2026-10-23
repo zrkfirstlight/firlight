@@ -1,0 +1,27 @@
+{{ $cfg := hugo.Data.experience }}
+{{ $tracks := slice }}
+{{ range $cfg.music.tracks }}
+  {{ $src := .src }}{{ $cover := .cover }}
+  {{ if and $src (not (hasPrefix $src "https://")) }}{{ $src = relURL $src }}{{ end }}
+  {{ if and $cover (not (hasPrefix $cover "https://")) }}{{ $cover = relURL $cover }}{{ end }}
+  {{ $tracks = $tracks | append (merge . (dict "src" $src "cover" $cover)) }}
+{{ end }}
+<aside class="experience-tools" id="reading-settings" aria-label="音乐与动效设置">
+  <button type="button" id="motion-toggle" aria-pressed="true">动效：开</button>
+  {{ if $cfg.music.enabled }}
+  <details class="music-player" id="music-player">
+    <summary>♫ <span data-current>音乐</span> <span data-mini>音源待配置</span></summary>
+    <div class="music-panel">
+      <img data-cover alt="" width="64" height="64" hidden>
+      <p data-artist></p><p data-status role="status" aria-live="polite">音源待配置 · 不会自动播放</p>
+      <div class="music-transport"><button type="button" data-prev aria-label="上一首">‹</button><button type="button" data-play>播放</button><button type="button" data-next aria-label="下一首">›</button></div>
+      <label>进度 <input type="range" data-seek min="0" max="100" value="0" step="0.1" disabled></label><output data-time>0:00 / 0:00</output>
+      <label>音量 <input type="range" data-volume min="0" max="1" step="0.05" value="0.6"></label><button type="button" data-mute aria-pressed="false">静音</button>
+      <ol data-playlist aria-label="播放列表"></ol>
+      <small>整页翻页会暂停；回来后点击播放可继续。</small>
+    </div>
+  </details>
+  {{ end }}
+</aside>
+<script id="experience-config" type="application/json">{{ dict "music" (merge $cfg.music (dict "tracks" $tracks)) "motion" $cfg.motion | jsonify | safeJS }}</script>
+<script type="module" src="{{ "js/experience.js" | relURL }}"></script>
