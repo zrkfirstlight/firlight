@@ -1,7 +1,7 @@
 name: Hugo Pages
 on:
   push:
-    branches: [main]
+    branches: [2026blog]
   workflow_dispatch:
 permissions:
   contents: read
