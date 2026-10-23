@@ -12,7 +12,7 @@ export function mountMotion(config, storage) {
   function update() {
     document.documentElement.dataset.motion = choice && !reduce.matches ? 'on' : 'off';
     button.setAttribute('aria-pressed', String(choice && !reduce.matches));
-    const configured = config.motion.trail || config.motion.background;
+    const configured = config.motion.trail || config.motion.background || config.motion.sky?.enabled;
     button.textContent = !configured ? '动效：已停用' : reduce.matches ? '动效：系统已减少' : `动效：${choice ? '开' : '关'}`;
     button.disabled = reduce.matches || !configured;
     background(); if (!enabled() || !pointer.matches) stop();

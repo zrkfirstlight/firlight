@@ -1,0 +1,23 @@
+/* Original engraving and restrained sky, with opaque article surfaces above it. */
+.main-container{isolation:isolate}
+.sky-field{overflow:hidden;pointer-events:none;user-select:none;contain:strict;opacity:var(--sky-opacity,.42);color:var(--accent-color)}
+.sky-scene{position:fixed;inset:0;z-index:-1;mask-image:linear-gradient(90deg,#000,transparent 19%,transparent 82%,#000);-webkit-mask-image:linear-gradient(90deg,#000,transparent 19%,transparent 82%,#000)}
+.sky-local{position:absolute;inset:0;border-radius:inherit;z-index:0;opacity:calc(var(--sky-opacity,.42) * .8)}
+.sky-dot{position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);border-radius:50%;background:currentColor;animation:sky-sway var(--sky-drift,80s) ease-in-out var(--phase) infinite alternate;animation-play-state:paused}
+.sky-dot:nth-child(5n){box-shadow:0 0 5px 1px currentColor;opacity:.6}
+.sky-meteor{position:absolute;left:var(--x);top:var(--y);width:85px;height:1px;opacity:0;background:linear-gradient(90deg,transparent,currentColor);transform:rotate(32deg);animation:sky-pass var(--period,23s) linear var(--phase) infinite;animation-play-state:paused}
+.sky-running .sky-dot,.sky-running .sky-meteor{animation-play-state:running}
+@keyframes sky-sway{from{transform:translate(-3px,0);opacity:.4}to{transform:translate(9px,13px);opacity:.8}}
+@keyframes sky-pass{0%{opacity:0;transform:translate(-60px,-35px) rotate(32deg)}2%{opacity:.7}7%{opacity:0;transform:translate(160px,100px) rotate(32deg)}100%{opacity:0;transform:translate(160px,100px) rotate(32deg)}}
+.desk-section-heading h2,.desk-page-heading h1{position:relative}
+.desk-section-heading h2::after{content:"✧";display:inline-block;margin-left:12px;font-size:.65em;font-weight:400;color:var(--accent-color);opacity:.55;vertical-align:middle}
+.learning-book{position:relative;background-image:linear-gradient(135deg,transparent calc(100% - 32px),var(--dream-line) calc(100% - 31px),transparent calc(100% - 30px))}
+.learning-book::before{content:"";position:absolute;left:-6px;top:28px;width:8px;height:8px;border:1px solid var(--accent-color);background:var(--card-background);transform:rotate(45deg);opacity:.65}
+.desk-entry h3 a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;text-decoration-thickness:1px;transition:text-decoration-color .25s}
+.desk-entry h3 a:hover{text-decoration-color:var(--dream-line)}
+.article-footer::before{content:"";display:block;width:90px;height:13px;margin:8px 0 22px;background:linear-gradient(var(--dream-line),var(--dream-line)) left center/36px 1px no-repeat,linear-gradient(var(--dream-line),var(--dream-line)) right center/36px 1px no-repeat,radial-gradient(circle,var(--accent-color) 1.5px,transparent 2px) center/8px 8px no-repeat}
+.series-steps{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:1.3rem}.series-steps a{padding:16px;border-block:1px solid var(--dream-line);line-height:1.8}.series-steps small{display:block;color:var(--card-text-color-secondary)}.series-steps .series-next{text-align:right;grid-column:2}
+html[data-motion=off] .sky-dot,html[data-motion=off] .sky-meteor{animation:none!important}html[data-motion=off] .sky-meteor{display:none}
+@supports not (mask-image:linear-gradient(#000,transparent)){.sky-scene{display:none}}
+@media(max-width:767px){.sky-scene{display:none}.sky-local .sky-dot:nth-child(n+7),.sky-local .sky-meteor{display:none}.series-steps{grid-template-columns:1fr}.series-steps .series-next{grid-column:1}}
+@media(prefers-reduced-motion:reduce){.sky-dot,.sky-meteor{animation:none!important}.sky-meteor{display:none}.desk-entry h3 a{transition:none}}

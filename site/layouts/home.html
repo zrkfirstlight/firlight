@@ -6,6 +6,7 @@
  <div class="desk-hero-copy"><span class="desk-kicker">NOTES / LIFE / LITTLE EXPERIMENTS</span><h1>{{ hugo.Data.desk.intro }}</h1><p>{{ hugo.Data.desk.description }}</p><a class="desk-text-link" href="{{ "learning/" | relURL }}">从一篇笔记开始 →</a>
  <details class="desk-intro-links"><summary>初次来访 · 网站说明</summary><nav><a href="{{ relref . "/post/about-this-site" }}">关于这个网站</a><a href="{{ relref . "/post/start-here" }}">浏览指南</a><a href="{{ relref . "/post/how-to-interact" }}">互动说明</a></nav></details></div>
  <div class="orbit-stage" aria-label="四个内容方向的轨道装置">{{ if hugo.Data.experience.motion.background }}<div class="ambience-window" aria-hidden="true"><div class="ambience-orbit"></div></div>{{ end }}
+ {{ if hugo.Data.experience.motion.sky.enabled }}<div class="sky-local sky-field" data-sky="local" aria-hidden="true"></div>{{ end }}
  <svg class="orbit-drawing" viewBox="0 0 360 300" aria-hidden="true"><ellipse cx="180" cy="145" rx="145" ry="95"/><ellipse cx="180" cy="145" rx="110" ry="70" transform="rotate(-35 180 145)"/><circle cx="180" cy="145" r="4"/></svg>
  <div class="orbit-nodes">{{ range $i,$channel := hugo.Data.desk.channels }}<button type="button" class="orbit-node node-{{ $i }}" data-orbit-url="{{ $channel.url | relURL }}" data-orbit-description="{{ $channel.description }}" aria-pressed="{{ if eq $i 0 }}true{{ else }}false{{ end }}">{{ $channel.name }}</button>{{ end }}</div>
  <div class="orbit-caption"><p data-orbit-caption aria-live="polite">短文、记录与网站说明。</p><a data-orbit-link href="{{ "essays/" | relURL }}">进入随笔 ↗</a></div></div>

@@ -1,4 +1,5 @@
 {{ $cfg := hugo.Data.experience }}
+{{ if $cfg.motion.sky.enabled }}<div class="sky-scene sky-field" data-sky="margin" aria-hidden="true"></div>{{ end }}
 {{ $tracks := slice }}
 {{ range $cfg.music.tracks }}
   {{ $src := .src }}{{ $cover := .cover }}

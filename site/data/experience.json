@@ -7,5 +7,6 @@
       {"id": "ce-lian", "title": "侧脸", "artist": "", "src": "", "cover": ""}
     ]
   },
-  "motion": {"trail": true, "background": true, "maxParticles": 16, "lifetimeMs": 520, "intensity": 0.32}
+  "motion": {"trail": true, "background": true, "maxParticles": 16, "lifetimeMs": 520, "intensity": 0.32,
+    "sky": {"enabled": true, "stars": 40, "meteors": 2, "driftSeconds": 80, "opacity": 0.42}}
 }

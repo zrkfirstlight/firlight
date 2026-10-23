@@ -19,4 +19,7 @@
 <div class="desk-topics">{{ range .GetTerms "topics" }}<a href="{{ .RelPermalink }}">主题 · {{ .Title }}</a>{{ end }}</div>
 {{ with .Params.project_ref }}<p>这篇笔记对应的实验：<a href="{{ relref $ . }}">进入项目 →</a></p>{{ end }}
 {{ with .Params.content_id }}<span class="reading-marker" data-reading-id="{{ . }}" hidden></span>{{ end }}
+{{ if eq .Type "notes" }}{{ $current := . }}{{ range first 1 (.GetTerms "series") }}{{ $chapters := .RegularPages.ByWeight }}{{ range $index, $chapter := $chapters }}{{ if eq $chapter.RelPermalink $current.RelPermalink }}
+<nav class="series-steps" aria-label="专题阅读顺序">{{ if gt $index 0 }}{{ with index $chapters (sub $index 1) }}<a href="{{ .RelPermalink }}"><small>上一篇</small>{{ .Title }}</a>{{ end }}{{ end }}{{ if lt $index (sub (len $chapters) 1) }}{{ with index $chapters (add $index 1) }}<a class="series-next" href="{{ .RelPermalink }}"><small>下一篇</small>{{ .Title }}</a>{{ end }}{{ end }}</nav>
+{{ end }}{{ end }}{{ end }}{{ end }}
 </footer>

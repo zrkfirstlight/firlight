@@ -54,3 +54,9 @@ setup在项目内取得固定Hugo并校验SHA256；不修改系统PATH，不安�
 新增 /learning/、/essays/、/discoveries/、快捷搜索 Ctrl/⌘K、手动阅读位置恢复和 /project/life-lab/ 生命游戏。设计实验仍在 /design-lab/，只供预览。音乐尚无授权音源，保持音源待配置。无真实内容的此刻/发现留白。详细约定见 docs/SPACE_DESIGN.md（其中本地动态命令属于独立完整开发工作区，本公开仓库不含后端）。
 
 本次 production 继续关闭账号/评论/留言，不请求本机接口；以后接入动态服务必须先提供稳定 HTTPS API 并完成跨域验证。
+
+## 写作与细节更新
+
+电脑导入Markdown/UTF-8文本、手机短帖、网页编辑与可选作者后台方案见 [CONTENT_WORKFLOW.md](docs/CONTENT_WORKFLOW.md)。工具 `py -3 tools/new_post.py --title "标题" --slug unique-name` 默认草稿，不覆盖、不提交。手机模板在 templates/mobile-post.md，草稿进入公开Git仍可被读取。
+
+新增四篇Effective Python原创实践，见学习书架；11段教学代码可用 `py -3 tools/verify_learning.py`核验。星幕、低频流星与纹样配置见 [DETAIL_UPDATE.md](docs/DETAIL_UPDATE.md)。读者账号不具备发文权限；未增加网页作者后台。
