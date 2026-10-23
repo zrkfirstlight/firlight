@@ -1,6 +1,7 @@
 ---
 title: 项目手记
 slug: projects
+layout: projects
 comments: false
 ---
 ## 示例项目 · 个人博客搭建

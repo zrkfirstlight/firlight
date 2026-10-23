@@ -16,10 +16,15 @@ notAlternative = true
 pagerSize = 6
 [permalinks]
 post = "/post/:slug/"
+notes = "/notes/:slug/"
+discovery = "/discovery/:slug/"
+project = "/project/:slug/"
 page = "/:slug/"
 [taxonomies]
 category = "categories"
 tag = "tags"
+topic = "topics"
+series = "series"
 [markup.goldmark.extensions.passthrough]
 enable = true
 [markup.goldmark.extensions.passthrough.delimiters]
@@ -31,7 +36,7 @@ noClasses = false
 startLevel = 2
 endLevel = 3
 [params]
-mainSections = ["post"]
+mainSections = ["post", "notes", "discovery", "project"]
 description = "个人博客 · 记录、阅读与小小的发现（占位介绍）"
 apiBase = ""
 [params.sidebar]
@@ -64,18 +69,18 @@ url = "/"
 weight = 1
 params = {icon="home"}
 [[menu.main]]
-name = "文章"
-url = "/post/"
+name = "随笔"
+url = "/essays/"
 weight = 2
 params = {icon="archives"}
 [[menu.main]]
-name = "归档"
-url = "/archives/"
+name = "学习"
+url = "/learning/"
 weight = 3
 params = {icon="archives"}
 [[menu.main]]
-name = "搜索"
-url = "/search/"
+name = "发现"
+url = "/discoveries/"
 weight = 4
 params = {icon="search"}
 [[menu.main]]
@@ -88,6 +93,11 @@ name = "关于"
 url = "/about/"
 weight = 7
 params = {icon="user"}
+[[menu.main]]
+name = "搜索"
+url = "/search/"
+weight = 8
+params = {icon="search"}
 [[menu.main]]
 name = "RSS 订阅"
 url = "/index.xml"

@@ -24,7 +24,9 @@ for f in root.rglob('*.html'):
         if not target.exists(): errors.append(f'{f.relative_to(root)}: 缺失 {v}')
         seen+=1
 required_pages=['index.html','post/index.html','categories/index.html','tags/index.html','archives/index.html','search/index.html','search/index.json','projects/index.html','about/index.html','404.html','index.xml','sitemap.xml','discussions.json']
-if not release: required_pages.append('guestbook/index.html')
+required_pages+=['essays/index.html','learning/index.html','discoveries/index.html','topics/index.html','project/life-lab/index.html','notes/life-local-rules/index.html']
+if release: required_pages+=['post/example-reading/index.html']
+if not release: required_pages+=['guestbook/index.html','account/index.html']
 for required in required_pages:
     if not (root/required).is_file(): errors.append('缺失页面 '+required)
 for f in root.rglob('*'):
@@ -37,7 +39,7 @@ if release:
         urls=[e.text for e in rss.findall('./channel/link')+rss.findall('./channel/item/link')+sitemap.findall('.//{*}loc')]
         assert urls and all(url and url.startswith(base) for url in urls)
     except (AssertionError,ET.ParseError,OSError): errors.append('RSS/站点地图 XML 或 baseURL 不正确')
-    for forbidden in ['guestbook/index.html','js/community.js','js/community-api.js','CNAME']:
+    for forbidden in ['guestbook/index.html','account/index.html','js/community.js','js/community-api.js','CNAME']:
         if (root/forbidden).exists(): errors.append('静态发布不应包含 '+forbidden)
     for f in root.rglob('*'):
         if f.is_file() and f.suffix in ['.html','.json','.js','.css','.xml','.txt']:

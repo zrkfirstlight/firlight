@@ -1,0 +1,8 @@
+{{ define "main" }}
+<header class="desk-page-heading"><span class="desk-kicker">LEARNING / SHELF</span><h1>{{ .Title }}</h1><div>{{ .Content }}</div><p><a href="{{ "topics/" | relURL }}">跨栏目主题 ↗</a></p></header>
+<div class="learning-shelf">{{ range .Site.Taxonomies.series.Alphabetical }}{{ $chapters := where .Pages "Type" "notes" }}{{ if $chapters }}
+<section class="learning-book" id="{{ .Page.Title | urlize }}"><span class="desk-kicker">专题 · {{ len $chapters }} 篇已公开</span><h2>{{ .Page.Title }}</h2><ol>{{ range $chapters.ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a><p>{{ .Description }}</p></li>{{ end }}</ol></section>
+{{ end }}{{ end }}</div>
+{{ $loose := where (where .Site.RegularPages "Type" "notes") "Params.series" nil }}{{ with $loose }}<h2>独立笔记</h2>{{ range . }}{{ partial "desk/entry.html" . }}{{ end }}{{ end }}
+{{ partial "footer/footer" . }}
+{{ end }}

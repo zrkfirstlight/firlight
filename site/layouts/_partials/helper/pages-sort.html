@@ -1,0 +1,3 @@
+{{ $pages := .Pages.ByDate.Reverse }}
+{{ if eq .Context.Type "series" }}{{ $pages = .Pages.ByWeight }}{{ else if eq .Context.Site.Params.SortBy "lastmod" }}{{ $pages = .Pages.ByLastmod.Reverse }}{{ end }}
+{{ return $pages }}

@@ -7,6 +7,7 @@
   {{ $tracks = $tracks | append (merge . (dict "src" $src "cover" $cover)) }}
 {{ end }}
 <aside class="experience-tools" id="reading-settings" aria-label="音乐与动效设置">
+  <button type="button" data-quick-search>快速搜索 · Ctrl K</button>
   <button type="button" id="motion-toggle" aria-pressed="true">动效：开</button>
   {{ if $cfg.music.enabled }}
   <details class="music-player" id="music-player">
@@ -23,5 +24,8 @@
   </details>
   {{ end }}
 </aside>
+<button class="desk-easter" type="button" data-desk-note aria-expanded="false" aria-label="打开页脚小纸条">· · ·</button><p class="desk-paper-note" hidden>允许留白，也允许改变方向。</p>
+<dialog class="quick-search" aria-labelledby="quick-search-title"><form method="dialog"><h2 id="quick-search-title">从一个词开始</h2><button type="submit" aria-label="关闭搜索">关闭 ×</button></form><label>搜索文章、专题与项目 <input type="search" data-quick-input autocomplete="off" placeholder="标题、主题或关键词"></label><p role="status" data-quick-status>输入关键词，或按 Esc 关闭。</p><ol data-quick-results></ol></dialog>
+<script src="{{ "js/desk.js" | relURL }}" data-index="{{ "search/index.json" | relURL }}" defer></script>
 <script id="experience-config" type="application/json">{{ dict "music" (merge $cfg.music (dict "tracks" $tracks)) "motion" $cfg.motion | jsonify | safeJS }}</script>
 <script type="module" src="{{ "js/experience.js" | relURL }}"></script>

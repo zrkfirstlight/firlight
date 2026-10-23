@@ -1,5 +1,5 @@
 # GitHub Pages release: static only. No browser API requests or account UI.
-ignoreFiles = ['(^|[/\\])page[/\\]guestbook([/\\]|$)']
+ignoreFiles = ['(^|[/\\])page[/\\](guestbook|account)([/\\]|$)']
 [params]
 apiBase = ""
 [params.comments]

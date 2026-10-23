@@ -1,0 +1,1 @@
+{{ define "main" }}<header class="desk-page-heading"><span class="desk-kicker">SERIES / READING ORDER</span><h1>{{ .Title }}</h1><p>按章节顺序阅读，不按发表日期打散。</p></header><div class="desk-collection">{{ range .Pages.ByWeight }}{{ partial "desk/entry.html" . }}{{ end }}</div>{{ partial "footer/footer" . }}{{ end }}

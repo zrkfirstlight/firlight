@@ -1,0 +1,8 @@
+{{- $result := slice -}}
+{{- range (partial "helper/pages.html" .Site.Home) -}}
+  {{- $topics := slice -}}{{- range .GetTerms "topics" -}}{{- $topics = $topics | append .Title -}}{{- end -}}
+  {{- $data := dict "title" .Title "date" .Date "permalink" .RelPermalink "content" .Plain "summary" .Description "type" (partial "desk/type-label.html" .) "topics" $topics -}}
+  {{- with partial "helper/image" (dict "Image" .Params.image "Resources" .Resources "Context" .) -}}{{- $data = merge $data (dict "image" .Permalink) -}}{{- end -}}
+  {{- $result = $result | append $data -}}
+{{- end -}}
+{{ jsonify $result }}

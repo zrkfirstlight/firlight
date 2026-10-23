@@ -46,3 +46,11 @@ python tools/manage.py preview
 setup在项目内取得固定Hugo并校验SHA256；不修改系统PATH，不安装Node或后端。已有工具时无需重复下载。当前production是纯静态，不开放登录/注册/评论/留言，也不请求本机服务。
 
 部署配置与检查见[DEPLOYMENT.md](DEPLOYMENT.md)。主题来源见[THEME_SOURCE.md](THEME_SOURCE.md)，许可见[docs/THIRD_PARTY.md](docs/THIRD_PARTY.md)。UPLOAD_REPORT.md保留此前整理阶段的历史快照。
+
+## 知识与生活空间更新（2026-10-23）
+
+四类内容：随笔 site/content/post/、学习 site/content/notes/、发现 site/content/discovery/、项目 site/content/project/。topics 关联共同主题，series/weight 组织学习章节；永久 content_id 不随路径修改。首页文案与此刻面板在 site/data/desk.json；个人信息仍在 site/hugo.toml。原文章 /post/example-reading/ 保留。
+
+新增 /learning/、/essays/、/discoveries/、快捷搜索 Ctrl/⌘K、手动阅读位置恢复和 /project/life-lab/ 生命游戏。设计实验仍在 /design-lab/，只供预览。音乐尚无授权音源，保持音源待配置。无真实内容的此刻/发现留白。详细约定见 docs/SPACE_DESIGN.md（其中本地动态命令属于独立完整开发工作区，本公开仓库不含后端）。
+
+本次 production 继续关闭账号/评论/留言，不请求本机接口；以后接入动态服务必须先提供稳定 HTTPS API 并完成跨域验证。

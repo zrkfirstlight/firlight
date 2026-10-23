@@ -1,0 +1,5 @@
+<article class="desk-entry" {{ if eq .Type "discovery" }}data-discovery-kind="{{ .Params.discovery_kind | default "article" }}"{{ end }}>
+<div class="desk-meta"><span>{{ partial "desk/type-label.html" . }}</span><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>{{ with .Params.project_status }}<span>{{ . }}</span>{{ end }}</div>
+<h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3><p>{{ .Description | default (.Plain | truncate 100) }}</p>
+<div class="desk-topics">{{ range .GetTerms "topics" }}<a href="{{ .RelPermalink }}"># {{ .Title }}</a>{{ end }}</div>
+</article>

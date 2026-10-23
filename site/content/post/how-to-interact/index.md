@@ -1,12 +1,14 @@
 ---
 title: "如何在这里互动"
 date: 2026-10-22
+lastmod: 2026-10-23
 draft: false
 slug: how-to-interact
 content_id: how-to-interact
 description: "当前公开版本以阅读为主；这里说明互动开放状态，以及启用后登录、评论和提交失败时的处理方式。"
 categories: [网站说明]
 tags: [互动说明, 评论]
+topics: [个人网站]
 ---
 
 ## 先看当前状态

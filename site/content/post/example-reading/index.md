@@ -7,6 +7,11 @@ image: cover.svg
 categories: [写作示例]
 tags: [Markdown, 中文排版, 数学]
 content_id: example-reading
+type: notes
+url: /post/example-reading/
+topics: [文字与表达]
+series: [Markdown 阅读示例]
+weight: 10
 ---
 
 > **示例内容**：这篇文章只演示博客功能，不包含作者真实经历。

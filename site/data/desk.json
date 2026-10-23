@@ -1,0 +1,11 @@
+{
+  "intro": "记录学习，做一点东西",
+  "description": "文章、知识笔记与项目实验，在这里各自找到位置。个人介绍待填写。",
+  "now": {"reading": "", "making": "", "thinking": ""},
+  "channels": [
+    {"type":"post","name":"随笔","url":"essays/","description":"短文、记录与网站说明。"},
+    {"type":"notes","name":"学习","url":"learning/","description":"从专题进入，按章节逐步阅读。"},
+    {"type":"discovery","name":"发现","url":"discoveries/","description":"留下真正值得推荐的事物与理由。"},
+    {"type":"project","name":"项目","url":"projects/","description":"先动手体验，再看背后的过程。"}
+  ]
+}

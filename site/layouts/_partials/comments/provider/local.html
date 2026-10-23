@@ -1,16 +1,19 @@
-{{ if not .Params.content_id }}{{ errorf "Comment-enabled page %s must declare content_id" .File.Path }}{{ end }}
-<section class="community article-content" data-api="{{ .Site.Params.apiBase }}" data-thread="{{ .Params.content_id }}">
-<h2>交流与留言</h2>
+{{ if and (not .Params.account_page) (not .Params.content_id) }}{{ errorf "Comment-enabled page %s must declare content_id" .File.Path }}{{ end }}
+<section class="community article-content" data-api="{{ .Site.Params.apiBase }}" data-thread="{{ .Params.content_id | default "" }}" data-kind="{{ if .Params.account_page }}account{{ else }}discussion{{ end }}" data-state="connecting">
+<h2>{{ if .Params.account_page }}账号与内容管理{{ else }}交流与留言{{ end }}</h2>
 <p class="service-status" role="status" aria-live="polite">正在检查动态服务…</p>
 <button type="button" data-action="retry">检查 / 重试</button>
 <p>评论需审核。未发送的文字仅保留在当前页面；请勿填写敏感资料。</p>
 <div class="account"></div>
+<form class="profile-form" hidden><label>昵称 <input name="nickname" autocomplete="nickname" maxlength="40" required></label><button type="submit">保存昵称</button></form>
 <details class="auth-box"><summary>登录 / 注册</summary>
 <form class="auth-form"><label>用户名 <input name="username" autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z0-9_]+" required></label>
 <label>密码 <input name="password" type="password" autocomplete="current-password" maxlength="128" required></label>
 <label>昵称（注册用） <input name="nickname" autocomplete="nickname" maxlength="40"></label>
 <button data-mode="login" type="submit">登录</button><button data-mode="register" type="submit">注册</button></form></details>
-<form class="comment-form"><label>留言 / 评论 <textarea name="body" rows="4" maxlength="3000" required></textarea></label><p class="reply-status"></p><button type="submit" data-submit>提交审核</button><button type="button" data-action="cancel-reply">取消回复</button></form>
-<div class="view-buttons"><button type="button" data-action="public">本页评论</button><button type="button" data-action="mine">我的评论</button><button type="button" data-action="manage" hidden>审核评论</button><button type="button" data-action="users" hidden>管理用户</button></div>
+<p class="registration-note"></p>
+<form class="comment-form" {{ if .Params.account_page }}hidden{{ end }}><label>留言 / 评论 <textarea name="body" rows="4" maxlength="3000" required></textarea></label><p class="reply-status"></p><button type="submit" data-submit>提交审核</button><button type="button" data-action="cancel-reply">取消回复</button></form>
+<div class="view-buttons"><button type="button" data-action="public" {{ if .Params.account_page }}hidden{{ end }}>本页评论</button><button type="button" data-action="mine">我的评论</button><button type="button" data-action="manage" hidden>审核评论</button><button type="button" data-action="users" hidden>管理用户</button></div>
+<p class="list-heading"></p>
 <div class="comment-list" aria-live="polite"></div><button type="button" data-action="more" hidden>下一页</button>
 </section>

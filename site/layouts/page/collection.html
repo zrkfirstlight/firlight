@@ -1,0 +1,9 @@
+{{ define "main" }}
+<header class="desk-page-heading"><span class="desk-kicker">{{ .Params.collection_type | upper }} / INDEX</span><h1>{{ .Title }}</h1><div>{{ .Content }}</div><p><a href="{{ "topics/" | relURL }}">按主题寻找 ↗</a> · <a href="{{ "archives/" | relURL }}">时间归档 ↗</a></p></header>
+{{ $pages := where .Site.RegularPages "Type" .Params.collection_type }}
+{{ if $pages }}
+{{ if eq .Params.collection_type "discovery" }}<label class="discovery-filter">条目类型 <select><option value="all">全部</option><option value="article">文章</option><option value="tool">工具</option><option value="music">音乐</option><option value="game">游戏</option><option value="website">网站</option></select></label><p class="filter-status" role="status"></p>{{ end }}
+<div class="desk-collection">{{ range (.Paginate $pages.ByDate.Reverse).Pages }}{{ partial "desk/entry.html" . }}{{ end }}</div>{{ partial "pagination.html" . }}
+{{ else }}<section class="desk-empty"><span>留一点空白</span><p>这里还没有公开条目。以后有了真实内容，它会按相同的结构加入索引和搜索。</p></section>{{ end }}
+{{ partial "footer/footer" . }}
+{{ end }}

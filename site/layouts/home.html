@@ -1,17 +1,23 @@
 {{ define "main" }}
-    {{- $paginator := partial "helper/paginator.html" . -}}
-    {{ if eq $paginator.PageNumber 1 }}
-    <section class="first-visit" aria-labelledby="first-visit-title">
-        {{ if hugo.Data.experience.motion.background }}<div class="ambience-window" aria-hidden="true"><div class="ambience-orbit"></div><i></i><i></i><i></i></div>{{ end }}
-        <div class="first-visit-copy"><span class="eyebrow">阅读 · 探索 · 一点留白</span><h2 id="first-visit-title">从这里，慢慢读起</h2>
-        <p>这是一个以文字为中心的个人空间。</p>
-        <nav aria-label="初次来访"><a href="{{ relref . "/post/about-this-site" }}">关于网站 ↗</a><a href="{{ relref . "/post/start-here" }}">浏览指南 ↗</a><a href="{{ relref . "/post/how-to-interact" }}">互动说明 ↗</a><a href="#reading-settings">音乐与动效 ↓</a></nav></div>
-    </section>
-    {{ end }}
-    <section class="article-list">
-        {{ range $index, $element := $paginator.Pages }}{{ partial "article-list/default" . }}{{ end }}
-    </section>
-    {{- partial "pagination.html" . -}}
-    {{- partial "footer/footer" . -}}
+{{ $paginator := partial "helper/paginator.html" . }}
+{{ if eq $paginator.PageNumber 1 }}
+<div class="desk-home">
+<section class="desk-hero">
+ <div class="desk-hero-copy"><span class="desk-kicker">NOTES / LIFE / LITTLE EXPERIMENTS</span><h1>{{ hugo.Data.desk.intro }}</h1><p>{{ hugo.Data.desk.description }}</p><a class="desk-text-link" href="{{ "learning/" | relURL }}">从一篇笔记开始 →</a>
+ <details class="desk-intro-links"><summary>初次来访 · 网站说明</summary><nav><a href="{{ relref . "/post/about-this-site" }}">关于这个网站</a><a href="{{ relref . "/post/start-here" }}">浏览指南</a><a href="{{ relref . "/post/how-to-interact" }}">互动说明</a></nav></details></div>
+ <div class="orbit-stage" aria-label="四个内容方向的轨道装置">{{ if hugo.Data.experience.motion.background }}<div class="ambience-window" aria-hidden="true"><div class="ambience-orbit"></div></div>{{ end }}
+ <svg class="orbit-drawing" viewBox="0 0 360 300" aria-hidden="true"><ellipse cx="180" cy="145" rx="145" ry="95"/><ellipse cx="180" cy="145" rx="110" ry="70" transform="rotate(-35 180 145)"/><circle cx="180" cy="145" r="4"/></svg>
+ <div class="orbit-nodes">{{ range $i,$channel := hugo.Data.desk.channels }}<button type="button" class="orbit-node node-{{ $i }}" data-orbit-url="{{ $channel.url | relURL }}" data-orbit-description="{{ $channel.description }}" aria-pressed="{{ if eq $i 0 }}true{{ else }}false{{ end }}">{{ $channel.name }}</button>{{ end }}</div>
+ <div class="orbit-caption"><p data-orbit-caption aria-live="polite">短文、记录与网站说明。</p><a data-orbit-link href="{{ "essays/" | relURL }}">进入随笔 ↗</a></div></div>
+</section>
+<div class="desk-two-col"><section class="desk-recent"><div class="desk-section-heading"><h2>近期更新</h2><a href="{{ "archives/" | relURL }}">全部归档 ↗</a></div>{{ range $paginator.Pages }}{{ partial "desk/entry.html" . }}{{ end }}</section>
+<aside class="desk-now"><span class="desk-kicker">NOW / 此刻</span>{{ $now := hugo.Data.desk.now }}{{ if or $now.reading $now.making $now.thinking }}{{ with $now.reading }}<h3>在读</h3><p>{{ . }}</p>{{ end }}{{ with $now.making }}<h3>在做</h3><p>{{ . }}</p>{{ end }}{{ with $now.thinking }}<h3>在想</h3><p>{{ . }}</p>{{ end }}{{ else }}<h2>此处留白</h2><p>此刻面板尚未填写。</p><small>这里会放真实的在读、在做或在想，不用占位经历代替。</small>{{ end }}<div class="desk-now-links"><a href="{{ "topics/" | relURL }}">主题索引</a><a href="{{ "about/" | relURL }}">关于这里</a></div></aside></div>
+<section class="desk-section"><div class="desk-section-heading"><h2>学习专题</h2><a href="{{ "learning/" | relURL }}">打开书架 ↗</a></div><div class="desk-book-row">{{ range first 2 .Site.Taxonomies.series.Alphabetical }}<article class="desk-book"><span class="desk-kicker">{{ len .Pages }} 篇已公开</span><h3><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h3><ol>{{ range first 3 .Pages.ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ol></article>{{ end }}</div></section>
+<section class="desk-section"><div class="desk-section-heading"><h2>可以动手的项目</h2><a href="{{ "projects/" | relURL }}">项目索引 ↗</a></div>{{ range first 1 (where .Site.RegularPages "Type" "project") }}{{ $project := . }}<article class="desk-project-wide">{{ with .Resources.GetMatch .Params.image }}<a class="desk-project-cover" href="{{ $project.RelPermalink }}"><img src="{{ .RelPermalink }}" alt="生命游戏的格点与轨道示意" width="1200" height="600" loading="lazy"></a>{{ end }}<div>{{ partial "desk/entry.html" . }}<a class="desk-text-link" href="{{ .RelPermalink }}">进入实验 →</a></div></article>{{ end }}</section>
+<section class="desk-section desk-discover"><div class="desk-section-heading"><h2>最近发现</h2><a href="{{ "discoveries/" | relURL }}">发现索引 ↗</a></div>{{ range first 3 (where .Site.RegularPages "Type" "discovery") }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开条目。留给真正想推荐的事物，以及具体的理由。</p>{{ end }}</section>
+</div>
+{{ else }}<header class="desk-page-heading"><h1>继续翻阅</h1></header><section class="article-list">{{ range $paginator.Pages }}{{ partial "article-list/default" . }}{{ end }}</section>{{ end }}
+{{ partial "pagination.html" . }}
+{{ partial "footer/footer" . }}
 {{ end }}
-{{ define "right-sidebar" }}{{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}{{ end }}
+{{ define "right-sidebar" }}{{ end }}

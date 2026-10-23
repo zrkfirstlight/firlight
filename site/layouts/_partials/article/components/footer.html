@@ -1,0 +1,22 @@
+<footer class="article-meta article-footer">
+    {{ partial "article/components/tags" . }}
+
+    {{ if and (.Site.Params.article.license.enabled) (not (eq .Params.license false)) }}
+    <section class="article-copyright inline-meta">
+        {{ partial "helper/icon" "copyright" }}
+        <span>{{ default .Site.Params.article.license.default .Params.license | markdownify }}</span>
+    </section>
+    {{ end }}
+
+    {{- if ne .Lastmod .Date -}}
+    <section class="article-lastmod inline-meta">
+        {{ partial "helper/icon" "clock" }}
+        <span>
+            {{ T "article.lastUpdatedOn" }} {{ .Lastmod | time.Format .Site.Params.dateFormat.lastUpdated }}
+        </span>
+    </section>
+    {{- end -}}
+<div class="desk-topics">{{ range .GetTerms "topics" }}<a href="{{ .RelPermalink }}">主题 · {{ .Title }}</a>{{ end }}</div>
+{{ with .Params.project_ref }}<p>这篇笔记对应的实验：<a href="{{ relref $ . }}">进入项目 →</a></p>{{ end }}
+{{ with .Params.content_id }}<span class="reading-marker" data-reading-id="{{ . }}" hidden></span>{{ end }}
+</footer>

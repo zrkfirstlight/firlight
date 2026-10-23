@@ -4,6 +4,7 @@
     constructor({base, timeoutMs = 6000}) {
       this.base = base.replace(/\/$/, '');
       this.timeoutMs = timeoutMs;
+      this.controllers = new Set(); this.destroyed = false;
     }
     validateBase(pageProtocol) {
       if (!this.base) return '尚未配置动态服务地址；文章与搜索可正常使用。';
@@ -16,8 +17,10 @@
       return null;
     }
     async request(path, method = 'GET', data, token = '') {
+      if (this.destroyed) throw new Error('页面连接已关闭');
       if (!path.startsWith('/') || path.startsWith('//')) throw new Error('接口路径必须是相对 API 根地址的路径');
       const controller = new AbortController();
+      this.controllers.add(controller);
       const timer = setTimeout(() => controller.abort(), this.timeoutMs);
       try {
         const response = await fetch(this.base + path, {
@@ -27,7 +30,8 @@
         });
         if (!response.ok) {
           let body = {}; try { body = await response.json(); } catch {}
-          const error = new Error(`请求失败 (${response.status})：${JSON.stringify(body)}`);
+          const details = Object.entries(body).map(([key,value]) => `${key === 'detail' ? '' : key+'：'}${Array.isArray(value) ? value.join('；') : typeof value === 'string' ? value : '输入无效'}`).join('；');
+          const error = new Error(details || `请求失败 (${response.status})，请稍后重试。`);
           error.status = response.status;
           throw error;
         }
@@ -39,8 +43,9 @@
           throw failure;
         }
         throw error;
-      } finally { clearTimeout(timer); }
+      } finally { clearTimeout(timer); this.controllers.delete(controller); }
     }
+    destroy() { this.destroyed = true; for (const c of this.controllers) c.abort(); this.controllers.clear(); }
   }
   window.BlogApiClient = BlogApiClient;
 })();

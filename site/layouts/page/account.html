@@ -1,0 +1,5 @@
+{{ define "main" }}
+<article class="main-article"><header class="article-header"><div class="article-details"><h1 class="article-title">{{ .Title }}</h1></div></header><div class="article-content">{{ .Content }}</div></article>
+{{ partial "comments/provider/local.html" . }}
+{{ partial "footer/footer" . }}
+{{ end }}

@@ -1,7 +1,8 @@
 {{- $rows := slice -}}
 {{- $seen := newScratch -}}
 {{- range .Site.RegularPages -}}
-  {{- if or (eq .Section "post") (eq .Params.content_kind "guestbook") -}}
+  {{- $isArticle := in .Site.Params.mainSections .Type -}}
+  {{- if or $isArticle (eq .Params.content_kind "guestbook") -}}
     {{- $id := .Params.content_id | default "" -}}
     {{- if or (not $id) (eq (len (findRE `^[a-zA-Z0-9_/-]{1,160}$` $id)) 0) -}}
       {{- errorf "Content %s needs a valid permanent content_id" .File.Path -}}
@@ -13,9 +14,9 @@
     {{- $seen.Set $urlKey true -}}
     {{- if not .Params.title -}}{{- errorf "Content %s needs title" .File.Path -}}{{- end -}}
     {{- if not .Slug -}}{{- errorf "Content %s needs an explicit slug" .File.Path -}}{{- end -}}
-    {{- if and (eq .Section "post") .Date.IsZero -}}{{- errorf "Post %s needs date" .File.Path -}}{{- end -}}
+    {{- if and $isArticle .Date.IsZero -}}{{- errorf "Post %s needs date" .File.Path -}}{{- end -}}
     {{- if and .Site.Params.comments.enabled (not .Draft) (not (eq .Params.comments false)) -}}
-      {{- $kind := cond (eq .Section "post") "post" "guestbook" -}}
+      {{- $kind := cond $isArticle "post" "guestbook" -}}
       {{- $rows = $rows | append (dict "id" $id "kind" $kind "title" .Title "url" .RelPermalink) -}}
     {{- end -}}
   {{- end -}}

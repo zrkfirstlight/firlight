@@ -1,5 +1,6 @@
 /* Small, local additions to Stack; theme templates remain intact. */
 :root { --body-background: #eaeef5; --accent-color: #4b6385; --card-border-radius: 18px; }
+:root[data-scheme="dark"] { --body-background: #182334; --card-background: #202e43; --card-text-color-main: #e0e7f1; --card-text-color-secondary: #aab8cf; --accent-color: #b2c4e2; --accent-color-darker: #c8d5e9; }
 body { background-image: radial-gradient(#526b9210 1px,transparent 1px); background-size: 18px 18px; font-family: system-ui,"Microsoft YaHei",sans-serif; }
 .article-content { line-height: 1.95; overflow-wrap: anywhere; }
 .article-title { letter-spacing: .02em; }
@@ -13,4 +14,11 @@ body { background-image: radial-gradient(#526b9210 1px,transparent 1px); backgro
 .service-status { border-left: 4px solid #d68b64; padding-left: 12px; }
 .community [hidden] { display: none !important; }
 .community label { display: block; }
+.community[data-state="online"] .service-status { border-color: #597f75; }
+.community[data-state="connecting"] .service-status { border-color: #7389b0; }
+.community[data-state="offline"] .service-status,.community[data-state="failed"] .service-status { border-color: #bd806d; }
+.community .account strong { margin-right: 12px; }
+.community article small { display: block; color: var(--card-text-color-secondary); }
+.community .comment-edit,.community .delete-confirm,.community .profile-form { padding: 14px; border: 1px solid #879bb744; border-radius: 10px; margin-top: 14px; }
+.community .list-heading { font-weight: 600; }
 @media(max-width: 600px) { .community { padding: 18px; } .article-title { font-size: 2.4rem; } }
