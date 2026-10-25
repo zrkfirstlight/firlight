@@ -1,4 +1,4 @@
-# 正式 baseURL 由 GitHub Pages 元数据传入，本地预览由命令行指定。
+# 正式域名见 config/production/hugo.toml；Actions优先该值，元数据作无自定义域名时的回退。
 locale = "zh-CN"
 defaultContentLanguage = "zh"
 hasCJKLanguage = true

@@ -1,4 +1,6 @@
 # GitHub Pages release: static only. No browser API requests or account UI.
+baseURL = "https://zrk123.cn/"
+# Planned API: https://api.zrk123.cn/api ; not connected, keep public interaction disabled.
 ignoreFiles = ['(^|[/\\])page[/\\](guestbook|account)([/\\]|$)']
 [params]
 apiBase = ""

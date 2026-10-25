@@ -37,14 +37,19 @@ jobs:
           mkdir -p "$RUNNER_TEMP/hugo-bin"
           tar -xzf hugo.tar.gz -C "$RUNNER_TEMP/hugo-bin"
           echo "$RUNNER_TEMP/hugo-bin" >> "$GITHUB_PATH"
+      - name: Resolve canonical base URL
+        id: site
+        env:
+          PAGES_BASE: ${{ steps.pages.outputs.base_url }}
+        run: python3 tools/pages_base.py --environment production
       - name: Build
         env:
-          PAGES_BASE: ${{ steps.pages.outputs.base_url }}
-        run: hugo --source site --environment production --gc --minify --cleanDestinationDir --baseURL "${PAGES_BASE%/}/"
+          SITE_BASE: ${{ steps.site.outputs.base_url }}
+        run: hugo --source site --environment production --gc --minify --cleanDestinationDir --baseURL "$SITE_BASE"
       - name: Verify links and public boundary
         env:
-          PAGES_BASE: ${{ steps.pages.outputs.base_url }}
-        run: python3 tools/check_static.py site/public "${PAGES_BASE%/}/" --release
+          SITE_BASE: ${{ steps.site.outputs.base_url }}
+        run: python3 tools/check_static.py site/public "$SITE_BASE" --release
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: site/public

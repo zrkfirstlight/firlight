@@ -1,8 +1,10 @@
 # Firlight · 个人博客
 
+**自定义域名： https://zrk123.cn/** 。本次修复旧 /firlight/ 资源前缀导致的无样式问题；Actions固定构建production根路径。配置和排查见[域名说明](docs/DOMAIN_BINDING.md)。账号/评论仍关闭，不接入本机API。
+
 Hugo Extended 0.168.0 + Stack 4.0.3 的中文个人博客源码。
 
-- 网站：https://zrkfirstlight.github.io/firlight/
+- 网站：https://zrk123.cn/
 - 仓库：https://github.com/zrkfirstlight/firlight
 - 默认与发布分支：`2026blog`
 - 发布方式：GitHub Actions 生成网页，通过 GitHub Pages 托管；无需手动维护 HTML。

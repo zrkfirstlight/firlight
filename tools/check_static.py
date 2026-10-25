@@ -8,6 +8,9 @@ release='--release' in sys.argv[3:]
 errors=[]; seen=0
 class Links(HTMLParser):
     def handle_starttag(self,tag,attrs):
+        data=dict(attrs)
+        if tag=='link' and data.get('rel')=='canonical' and not data.get('href','').startswith(base):
+            errors.append('canonical 未使用当前正式 baseURL：'+data.get('href',''))
         for k,v in attrs:
             if k in ('href','src') and v and not v.startswith(('#','mailto:','tel:','data:','javascript:')):
                 self.links.append(v)
