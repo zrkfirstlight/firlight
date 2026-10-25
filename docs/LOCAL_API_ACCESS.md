@@ -85,7 +85,7 @@ CORS 是浏览器读取授权，不是阻挡 curl 或所有直接 HTTP 客户端
 
 你负责私下连接：在该隧道控制台的 connector 安装/运行区域取得已有隧道 Token，只在自己的终端中使用。优先前台联调，可以看到注册连接或错误并用 Ctrl+C 退出；服务安装则需管理员权限、持久保存凭据、后台运行，重启与日志需另行维护。本机已有服务，不重复 service install、不擅自停/改它。
 
-若 QUIC 反复断连，可由你在私下前台试同一隧道的 HTTP/2 连接。为避免 Token 写入命令历史，支持的 cloudflared 从环境读取 TUNNEL_TOKEN：
+若 QUIC 反复断连，可在完整开发目录双击 **连接已有隧道（前台）.cmd**，私下输入已有隧道 Token。它调用 tools/connect_tunnel.py，默认 HTTP/2，Token 经进程环境传递，不在参数/文件中保存，输出会过滤凭据；仅检查过 --help，本轮没有执行真实凭据连接。也可由你在私下前台试同一隧道的 HTTP/2 连接：为避免 Token 写入命令历史，支持的 cloudflared 从环境读取 TUNNEL_TOKEN：
 
 ```powershell
 # 在你自己的新 PowerShell 私下输入，不把值发给助手

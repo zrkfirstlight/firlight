@@ -50,3 +50,13 @@
 首个互动提交 `25a1e011137af24ff02cb827a01435ec9c983b17` 已正常 push 到关联仓库 2026blog。GitHub Actions [40185726648](https://github.com/zrkfirstlight/firlight/actions/runs/40185726648) completed/success，包含构建与部署。正式首页、文章、/account/、/guestbook/、搜索索引（11 条）及两份社区脚本实网 HTTP 均为 200；三种互动页面实际含正确 HTTPS API 配置。没有用本地构建结果代替公网结果。
 
 本轮还更新了访客互动说明，随 production/connected 自动显示准确状态。首次管理员仍由站主自行输入密码创建；公开注册关闭，因此当前没有永久账号可直接登录。已有测试账号全部删除。若当前 health 正常，无需重复 DNS 或重建隧道；仅在再次出现 1033 时按接入指南私下排查连接器。
+
+## 最终交接时的故障复现
+
+最新提交 `49c4d9268e3aa9bbab3284cd1cf12b18852accdb` 的 [Actions 40186285423](https://github.com/zrkfirstlight/firlight/actions/runs/40186285423) 也已 completed/success。两次提交均已 push，发布仓库工作区干净。
+
+18:49 最后一次复核再次出现 **公网 API 502、连接器 readyConnections=0**，而本机正确 Host 的 health 仍为 200、127.0.0.1:8000 持续监听，静态站 HTTP 200。因此结论是：**互动版本已部署，API 功能曾完成真实公网读写，但当前隧道再次断连，不能交付稳定可用承诺**。代码不把该问题归结为电脑关机；访客可以继续静态阅读并稍后手动重试。
+
+必须由站主私下完成的连接操作已简化为开发目录的 `连接已有隧道（前台）.cmd`（默认 HTTP/2）；不读取或修改现有服务的 Token。恢复后运行 `检查公网接入.cmd`，再交互创建管理员。新连接器的真实 HTTP/2 网络效果尚未验证；后端本身无需重新构建或迁移。已有 DNS、NS 和 Published application 无需重建。
+
+正式网页浏览器工具重复读取超时，故未伪造正式域名截图或浏览器登录验收。实际公网 HTTPS 的 15 项数据操作结果与本地浏览器离线恢复截图是独立证据，不能相互冒充。
