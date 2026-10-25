@@ -53,7 +53,7 @@
 
 ## 最终交接时的故障复现
 
-最新提交 `49c4d9268e3aa9bbab3284cd1cf12b18852accdb` 的 [Actions 40186285423](https://github.com/zrkfirstlight/firlight/actions/runs/40186285423) 也已 completed/success。两次提交均已 push，发布仓库工作区干净。
+访客说明提交 `49c4d9268e3aa9bbab3284cd1cf12b18852accdb` 的 [Actions 40186285423](https://github.com/zrkfirstlight/firlight/actions/runs/40186285423) 也已 completed/success。两次提交均已 push，发布仓库工作区干净。
 
 18:49 最后一次复核再次出现 **公网 API 502、连接器 readyConnections=0**，而本机正确 Host 的 health 仍为 200、127.0.0.1:8000 持续监听，静态站 HTTP 200。因此结论是：**互动版本已部署，API 功能曾完成真实公网读写，但当前隧道再次断连，不能交付稳定可用承诺**。代码不把该问题归结为电脑关机；访客可以继续静态阅读并稍后手动重试。
 

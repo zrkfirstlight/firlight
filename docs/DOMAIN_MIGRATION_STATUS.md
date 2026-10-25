@@ -1,6 +1,6 @@
 # 本轮计划与进度（2026-10-25）
 
-> 后续授权更新：前两项已完成发布与公网验证，见DOMAIN_RELEASE_RESULT.md，线上根域样式已恢复；下文“未push”是授权前准备记录。API/隧道/connected未启用，仍待用户考虑。
+> 后续授权更新：前两项已完成发布与公网验证，见DOMAIN_RELEASE_RESULT.md，线上根域样式已恢复；下文“未push”是授权前准备记录。该句属于早期授权范围；现已获新授权，connected 已发布、真实公网数据操作15项通过，但连接器有反复断连，准确现状见 [API_ACCESS_RESULT.md](API_ACCESS_RESULT.md)。
 
 - [x] 读取项目、工作流、模型、启动与备份；保存差异和私有文件哈希。
 - [x] 公开DNS/HTTP只读定位：NS为dns21/dns22.hichina.com；根域四条Pages A，www CNAME正确，api无记录；HTML仍用/firlight导致CSS/JS 404。

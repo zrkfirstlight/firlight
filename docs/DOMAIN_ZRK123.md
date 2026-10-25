@@ -1,6 +1,6 @@
 # zrk123.cn 域名绑定指南
 
-核查日期：2026-10-25。没有登录账号、修改DNS/Pages设置或执行push。
+以下保留 2026-10-25 域名修复前的诊断证据，**不是当前故障状态**。根域样式修复已上线；后续已获提交/push授权并发布 connected。最新 API 验收与连接器波动见 [API_ACCESS_RESULT.md](API_ACCESS_RESULT.md)。始终未登录账号或修改 DNS/Pages 设置。
 
 ## 先解决当前无样式
 
