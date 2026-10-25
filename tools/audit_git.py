@@ -7,6 +7,7 @@ def git(*args,check=True):
 def private(path):
     p=PurePosixPath(path); name=p.name.lower(); parts=set(p.parts)
     if name=='.env.example': return False
+    if name.endswith(('.blog-backup.zip','.blog-backup.zip.sha256')) or 'migration-private' in parts:return True
     return (bool(parts & {'.venv','venv','env','__pycache__','.cache','backups','artifacts','logs','public','resources'})
             or path.startswith(('backend/data/','tools/hugo/','tools/katex/'))
             or name.startswith('.env') or p.suffix.lower() in {'.sqlite','.sqlite3','.db','.key','.pem','.p12','.pfx','.log'}

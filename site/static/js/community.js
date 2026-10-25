@@ -5,6 +5,7 @@
   const client=new window.BlogApiClient({base:root.dataset.api});
   let token='',user=null,online=false,busy=false,parent=null,page=1,next=false,registered=false,dead=false,revision=0;
   let mode=accountOnly?'mine':'public'; const list=$('.comment-list');
+  let connecting=false,retryAfter=0,retryTimer=0;
   const state=(message,kind=online?'online':'failed')=>{if(dead)return;root.dataset.state=kind;$('.service-status').textContent=message;};
   function resetUser(){token='';user=null;parent=null;mode=accountOnly?'mine':'public';page=1;$('.reply-status').textContent='';}
   function text(target,tag,value){const e=document.createElement(tag);e.textContent=value;target.append(e);return e;}
@@ -31,7 +32,7 @@
       throw e;
     }
   }
-  function fail(e){if(!dead)state(e.message,e.offline?'offline':'failed');}
+  function fail(e){if(!dead)state(e.message,(e.offline||e.unavailable)?'offline':'failed');}
   async function write(fn){if(!online||busy)return;busy=true;controls();try{await fn();}finally{busy=false;controls();}}
   async function logout(){
     let error;
@@ -81,12 +82,15 @@
     form.addEventListener('submit',e=>{e.preventDefault();write(async()=>{await api(`/comments/${c.id}/`,'PATCH',{body:input.value});await load();state(user.admin?'修改已保存。':'修改已保存，等待重新审核。');}).catch(fail);});input.focus();
   }
   async function connect(){
-    if(busy)return;online=false;registered=false;controls();state('连接中…','connecting');
-    const invalid=client.validateBase(location.protocol);if(invalid){state(invalid,root.dataset.api?'failed':'unconfigured');return;}
+    if(busy||connecting||Date.now()<retryAfter)return;
+    connecting=true;retryAfter=Date.now()+5000;const retry=$('[data-action="retry"]');retry.disabled=true;
+    clearTimeout(retryTimer);retryTimer=setTimeout(()=>{if(!dead&&!connecting)retry.disabled=false;},5000);
+    online=false;registered=false;controls();state('连接中…','connecting');
+    const invalid=client.validateBase(location.protocol);if(invalid){connecting=false;state(invalid,root.dataset.api?'failed':'unconfigured');return;}
     try{
       const h=await api('/health/','GET',null,'');if(h.api_version!==1)throw new Error('动态服务版本不兼容。');
       online=true;root.registration=h.registration_open;controls();state('动态服务正常 · 评论审核后公开');await load();
-    }catch(e){fail(e);}
+    }catch(e){fail(e);}finally{connecting=false;if(Date.now()>=retryAfter)retry.disabled=false;}
   }
   $('.auth-form').addEventListener('submit',e=>{
     e.preventDefault();const form=e.currentTarget,action=e.submitter?.dataset.mode||'login';
@@ -110,8 +114,8 @@
     if(['public','mine','manage','users'].includes(action)){mode=action;page=1;load().catch(fail);}
     if(action==='more'&&next){page++;load().catch(fail);}
   });
-  window.addEventListener('offline',()=>{online=false;controls();state('浏览器离线，未发送输入只留在当前页面。','offline');});
-  window.addEventListener('pagehide',()=>{dead=true;token='';client.destroy();},{once:true});
+  window.addEventListener('offline',()=>{online=false;controls();state('互动服务当前不可用，请稍后再试。浏览器离线，未发送输入只留在当前页面。','offline');});
+  window.addEventListener('pagehide',()=>{dead=true;token='';clearTimeout(retryTimer);client.destroy();},{once:true});
   window.addEventListener('pageshow',e=>{if(e.persisted)location.reload();});
   connect();
 })();

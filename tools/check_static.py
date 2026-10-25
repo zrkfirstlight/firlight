@@ -5,6 +5,7 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin,urlsplit,unquote
 root=Path(sys.argv[1]); base=sys.argv[2]; parsed=urlsplit(base); prefix=parsed.path
 release='--release' in sys.argv[3:]
+connected='--connected-release' in sys.argv[3:]
 errors=[]; seen=0
 class Links(HTMLParser):
     def handle_starttag(self,tag,attrs):
@@ -35,26 +36,34 @@ for required in required_pages:
 for f in root.rglob('*'):
     if f.is_file() and (f.suffix.lower() in ['.sqlite','.sqlite3','.db','.py','.pyc','.key','.pem'] or f.name.startswith('.env') or f.name=='requirements.txt' or '.git' in f.relative_to(root).parts):
         errors.append('公开产物包含内部文件 '+str(f))
-if release:
+if release or connected:
     try:
         rss=ET.parse(root/'index.xml').getroot()
         sitemap=ET.parse(root/'sitemap.xml').getroot()
         urls=[e.text for e in rss.findall('./channel/link')+rss.findall('./channel/item/link')+sitemap.findall('.//{*}loc')]
         assert urls and all(url and url.startswith(base) for url in urls)
     except (AssertionError,ET.ParseError,OSError): errors.append('RSS/站点地图 XML 或 baseURL 不正确')
-    for forbidden in ['guestbook/index.html','account/index.html','js/community.js','js/community-api.js','CNAME']:
+    for forbidden in (['guestbook/index.html','account/index.html','js/community.js','js/community-api.js','CNAME'] if release else ['CNAME']):
         if (root/forbidden).exists(): errors.append('静态发布不应包含 '+forbidden)
     for f in root.rglob('*'):
         if f.is_file() and f.suffix in ['.html','.json','.js','.css','.xml','.txt']:
             data=f.read_text(encoding='utf-8',errors='replace')
-            bad=[r'https?://(?:localhost|127\.0\.0\.1)(?::8000)?/api',r'[A-Za-z]:[\\/](?:Users|Windows|Program Files)[\\/]',r'file://',r'data-api=',r'class="community(?:\s|\")']
+            bad=[r'https?://(?:localhost|127\.0\.0\.1)(?::\d+)?/api',r'[A-Za-z]:[\\/](?:Users|Windows|Program Files)[\\/]',r'file://']
+            if release:bad += [r'data-api=',r'class="community(?:\s|\")']
             if any(re.search(pattern,data,re.I) for pattern in bad): errors.append('产物包含本机路径或动态接口标记 '+str(f.relative_to(root)))
-            if f.suffix=='.html' and ('/guestbook/' in data or 'community-api.js' in data or 'community.js' in data or '<form class="auth-form"' in data):
+            if release and f.suffix=='.html' and ('/guestbook/' in data or 'community-api.js' in data or 'community.js' in data or '<form class="auth-form"' in data):
                 errors.append('静态页面仍包含不可用动态入口 '+str(f.relative_to(root)))
     try:
-        assert json.loads((root/'discussions.json').read_text(encoding='utf-8'))['discussions']==[]
+        discussions=json.loads((root/'discussions.json').read_text(encoding='utf-8'))['discussions']
+        if release:assert discussions==[]
+        if connected:
+            assert discussions and len({d['id'] for d in discussions})==len(discussions)
+            for f in root.rglob('*.html'):
+                data=f.read_text(encoding='utf-8')
+                for api in re.findall(r'data-api=["\']?([^\s"\'>]+)',data):assert api=='https://api.zrk123.cn/api'
         search=json.loads((root/'search/index.json').read_text(encoding='utf-8'))
-        assert isinstance(search,list) and search and 'guestbook' not in json.dumps(search,ensure_ascii=False)
+        assert isinstance(search,list) and search
+        if release:assert 'guestbook' not in json.dumps(search,ensure_ascii=False)
         assert all(str(row.get('permalink','')).startswith(prefix) for row in search)
         if (root/'design-lab/index.html').exists():
             assert not any('/design-lab/' in (url or '') or '/design-preview/' in (url or '') for url in urls)

@@ -10,6 +10,9 @@ backend/.env
 site/public/
 site/resources/
 site/.hugo_build.lock
+*.blog-backup.zip
+*.blog-backup.zip.sha256
+migration-private/
 backups/
 artifacts/
 .env

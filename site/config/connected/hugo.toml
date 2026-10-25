@@ -1,0 +1,7 @@
+# Enabled after real HTTPS API and CORS acceptance on 2026-10-25.
+# Static reading remains independent; registration is controlled by backend health.
+baseURL = "https://zrk123.cn/"
+[params]
+apiBase = "https://api.zrk123.cn/api"
+[params.comments]
+enabled = true

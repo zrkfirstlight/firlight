@@ -1,6 +1,6 @@
 # Firlight · 个人博客
 
-**自定义域名： https://zrk123.cn/** 。本次修复旧 /firlight/ 资源前缀导致的无样式问题；Actions固定构建production根路径。配置和排查见[域名说明](docs/DOMAIN_BINDING.md)。账号/评论仍关闭，不接入本机API。
+**自定义域名： https://zrk123.cn/** 。本次修复旧 /firlight/ 资源前缀导致的无样式问题；Actions根据固定配置构建正式根路径。配置和排查见[域名说明](docs/DOMAIN_BINDING.md)。本次真实公网 API 验收后选择 connected；注册默认关闭，由站主先初始化管理员。详见 [接入验收结果](docs/API_ACCESS_RESULT.md)。
 
 Hugo Extended 0.168.0 + Stack 4.0.3 的中文个人博客源码。
 

@@ -31,14 +31,17 @@
         if (!response.ok) {
           let body = {}; try { body = await response.json(); } catch {}
           const details = Object.entries(body).map(([key,value]) => `${key === 'detail' ? '' : key+'：'}${Array.isArray(value) ? value.join('；') : typeof value === 'string' ? value : '输入无效'}`).join('；');
-          const error = new Error(details || `请求失败 (${response.status})，请稍后重试。`);
+          const message=response.status>=500?'互动服务当前不可用，请稍后再试。':response.status===401?'登录已过期或无效，请重新登录。':response.status===429?'操作过于频繁，请稍后再试。':details || `请求失败 (${response.status})，请稍后重试。`;
+          const error = new Error(message);
           error.status = response.status;
+          error.unavailable = response.status>=500;
           throw error;
         }
-        return response.status === 204 ? null : await response.json();
+        if(response.status===204)return null;
+        try{return await response.json();}catch{const failure=new Error('互动服务当前不可用，请稍后再试。服务响应格式无效。');failure.unavailable=true;failure.status=502;throw failure;}
       } catch (error) {
         if (error.name === 'AbortError' || error instanceof TypeError) {
-          const failure = new Error(error.name === 'AbortError' ? '连接超时，提交结果未确认；请重连后查看我的评论，避免重复提交。' : '服务离线或网络不可达，输入仍留在本页；提交结果未确认。');
+          const failure = new Error('互动服务当前不可用，请稍后再试。'+(error.name === 'AbortError' ? '连接超时；提交结果未确认，请重连后查看我的评论，避免重复提交。' : '网络请求失败；输入仍留在本页，提交结果未确认。'));
           failure.offline = true;
           throw failure;
         }
