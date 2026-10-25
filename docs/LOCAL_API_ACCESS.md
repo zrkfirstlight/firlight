@@ -10,7 +10,7 @@
 - 已有 cloudflared Windows 服务由站主安装，程序 `C:/Program Files (x86)/cloudflared/cloudflared.exe`，版本 **2026.10.3**，Windows 签名 Valid，签名方 Cloudflare, Inc.；没有重复安装或读取服务命令行。
 - 公开解析器查询 NS 为 `gerardo.ns.cloudflare.com` 与 `keyla.ns.cloudflare.com`。系统缓存曾仍显示阿里云旧 NS；不能据此要求再次改 NS。
 - 真实公网 health 和 CORS 曾全部通过，但连接器 readyConnections 在 **4 与 0** 之间波动，出现 1033，首次公网写入验收因此中断；18:37 恢复后完整 15 项真实公网写入检查已通过。仍需关注稳定性。
-- 公网验收通过后，工作流已切换 **connected** 并准备提交/push；production 继续保留为回退配置。实际部署结果见 API_ACCESS_RESULT.md 与最终交接。
+- 公网验收通过后，工作流已切换 **connected** 并完成提交/push，Actions 部署成功；production 继续保留为回退配置。实际部署结果见 API_ACCESS_RESULT.md 与最终交接。
 
 ```mermaid
 flowchart LR

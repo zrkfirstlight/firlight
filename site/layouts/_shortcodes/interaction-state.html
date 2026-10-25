@@ -1,0 +1,5 @@
+{{- if and .Site.Params.comments.enabled .Site.Params.apiBase -}}
+<p><strong>文章交流区与独立留言页已启用。</strong> 服务是否可用、是否开放新注册，请以交流区的实时提示为准。阅读、搜索和订阅不需要账号。</p>
+{{- else -}}
+<p><strong>当前发布模式隐藏了账号和交流入口。</strong> 阅读、搜索和订阅不需要账号；下文说明交流区启用时的使用方式。</p>
+{{- end -}}
