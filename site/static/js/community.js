@@ -1,13 +1,15 @@
-/* API data only; no auth tokens, passwords or comment drafts in browser storage. */
+/* Token is bounded to this tab session; passwords and drafts are never stored. */
 (() => {
   const root=document.querySelector('.community'); if (!root) return;
   const $=s=>root.querySelector(s), accountOnly=root.dataset.kind==='account';
   const client=new window.BlogApiClient({base:root.dataset.api});
-  let token='',user=null,online=false,busy=false,parent=null,page=1,next=false,registered=false,dead=false,revision=0;
+  let storage;try{storage=window.sessionStorage;}catch{storage={getItem:()=>null,setItem:()=>{throw Error();},removeItem:()=>{}};}
+  const session=new window.BlogSession(root.dataset.api,storage);
+  let token=session.read(),user=null,online=false,busy=false,parent=null,page=1,next=false,registered=false,dead=false,revision=0;
   let mode=accountOnly?'mine':'public'; const list=$('.comment-list');
   let connecting=false,retryAfter=0,retryTimer=0;
   const state=(message,kind=online?'online':'failed')=>{if(dead)return;root.dataset.state=kind;$('.service-status').textContent=message;};
-  function resetUser(){token='';user=null;parent=null;mode=accountOnly?'mine':'public';page=1;$('.reply-status').textContent='';}
+  function resetUser(){session.clear();token='';user=null;parent=null;mode=accountOnly?'mine':'public';page=1;$('.reply-status').textContent='';}
   function text(target,tag,value){const e=document.createElement(tag);e.textContent=value;target.append(e);return e;}
   function button(target,label,fn,write=false){const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.write=String(write);b.disabled=write&&(!online||busy);b.addEventListener('click',()=>Promise.resolve().then(fn).catch(fail));target.append(b);return b;}
   function controls(){
@@ -25,7 +27,7 @@
     if(user){text($('.account'),'strong',`${user.nickname} · ${user.username}${user.admin?' · 管理员':''}`);button($('.account'),'退出',logout);}
   }
   async function api(path,method='GET',data,auth=token){
-    try{return await client.request(path,method,data,auth);}
+    try{if(auth&&session.expires&&session.expires<=Date.now()){resetUser();controls();throw Object.assign(new Error('登录已过期，请重新登录。'),{status:401});}return await client.request(path,method,data,auth);}
     catch(e){
       if(e.status===401){resetUser();controls();}
       if(e.offline||e.status>=500){online=false;controls();}
@@ -89,7 +91,7 @@
     const invalid=client.validateBase(location.protocol);if(invalid){connecting=false;state(invalid,root.dataset.api?'failed':'unconfigured');return;}
     try{
       const h=await api('/health/','GET',null,'');if(h.api_version!==1)throw new Error('动态服务版本不兼容。');
-      online=true;root.registration=h.registration_open;controls();state('动态服务正常 · 评论审核后公开');await load();
+      online=true;root.registration=h.registration_open;if(token){try{user=await api('/me/');$('.profile-form input').value=user.nickname;}catch(e){if(e.status!==401)throw e;}}controls();state('动态服务正常 · 评论审核后公开');await load();
     }catch(e){fail(e);}finally{connecting=false;if(Date.now()>=retryAfter)retry.disabled=false;}
   }
   $('.auth-form').addEventListener('submit',e=>{
@@ -98,7 +100,7 @@
     if(action==='register'&&form.elements.nickname.value)data.nickname=form.elements.nickname.value;
     write(async()=>{
       const result=await api(`/${action}/`,'POST',data,'');
-      if(action==='login'){token=result.token;user=result.user;$('.profile-form input').value=user.nickname;page=1;controls();await load();state('登录成功 · 整页跳转或刷新后需重新登录。');}
+      if(action==='login'){token=result.token;const persisted=session.save(token,result.expires_in);user=result.user;$('.profile-form input').value=user.nickname;page=1;controls();await load();state(persisted?'登录成功 · 当前标签页刷新及站内跳转可恢复，最多八小时。':'登录成功 · 浏览器禁止会话保存，本页外需重新登录。');}
       else state('注册成功，请使用刚才的账号登录。');
     }).catch(fail).finally(()=>{form.elements.password.value='';});
   });

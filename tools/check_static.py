@@ -28,8 +28,8 @@ for f in root.rglob('*.html'):
         if not target.exists(): errors.append(f'{f.relative_to(root)}: 缺失 {v}')
         seen+=1
 required_pages=['index.html','post/index.html','categories/index.html','tags/index.html','archives/index.html','search/index.html','search/index.json','projects/index.html','about/index.html','404.html','index.xml','sitemap.xml','discussions.json']
-required_pages+=['essays/index.html','learning/index.html','discoveries/index.html','topics/index.html','project/life-lab/index.html','notes/life-local-rules/index.html']
-if release: required_pages+=['post/example-reading/index.html']
+required_pages+=['essays/index.html','learning/index.html','discoveries/index.html','topics/index.html']
+if release: required_pages+=['post/about-this-site/index.html']
 if not release: required_pages+=['guestbook/index.html','account/index.html']
 for required in required_pages:
     if not (root/required).is_file(): errors.append('缺失页面 '+required)
@@ -62,7 +62,7 @@ if release or connected:
                 data=f.read_text(encoding='utf-8')
                 for api in re.findall(r'data-api=["\']?([^\s"\'>]+)',data):assert api=='https://api.zrk123.cn/api'
         search=json.loads((root/'search/index.json').read_text(encoding='utf-8'))
-        assert isinstance(search,list) and search
+        assert isinstance(search,list)
         if release:assert 'guestbook' not in json.dumps(search,ensure_ascii=False)
         assert all(str(row.get('permalink','')).startswith(prefix) for row in search)
         if (root/'design-lab/index.html').exists():

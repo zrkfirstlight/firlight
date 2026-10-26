@@ -1,3 +1,5 @@
 <link rel="stylesheet" href="{{ "css/experience.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/desk.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/sky.css" | relURL }}">
+{{ if not .Params.image }}{{ with .Site.Params.share_image }}{{ with resources.Get . }}<meta property="og:image" content="{{ .Permalink }}">{{ end }}{{ end }}{{ end }}
+{{ with .Site.Copyright }}<meta name="author" content="{{ . }}">{{ end }}

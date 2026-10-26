@@ -1,2 +1,2 @@
-{{ if and .Site.Params.comments.enabled (or .Params.content_id .Params.account_page) (not (eq .Params.comments false)) }}<script src="{{ "js/community-api.js" | relURL }}" defer></script><script src="{{ "js/community.js" | relURL }}" defer></script>{{ end }}
+{{ if and .Site.Params.comments.enabled (or .Params.content_id .Params.account_page) (not (eq .Params.comments false)) }}<script src="{{ "js/community-api.js" | relURL }}" defer></script><script src="{{ "js/community-session.js" | relURL }}" defer></script><script src="{{ "js/community.js" | relURL }}" defer></script>{{ end }}
 {{ if .Store.Get "lifeLab" }}<script type="module" src="{{ "js/life-lab.js" | relURL }}"></script>{{ end }}

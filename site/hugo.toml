@@ -2,9 +2,11 @@
 locale = "zh-CN"
 defaultContentLanguage = "zh"
 hasCJKLanguage = true
-title = "待填写的博客名"
+title = "个人博客"
 theme = "stack"
 enableRobotsTXT = true
+copyright = ""
+
 [outputs]
 home = ["HTML", "RSS", "Discussions"]
 [outputFormats.Discussions]
@@ -37,16 +39,20 @@ startLevel = 2
 endLevel = 3
 [params]
 mainSections = ["post", "notes", "discovery", "project"]
-description = "个人博客 · 记录、阅读与小小的发现（占位介绍）"
+description = "记录生活、整理知识、分享兴趣与项目。"
 apiBase = ""
+favicon = ""
+share_image = ""
+
 [params.sidebar]
-subtitle = "这里填写你的简介 · 当前为占位内容"
+subtitle = ""
+avatar = ""
 [params.dateFormat]
 published = "2006年01月02日"
 lastUpdated = "2006年01月02日"
 [params.footer]
 since = 2026
-customText = "个人资料待填写 · 示例内容不代表真实经历"
+customText = ""
 [params.article]
 math = true
 toc = true
@@ -74,12 +80,12 @@ url = "/essays/"
 weight = 2
 params = {icon="archives"}
 [[menu.main]]
-name = "学习"
+name = "学习笔记"
 url = "/learning/"
 weight = 3
 params = {icon="archives"}
 [[menu.main]]
-name = "发现"
+name = "兴趣分享"
 url = "/discoveries/"
 weight = 4
 params = {icon="search"}

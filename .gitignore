@@ -42,3 +42,5 @@ env/
 site/assets/jsconfig.json
 site/hugo_stats.json
 site/.hugo_build.lock
+
+content-archive/

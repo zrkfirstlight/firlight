@@ -1,3 +1,5 @@
+> 本页保留前期接入记录。当前已存在正式管理员；本轮日常运行和稳定性结果以 [DAILY_USE.md](DAILY_USE.md) 与 [DAILY_READINESS_REPORT.md](DAILY_READINESS_REPORT.md) 为准。
+
 # 本机后端公网接入指南
 
 更新：2026-10-25。本轮唯一操作路线是 **Cloudflare 控制台远程管理的命名隧道**。账号、NS/DNSSEC 与 Published application 由站主操作；本项目不读取隧道 Token、不修改系统服务或防火墙。本次新增授权允许审核后提交/push 网站源码；不代表允许修改账号控制台或隧道凭据。

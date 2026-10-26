@@ -1,6 +1,6 @@
 {{ define "main" }}
 <header class="desk-page-heading"><span class="desk-kicker">PROJECTS / PLAYGROUND</span><h1>项目与实验</h1><p>先体验一个具体的东西，再了解它的规则和制作边界。较重的计算由你点击启动。</p></header>
 {{ range where .Site.RegularPages "Type" "project" }}{{ $project := . }}<section class="desk-project-feature">{{ with .Resources.GetMatch .Params.image }}<a href="{{ $project.RelPermalink }}" tabindex="-1" aria-hidden="true"><img src="{{ .RelPermalink }}" alt="" width="1200" height="600" loading="lazy"></a>{{ end }}{{ partial "desk/entry.html" . }}<a class="desk-text-link" href="{{ .RelPermalink }}">进入项目 →</a></section>{{ end }}
-<details class="note-fold"><summary>项目内容填写示例（保留的原始内容）</summary><div class="article-content">{{ .Content }}</div></details>
+<div class="article-content">{{ .Content }}</div>
 {{ partial "footer/footer" . }}
 {{ end }}
