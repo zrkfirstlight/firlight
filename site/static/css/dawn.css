@@ -1,37 +1,38 @@
-/* A progressive CSS veil. The original body background remains underneath. */
+/* Independent light fields change with scroll; the original body stays below. */
 .dawn-backdrop {
-  --dawn-top:rgba(53,59,69,.50);
-  --dawn-upper:rgba(137,144,152,.35);
-  --dawn-mist:rgba(246,247,247,.90);
-  --dawn-lower:rgba(232,237,243,.44);
-  --dawn-core:rgba(255,250,233,.62);
-  --dawn-inner:rgba(255,244,218,.40);
-  --dawn-warm:rgba(255,226,181,.30);
-  --dawn-halo:rgba(255,234,205,.14);
-  /* One document-scrolling viewport: the old background returns below it. */
-  position:absolute;top:0;left:0;width:100%;height:100vh;height:100svh;z-index:-2;
-  pointer-events:none;user-select:none;contain:strict;
-  background:linear-gradient(180deg,var(--dawn-top) 0%,var(--dawn-upper) 19%,var(--dawn-mist) 45%,rgba(252,251,248,.85) 53%,var(--dawn-lower) 77%,transparent 100%);
-  animation:dawn-arrive 1.1s ease-out both;
+  --sun-y:72%;--mist-y:72%;--night-opacity:1;--sun-opacity:1;--mist-opacity:1;
+  --day-top:rgba(250,251,252,.58);--day-mid:rgba(244,247,251,.22);
+  --night-top:rgba(53,59,69,.52);--night-mid:rgba(115,125,139,.19);--night-bottom:rgba(72,91,116,.14);
+  --mist-core:rgba(252,251,249,.78);--mist-edge:rgba(249,250,251,.32);
+  --sun-core:rgba(255,245,217,.44);--sun-inner:rgba(255,236,198,.27);
+  --sun-warm:rgba(255,218,160,.20);--sun-halo:rgba(255,228,186,.09);
+  position:fixed;inset:0;z-index:-2;pointer-events:none;user-select:none;contain:strict;
+  background:linear-gradient(180deg,var(--day-top),var(--day-mid) 26%,transparent 65%);
 }
-.dawn-backdrop::before {
-  content:"";position:absolute;inset:0;
+.dawn-night,.dawn-mist,.dawn-sun{position:absolute;inset:0;pointer-events:none}
+.dawn-night {
+  opacity:var(--night-opacity);
+  background:linear-gradient(180deg,var(--night-top),var(--night-mid) 32%,transparent 67%,var(--night-bottom));
+}
+.dawn-mist {
+  opacity:var(--mist-opacity);
+  background:radial-gradient(ellipse 110% 32% at 50% var(--mist-y),var(--mist-core),var(--mist-edge) 48%,transparent 100%);
+}
+.dawn-sun {
+  opacity:var(--sun-opacity);
   background:
-    radial-gradient(ellipse 90px 42px at 50% 48%,var(--dawn-core) 0%,var(--dawn-inner) 20%,transparent 100%),
-    radial-gradient(ellipse 205px 108px at 50% 48%,var(--dawn-warm) 0%,var(--dawn-halo) 44%,transparent 100%),
-    radial-gradient(ellipse 390px 200px at 50% 49%,var(--dawn-halo),transparent 85%);
+    radial-gradient(ellipse 110px 18px at 50% var(--sun-y),var(--sun-core),var(--sun-inner) 30%,transparent 100%),
+    radial-gradient(ellipse 250px 48px at 50% var(--sun-y),var(--sun-warm),transparent 100%),
+    radial-gradient(ellipse 420px 100px at 50% var(--sun-y),var(--sun-halo),transparent 100%);
 }
 [data-scheme=dark] .dawn-backdrop {
-  --dawn-top:rgba(8,13,21,.65);
-  --dawn-upper:rgba(56,67,82,.28);
-  --dawn-mist:rgba(133,146,161,.14);
-  --dawn-lower:rgba(33,47,65,.15);
-  --dawn-core:rgba(255,245,217,.28);
-  --dawn-inner:rgba(255,245,217,.15);
-  --dawn-warm:rgba(236,206,164,.12);
-  --dawn-halo:rgba(196,188,174,.05);
-  background:linear-gradient(180deg,var(--dawn-top),var(--dawn-upper) 22%,var(--dawn-mist) 48%,var(--dawn-lower) 78%,transparent);
+  --day-top:rgba(142,159,181,.10);--day-mid:rgba(100,123,151,.025);
+  --night-top:rgba(8,13,21,.65);--night-mid:rgba(23,32,46,.19);--night-bottom:rgba(8,17,30,.14);
+  --mist-core:rgba(152,164,180,.12);--mist-edge:rgba(119,137,159,.04);
+  --sun-core:rgba(255,239,207,.20);--sun-inner:rgba(255,231,190,.12);
+  --sun-warm:rgba(236,206,164,.09);--sun-halo:rgba(196,188,174,.035);
 }
-@keyframes dawn-arrive { from{opacity:0} to{opacity:1} }
-@media(max-width:767px){.dawn-backdrop::before{background:radial-gradient(ellipse 65px 36px at 50% 46%,var(--dawn-core),transparent 100%),radial-gradient(ellipse 165px 105px at 50% 47%,var(--dawn-warm),transparent 100%)}}
-@media(prefers-reduced-motion:reduce){.dawn-backdrop{animation:none}}
+@media(max-width:767px){.dawn-sun{background:radial-gradient(ellipse 72px 14px at 50% var(--sun-y),var(--sun-core),var(--sun-inner) 30%,transparent),radial-gradient(ellipse 180px 48px at 50% var(--sun-y),var(--sun-warm),transparent)}}
+/* Static daylight composition when visitors request less motion. */
+html[data-motion=off] .dawn-backdrop{--sun-y:-20%!important;--mist-y:22%!important;--night-opacity:0!important;--sun-opacity:0!important;--mist-opacity:.38!important}
+@media(prefers-reduced-motion:reduce){.dawn-backdrop{--sun-y:-20%!important;--mist-y:22%!important;--night-opacity:0!important;--sun-opacity:0!important;--mist-opacity:.38!important}}
