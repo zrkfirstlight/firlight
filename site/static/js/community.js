@@ -13,9 +13,12 @@
   function text(target,tag,value){const e=document.createElement(tag);e.textContent=value;target.append(e);return e;}
   function button(target,label,fn,write=false){const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.write=String(write);b.disabled=write&&(!online||busy);b.addEventListener('click',()=>Promise.resolve().then(fn).catch(fail));target.append(b);return b;}
   function controls(){
+    window.dispatchEvent(new CustomEvent('blog:account',{detail:user ? {nickname:user.nickname} : null}));
     $('.auth-box').hidden=!!user;$('.profile-form').hidden=!user;
     $('.auth-form [data-mode="login"]').disabled=!online||busy;
     $('.auth-form [data-mode="register"]').hidden=!root.registration;
+    $('.auth-box summary').textContent=root.registration?'登录 / 注册':'登录';
+    $('.auth-form input[name="nickname"]').closest('label').hidden=!root.registration;
     $('.auth-form [data-mode="register"]').disabled=!online||busy||!root.registration;
     $('.registration-note').textContent=online?(root.registration?'注册已开放 · 阅读公开评论无需账号':'注册已关闭 · 已有账号仍可登录'):'';
     $('.profile-form button').disabled=!online||busy;

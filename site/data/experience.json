@@ -2,11 +2,74 @@
   "music": {
     "enabled": true,
     "tracks": [
-      {"id": "hou-lai", "title": "后来", "artist": "", "src": "", "cover": ""},
-      {"id": "koi-ame", "title": "恋如雨止", "artist": "", "src": "", "cover": ""},
-      {"id": "ce-lian", "title": "侧脸", "artist": "", "src": "", "cover": ""}
+      {
+        "id": "shenxian",
+        "title": "Shenxian",
+        "artist": "PeriTune",
+        "src": "audio/ancient/shenxian.mp3",
+        "cover": "images/music/shenxian.svg",
+        "credit": "audio/ancient/credits.html#shenxian",
+        "source": "https://peritune.com/blog/2020/06/05/shenxian/",
+        "published": "2020-06-05",
+        "download": "https://peritune.com/music/PerituneMaterial_Shenxian.mp3",
+        "official_video": "https://www.youtube.com/watch?v=4Vp_brsz8zA",
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "audio_sha256": "11a21ed30a8d3ad75aa8ba5162dc567dcdf204497e596fcb58e35623515e8d82",
+        "audio_bytes": 6999552,
+        "changes": "原始官方MP3，未剪辑、变速或转码",
+        "cover_license": "GPL-3.0，本站原创SVG，未使用原MV/Adobe Stock素材"
+      },
+      {
+        "id": "taohua",
+        "title": "Taohua",
+        "artist": "PeriTune",
+        "src": "audio/ancient/taohua.mp3",
+        "cover": "images/music/taohua.svg",
+        "credit": "audio/ancient/credits.html#taohua",
+        "source": "https://peritune.com/blog/2021/03/03/taohua/",
+        "published": "2021-03-03",
+        "download": "https://peritune.com/music/PerituneMaterial_Taohua.mp3",
+        "official_video": "https://www.youtube.com/watch?v=XUSywmokUwc",
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "audio_sha256": "f906333bc846fad4853f55a1969156355cdec9ba9e8a6e5615fc2a9fa916c0a6",
+        "audio_bytes": 4132800,
+        "changes": "原始官方MP3，未剪辑、变速或转码",
+        "cover_license": "GPL-3.0，本站原创SVG，未使用原MV/Adobe Stock素材"
+      },
+      {
+        "id": "wuxia3-healing",
+        "title": "Wuxia3 (Healing)",
+        "artist": "PeriTune",
+        "src": "audio/ancient/wuxia3-healing.mp3",
+        "cover": "images/music/wuxia3-healing.svg",
+        "credit": "audio/ancient/credits.html#wuxia3-healing",
+        "source": "https://peritune.com/blog/2021/05/22/wuxia3/",
+        "published": "2021-05-22",
+        "download": "https://peritune.com/music/PerituneMaterial_Wuxia3_Healing.mp3",
+        "official_video": "https://www.youtube.com/watch?v=hTRFpFeR_qU",
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "audio_sha256": "f5253bd0ab70707f52b8f4e2ed981be6d33c7a78c635b0513f4b0b807f59b50c",
+        "audio_bytes": 5800320,
+        "changes": "原始官方MP3，未剪辑、变速或转码",
+        "cover_license": "GPL-3.0，本站原创SVG，未使用原MV/Adobe Stock素材"
+      }
     ]
   },
-  "motion": {"trail": true, "background": true, "maxParticles": 16, "lifetimeMs": 520, "intensity": 0.32,
-    "sky": {"enabled": true, "stars": 40, "meteors": 2, "driftSeconds": 80, "opacity": 0.42}}
+  "motion": {
+    "trail": true,
+    "background": true,
+    "maxParticles": 16,
+    "lifetimeMs": 520,
+    "intensity": 0.32,
+    "sky": {
+      "enabled": true,
+      "stars": 40,
+      "meteors": 2,
+      "driftSeconds": 80,
+      "opacity": 0.42
+    }
+  }
 }

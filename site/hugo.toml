@@ -73,39 +73,42 @@ identifier = "home"
 name = "首页"
 url = "/"
 weight = 1
-params = {icon="home"}
+
+[menu.main.params]
+icon = "home"
+
 [[menu.main]]
+identifier = "essays"
 name = "随笔"
 url = "/essays/"
 weight = 2
-params = {icon="archives"}
+
+[menu.main.params]
+icon = "archives"
+
 [[menu.main]]
-name = "学习笔记"
+identifier = "learning"
+name = "学习"
 url = "/learning/"
 weight = 3
-params = {icon="archives"}
+
+[menu.main.params]
+icon = "archives"
+
 [[menu.main]]
-name = "兴趣分享"
-url = "/discoveries/"
-weight = 4
-params = {icon="search"}
-[[menu.main]]
+identifier = "projects"
 name = "项目"
 url = "/projects/"
-weight = 5
-params = {icon="link"}
+weight = 4
+
+[menu.main.params]
+icon = "link"
+
 [[menu.main]]
+identifier = "about"
 name = "关于"
 url = "/about/"
-weight = 7
-params = {icon="user"}
-[[menu.main]]
-name = "搜索"
-url = "/search/"
-weight = 8
-params = {icon="search"}
-[[menu.main]]
-name = "RSS 订阅"
-url = "/index.xml"
-weight = 8
-params = {icon="rss"}
+weight = 5
+
+[menu.main.params]
+icon = "user"

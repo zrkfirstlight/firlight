@@ -69,3 +69,20 @@ assert.equal(safeMediaURL('javascript:alert(1)','https://site.test/'),'');
 assert.equal(safeMediaURL('http://other.test/a.mp3','https://site.test/'),'');
 assert.equal(safeMediaURL('audio/a.mp3','https://site.test/project/'),'https://site.test/project/audio/a.mp3');
 console.log('PASS: no autoplay/download, restore, transport, seek, volume/mute, ordered loop, denied/error states, missing source, destroy cleanup, URL policy.');
+
+// Modes affect automatic completion, manual next, and preference restoration.
+{
+ const f=fixture(); await f.player.play();
+ f.q('[data-mode]').click(); assert.equal(f.player.mode,'shuffle');
+ for(let i=0;i<20;i++){const next=f.player.nextIndex();assert.notEqual(next,f.player.index);assert.ok(next>=0&&next<tracks.length);}
+ f.q('[data-mode]').click(); assert.equal(f.player.mode,'single');
+ const index=f.player.index; f.audio.dispatchEvent(new Event('ended'));await flush();
+ assert.equal(f.player.index,index);assert.equal(f.audio.paused,false);
+ f.q('[data-next]').click();await flush();assert.equal(f.player.index,(index+1)%tracks.length);
+ assert.equal(f.stored().mode,'single');
+ const restored=fixture({tracks},f.stored());assert.equal(restored.player.mode,'single');assert.equal(restored.audio.plays,0);
+ f.q('[data-mode]').click();assert.equal(f.player.mode,'list');
+ f.player.select(2);await f.player.play();f.audio.dispatchEvent(new Event('ended'));await flush();assert.equal(f.player.index,0);
+ f.player.destroy();restored.player.destroy();
+}
+console.log('PASS: shuffle, single repeat, list wrap, manual next and persisted mode.');

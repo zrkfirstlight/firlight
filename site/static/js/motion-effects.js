@@ -11,13 +11,13 @@ export function mountMotion(config, storage) {
   function background() { windowEl?.classList.toggle('is-visible', enabled() && inView && !mobile.matches); }
   function update() {
     document.documentElement.dataset.motion = choice && !reduce.matches ? 'on' : 'off';
-    button.setAttribute('aria-pressed', String(choice && !reduce.matches));
+    button?.setAttribute('aria-pressed', String(choice && !reduce.matches));
     const configured = config.motion.trail || config.motion.background || config.motion.sky?.enabled;
-    button.textContent = !configured ? '动效：已停用' : reduce.matches ? '动效：系统已减少' : `动效：${choice ? '开' : '关'}`;
-    button.disabled = reduce.matches || !configured;
+    if (button) button.textContent = !configured ? '动效：已停用' : reduce.matches ? '动效：系统已减少' : `动效：${choice ? '开' : '关'}`;
+    if (button) button.disabled = reduce.matches || !configured;
     background(); if (!enabled() || !pointer.matches) stop();
   }
-  on(button, 'click', () => { choice = !choice; try { storage.setItem('blog.motion.v1', choice ? 'on' : 'off'); } catch {} update(); });
+  if (button) on(button, 'click', () => { choice = !choice; try { storage.setItem('blog.motion.v1', choice ? 'on' : 'off'); } catch {} update(); });
   on(reduce, 'change', update); on(pointer, 'change', update); on(mobile, 'change', update); on(document, 'visibilitychange', update);
   let observer;
   if (windowEl && 'IntersectionObserver' in window) { observer = new IntersectionObserver(entries => { inView = entries[0].isIntersecting; background(); }); observer.observe(windowEl); }
