@@ -39,7 +39,7 @@
     message(publish?'已保存到数据库，发布任务已排队；现在还不能视为上线。':'已保存到数据库；未提交、未推送。');if(a.publication)watch(a.publication);if(!list.hidden)await listing();
   }
   function watch(j){job=j;jobBox.hidden=false;polls=0;clearTimeout(timer);renderJob();if(['queued','running','pushed'].includes(j.status))timer=setTimeout(poll,10000);}
-  function renderJob(){if(!job)return;$('[data-am-job-status]').textContent=(labels[job.status]||job.status)+(job.error?'：'+job.error:'')+(job.commit?' · '+job.commit.slice(0,8):'');$('[data-am-job-retry]').hidden=job.status!=='failed';}
+  function renderJob(){if(!job)return;$('[data-am-job-status]').textContent=(job.revision?'第'+job.revision+'版：':'')+(labels[job.status]||job.status)+(job.error?'：'+job.error:'')+(job.commit?' · '+job.commit.slice(0,8):'');$('[data-am-job-retry]').hidden=job.status!=='failed';}
   async function checkJob(){if(!job)return;job=await api('/publications/'+job.id+'/');renderJob();}
   async function poll(){if(dead||document.hidden)return;try{await checkJob();}catch(e){message(e.message);return;}if(++polls<20&&['queued','running','pushed'].includes(job.status))timer=setTimeout(poll,10000);}
   async function init(){if(!session.read()){root.hidden=true;return;}try{const access=await api('/articles/access/');root.hidden=!access.can_publish;$('[data-am-retry]').hidden=true;}catch(e){message(e.message);}}
