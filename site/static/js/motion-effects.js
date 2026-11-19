@@ -49,8 +49,8 @@ export function mountMotion(config, storage) {
         if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
       }
       ctx.closePath();ctx.fillStyle=`rgba(${p.color},${alpha})`;ctx.fill();
-      // A fine cool edge makes the pale shards legible against white surfaces.
-      ctx.strokeStyle=`rgba(107,132,165,${alpha*.48})`;ctx.lineWidth=.5;ctx.stroke();
+      // Soft amber edges keep the tiny sunrise stars visible without a glow.
+      ctx.strokeStyle=`rgba(166,113,56,${alpha*.35})`;ctx.lineWidth=.5;ctx.stroke();
     }
     if (particles.length) frame = requestAnimationFrame(draw); else { lastFrame = 0; ctx.clearRect(0, 0, innerWidth, innerHeight); }
   }
@@ -63,8 +63,9 @@ export function mountMotion(config, storage) {
       const origin=lastPosition||{x:e.clientX,y:e.clientY};
       for(let i=1;i<=2;i++) {
         if (particles.length >= max) particles.shift();
-        const n=3+Math.floor(Math.random()*3);
-        particles.push({x:origin.x+(e.clientX-origin.x)*i/2+(Math.random()-.5)*4,y:origin.y+(e.clientY-origin.y)*i/2+(Math.random()-.5)*4,age:0,radius:1.3+Math.random()*1.6,soft,vertices:Array.from({length:n},()=>.65+Math.random()*.55),angle:Math.random()*Math.PI*2,spin:(Math.random()-.5)*2,phase:Math.random()*Math.PI,dx:(Math.random()-.5)*15,dy:4+Math.random()*10,color:['244,250,255','219,238,255','255,243,211'][Math.floor(Math.random()*3)]});
+        // Four unequal tips with narrow valleys form irregular diamond stars.
+        const vertices=Array.from({length:8},(_,j)=>j%2 ? .20+Math.random()*.12 : .76+Math.random()*.34);
+        particles.push({x:origin.x+(e.clientX-origin.x)*i/2+(Math.random()-.5)*4,y:origin.y+(e.clientY-origin.y)*i/2+(Math.random()-.5)*4,age:0,radius:2+Math.random()*1.5,soft,vertices,angle:Math.random()*Math.PI*2,spin:(Math.random()-.5)*.8,phase:Math.random()*Math.PI,dx:(Math.random()-.5)*15,dy:4+Math.random()*10,color:['255,199,116','242,166,85','255,218,151'][Math.floor(Math.random()*3)]});
       }
       lastPosition={x:e.clientX,y:e.clientY};
       if (!frame) frame = requestAnimationFrame(draw);
