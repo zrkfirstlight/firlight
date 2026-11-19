@@ -27,3 +27,6 @@ async function fixture({token='',error=null,base='https://api.example/api'}={}){
  const disabled=await fixture({base:''});assert.equal(disabled.requests.length,0);
 }
 console.log('PASS: no anonymous API calls, login event, restore, logout/revoke, 401 clears, 503 preserves, unconfigured.');
+
+{const f=await fixture();const event=new Event('pageshow');event.persisted=true;f.window.dispatchEvent(event);assert.equal(f.reloads,1);}
+console.log('PASS: bfcache restoration refreshes account state.');

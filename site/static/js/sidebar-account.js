@@ -20,5 +20,6 @@
     finally{session.clear();show(null);status.textContent=message;location.reload();}
   });
   window.addEventListener('pagehide',()=>{dead=true;clearTimeout(expiryTimer);client.destroy();},{once:true});
+  window.addEventListener('pageshow',event=>{if(event.persisted)location.reload();});
   refresh();
 })();
