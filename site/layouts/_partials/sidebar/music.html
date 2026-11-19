@@ -1,18 +1,13 @@
 {{ if hugo.Data.experience.music.enabled }}
 <section class="sidebar-music" id="music-player" aria-label="音乐播放器">
   <div class="music-record" aria-hidden="true"><img data-cover alt="" width="28" height="28" hidden></div>
-  <button type="button" data-current class="sidebar-track" aria-haspopup="dialog" title="歌曲信息">音乐</button>
+  <a data-current class="sidebar-track" title="歌曲详情">音乐</a>
   <div class="music-transport">
     <button type="button" data-play aria-label="播放" title="播放"></button>
     <button type="button" data-next aria-label="下一首" title="下一首"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 5 10 7-10 7Z"/><path d="M18 5v14" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
     <button type="button" data-mode aria-label="列表循环" title="列表循环"></button>
   </div>
   <p data-status class="music-sr-only" role="status" aria-live="polite">尚未播放</p>
-  <dialog class="music-info" data-info aria-label="歌曲信息">
-    <button type="button" data-info-close aria-label="关闭歌曲信息"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
-    <img data-info-cover alt="" width="128" height="128"><h2 data-info-title></h2><p data-info-artist></p>
-    <p><a data-info-source target="_blank" rel="noopener">歌曲来源</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
-  </dialog>
   <div hidden>
     <span data-mini></span><span data-artist></span><button type="button" data-prev>上一首</button>
     <input type="range" data-seek min="0" max="100" value="0" step="0.1" disabled><output data-time></output>

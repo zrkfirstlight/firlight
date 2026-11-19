@@ -1,0 +1,18 @@
+{{ define "main" }}
+<article class="main-article music-page">
+  <header class="article-header"><div class="article-details"><h1 class="article-title">{{ .Title }}</h1></div></header>
+  <div class="article-content">
+    {{ $page := . }}{{ with index (where hugo.Data.experience.music.tracks "id" .Params.music_id) 0 }}
+    <section class="music-source" aria-labelledby="music-source-title"><h2 id="music-source-title">素材声明</h2><p>{{ .source_label }}</p></section>
+    <section aria-labelledby="music-lyrics-title"><h2 id="music-lyrics-title">歌词</h2><div class="music-lyrics">{{ $page.Content }}</div></section>
+    <section aria-labelledby="music-video-title"><h2 id="music-video-title">视频</h2>
+      <video data-song-video controls playsinline preload="none" poster="{{ .cover | relURL }}" aria-label="{{ .title }} 视频"><source src="{{ .video | relURL }}" type="video/mp4">浏览器不支持视频播放，可使用下方链接下载。</video>
+      <p data-video-status role="status" aria-live="polite"></p>
+      <nav class="music-downloads" aria-label="音乐下载"><a href="{{ .video | relURL }}" download="{{ .title }}.mp4">下载 MP4</a><a href="{{ .src | relURL }}" download="{{ .title }}.mp3">下载 MP3</a></nav>
+    </section>
+    {{ end }}
+  </div>
+</article>
+<script src="{{ "js/song-page.js?v=20261119music" | relURL }}" defer></script>
+{{ partial "footer/footer" . }}
+{{ end }}

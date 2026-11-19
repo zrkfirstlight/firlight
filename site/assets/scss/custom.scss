@@ -66,3 +66,13 @@ body { background-image: radial-gradient(#526b9210 1px,transparent 1px); backgro
 .music-info p { font-size:1.3rem; line-height:1.8; }
 @keyframes record-spin { to { transform:rotate(360deg); } }
 @media(prefers-reduced-motion:reduce) { .left-sidebar .music-record { animation:none; } }
+
+/* Song pages share Stack's reading surface; media never starts automatically. */
+.music-page .music-source { padding:12px 18px; border-left:3px solid var(--accent-color); background:var(--body-background); }
+.music-page .music-source h2 { margin:0 0 8px; font-size:1.6rem; }
+.music-page .music-source p { margin:0; }
+.music-page .music-lyrics { line-height:2.15; color:var(--card-text-color-main); }
+.music-page .music-lyrics p { white-space:pre-line; margin:0 0 1.6em; }
+.music-page video { display:block; width:100%; max-width:100%; aspect-ratio:16 / 9; background:#111b2a; border-radius:10px; }
+.music-page .music-downloads { display:flex; gap:12px; flex-wrap:wrap; margin:18px 0; }
+.music-page .music-downloads a { padding:8px 15px; border:1px solid var(--card-separator-color); border-radius:8px; }

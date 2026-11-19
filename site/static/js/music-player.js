@@ -39,8 +39,6 @@ export class MusicPlayer {
     this.on(this.q('[data-prev]'), 'click', () => this.select(this.index - 1, !audio.paused));
     this.on(this.q('[data-next]'), 'click', () => this.select(this.nextIndex(), !audio.paused));
     this.on(this.q('[data-mode]'), 'click', () => { this.mode=modes[(modes.indexOf(this.mode)+1)%modes.length]; this.renderMode(); this.save(); });
-    this.on(this.q('[data-current]'), 'click', () => { this.renderInfo(); this.q('[data-info]').showModal(); });
-    this.on(this.q('[data-info-close]'), 'click', () => this.q('[data-info]').close());
     this.on(this.q('[data-volume]'), 'input', e => { audio.volume = Number(e.target.value); this.save(); });
     this.on(this.q('[data-mute]'), 'click', () => { audio.muted = !audio.muted; this.renderMute(); this.save(); });
     this.on(this.q('[data-cover]'), 'error', e => { e.currentTarget.hidden = true; });
@@ -58,7 +56,8 @@ export class MusicPlayer {
       this.updateTime();
     });
     this.on(audio, 'timeupdate', () => { this.updateTime(); if (Date.now() - this.lastSave > 5000) this.save(); });
-    this.on(audio, 'playing', () => { this.state('正在播放'); this.renderPlay(true,'暂停'); });
+    if(typeof window!=='undefined')this.on(window,'blog:video-play',()=>audio.pause());
+    this.on(audio, 'playing', () => { if(typeof window!=='undefined')window.dispatchEvent(new Event('blog:music-play')); this.state('正在播放'); this.renderPlay(true,'暂停'); });
     this.on(audio, 'waiting', () => this.state('正在缓冲…'));
     this.on(audio, 'pause', () => { if (!this.dead && audio.paused) { this.state(this.failure || '已暂停'); this.renderPlay(false,'继续播放'); this.save(); } });
     this.on(audio, 'error', () => this.failed('加载失败，请检查音源；可手动重试。'));
@@ -70,7 +69,9 @@ export class MusicPlayer {
     this.failure = '';
     const t = this.tracks[this.index];
     const current=this.q('[data-current]'); current.textContent = t?.title || '音乐';
-    current.setAttribute('title',t?.title || '歌曲信息'); this.renderInfo(); this.renderPlay(false,'播放');
+    current.setAttribute('title',t?.title || '歌曲详情');
+    const page=safeMediaURL(t?.page,this.base); if(page)current.setAttribute('href',page); else current.removeAttribute('href');
+    this.renderPlay(false,'播放');
     this.q('[data-artist]').textContent = t?.artist || '';
     const cover = this.q('[data-cover]'); cover.hidden = !t?.cover;
     if (t?.cover) cover.src = t.cover; else cover.removeAttribute('src');
@@ -91,12 +92,6 @@ export class MusicPlayer {
     this.root.classList?.toggle('is-playing',playing);
   }
   renderMode() { const button=this.q('[data-mode]'); button.innerHTML=icons[this.mode]; button.setAttribute('aria-label',modeNames[this.mode]); button.setAttribute('title',modeNames[this.mode]); }
-  renderInfo() {
-    const t=this.tracks[this.index];
-    this.q('[data-info-title]').textContent=t?.title || '音乐'; this.q('[data-info-artist]').textContent=t?.artist || '';
-    const cover=this.q('[data-info-cover]'); cover.hidden=!t?.cover; if(t?.cover)cover.src=t.cover;
-    const source=this.q('[data-info-source]'); const url=safeMediaURL(t?.source,this.base); source.hidden=!url; if(url)source.setAttribute('href',url);
-  }
   renderMute() { const b = this.q('[data-mute]'); b.textContent = this.audio.muted ? '取消静音' : '静音'; b.setAttribute('aria-pressed', String(this.audio.muted)); }
   select(index, autoplay = false) {
     if (!this.tracks.length || this.dead) return;

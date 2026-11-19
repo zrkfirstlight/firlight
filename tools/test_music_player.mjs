@@ -86,3 +86,13 @@ console.log('PASS: no autoplay/download, restore, transport, seek, volume/mute, 
  f.player.destroy();restored.player.destroy();
 }
 console.log('PASS: shuffle, single repeat, list wrap, manual next and persisted mode.');
+
+// Song links use the transformed base path; video and audio cannot overlap.
+{
+ globalThis.window=new EventTarget();let signals=0;window.addEventListener('blog:music-play',()=>signals++);
+ const songs=tracks.map((track,i)=>({...track,page:`/project/music/song-${i}/`}));
+ const f=fixture({tracks:songs});assert.equal(f.q('[data-current]').attrs.href,'http://localhost:1313/project/music/song-0/');
+ await f.player.play();assert.equal(signals,1);window.dispatchEvent(new Event('blog:video-play'));assert.equal(f.audio.paused,true);
+ f.player.destroy();delete globalThis.window;
+}
+console.log('PASS: dedicated song links and video/audio coordination.');

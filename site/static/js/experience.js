@@ -1,4 +1,4 @@
-import {MusicPlayer} from './music-player.js?v=20261119';
+import {MusicPlayer} from './music-player.js?v=20261119music';
 import {mountMotion} from './motion-effects.js';
 import {mountSky} from './sky-effects.js';
 // Stack uses full-document navigation, with explicit bfcache lifecycle cleanup.
