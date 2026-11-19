@@ -10,7 +10,7 @@ async function fixture({token='',error=null,base='https://api.example/api'}={}){
  class Session{read(){return stored;}clear(){stored='';}get expires(){return Date.now()+1000;}}
  class Client{async request(path,method,data,auth){requests.push({path,method,auth});if(error)throw error;return {nickname:'测试昵称'};}destroy(){}}
  const window=new EventTarget();window.BlogSession=Session;window.BlogApiClient=Client;window.sessionStorage={};
- vm.runInNewContext(code,{document:{querySelector:()=>root},window,location:{reload:()=>reloads++},Date,setTimeout:()=>1,clearTimeout:()=>{}});
+ vm.runInNewContext(code,{document:{querySelector:s=>s==='.community'?null:root},window,location:{reload:()=>reloads++},Date,setTimeout:()=>1,clearTimeout:()=>{}});
  await settle();return {elements,window,requests,get token(){return stored;},get reloads(){return reloads;}};
 }
 {

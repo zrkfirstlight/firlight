@@ -14,6 +14,7 @@
   }
   window.addEventListener('blog:account',event=>{revision++;show(event.detail);});
   logout.addEventListener('click',async()=>{
+    if(document.querySelector('.community')){window.dispatchEvent(new Event('blog:logout'));return;}
     logout.disabled=true;const token=session.read();let message='已退出登录。';
     try{if(token)await client.request('/logout/','POST',null,token);}catch(error){message=error.status===401?'已退出登录。':'已清除本标签页登录；服务端退出未确认。';}
     finally{session.clear();show(null);status.textContent=message;location.reload();}

@@ -119,6 +119,7 @@
     if(['public','mine','manage','users'].includes(action)){mode=action;page=1;load().catch(fail);}
     if(action==='more'&&next){page++;load().catch(fail);}
   });
+  window.addEventListener('blog:logout',()=>logout().catch(fail));
   window.addEventListener('offline',()=>{online=false;controls();state('互动服务当前不可用，请稍后再试。浏览器离线，未发送输入只留在当前页面。','offline');});
   window.addEventListener('pagehide',()=>{dead=true;token='';clearTimeout(retryTimer);client.destroy();},{once:true});
   window.addEventListener('pageshow',e=>{if(e.persisted)location.reload();});
