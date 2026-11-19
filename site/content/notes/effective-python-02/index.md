@@ -1,22 +1,28 @@
 ---
-title: "Effective Python 实践 02：生成器把计算推迟到哪里"
-date: 2026-10-23
+title: Effective Python 实践 02：生成器把计算推迟到哪里
+date: '2026-10-23T00:00:00+08:00'
 draft: false
 slug: effective-python-02
 content_id: notes-effective-python-02
-description: "用可观察的记录理解惰性求值：创建、第一次读取、耗尽，以及延迟出现的异常。"
-categories: [Python 学习]
-tags: [Python, 生成器, 惰性求值]
-topics: [Python]
-series: [Effective Python 实践：推导式与生成器]
+description: 用可观察的记录理解惰性求值：创建、第一次读取、耗尽，以及延迟出现的异常。
+categories:
+- Python 学习
+tags:
+- Python
+- 生成器
+- 惰性求值
+topics:
+- Python
+series:
+- Effective Python 实践：推导式与生成器
 weight: 20
+lastmod: '2026-11-19T19:10:44.088249+08:00'
+author: firlight
 ---
 
 ## 不先算完，也是一种接口选择
 
 上一篇用列表存下清洗后的标题。列表的特点是：创建结束时，结果已经准备好了。生成器则把工作分散到每一次取值。它改变的不只是占用空间，也包括副作用和异常出现的时间。
-
-以下是本系列独立编写的观察例子，延续《Effective Python》的实践主题，不使用书中示例。
 
 ```python
 events = []

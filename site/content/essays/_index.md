@@ -6,4 +6,4 @@ layout: collection
 collection_type: post
 comments: false
 ---
-短文、记录与网站说明。原有的排版示例有明确标记；这里没有编造的个人经历。
+日常记录、随想，以及一路留下的文字。

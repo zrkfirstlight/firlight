@@ -2,7 +2,7 @@
 locale = "zh-CN"
 defaultContentLanguage = "zh"
 hasCJKLanguage = true
-title = "个人博客"
+title = "firlight's blog"
 theme = "stack"
 enableRobotsTXT = true
 copyright = ""
@@ -39,7 +39,7 @@ startLevel = 2
 endLevel = 3
 [params]
 mainSections = ["post", "notes", "discovery", "project"]
-description = "记录生活、整理知识、分享兴趣与项目。"
+description = "firlight's blog · 记录生活、整理知识、分享兴趣与项目。"
 apiBase = ""
 favicon = ""
 share_image = ""

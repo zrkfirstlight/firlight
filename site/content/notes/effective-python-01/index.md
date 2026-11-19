@@ -1,22 +1,30 @@
 ---
-title: "Effective Python 实践 01：让推导式只做一件事"
-date: 2026-10-23
+title: Effective Python 实践 01：让推导式只做一件事
+date: '2026-10-23T00:00:00+08:00'
 draft: false
 slug: effective-python-01
 content_id: notes-effective-python-01
-description: "从整理一份标题清单开始，区分映射、筛选和校验，给一行代码设置可读性的边界。"
-categories: [Python 学习]
-tags: [Python, 推导式, 可读性]
-topics: [Python]
-series: [Effective Python 实践：推导式与生成器]
+description: 从整理一份标题清单开始，区分映射、筛选和校验，给一行代码设置可读性的边界。
+categories:
+- Python 学习
+tags:
+- Python
+- 推导式
+- 可读性
+topics:
+- Python
+series:
+- Effective Python 实践：推导式与生成器
 weight: 10
+lastmod: '2026-11-19T19:10:44.080767+08:00'
+author: firlight
 ---
 
 ## 先给一行代码一个边界
 
 推导式适合表达“从一组值生成另一组值”。如果一行里同时出现清洗、分支、异常处理和写文件，它虽然短，读起来却未必轻松。
 
-这一组四篇笔记围绕《Effective Python》的推导式与生成器主题展开，使用独立编写的例子，不是书籍翻译、摘录或替代品。这里只讨论 Python 3.12 及以上版本都能运行的基础行为，不绑定不同版本书籍的条目编号。书籍信息可见[作者官网](https://effectivepython.com/)。
+这一组笔记围绕《Effective Python》的推导式与生成器主题展开，示例使用 Python 3.12 及以上版本。书籍信息可见[作者官网](https://effectivepython.com/)。
 
 先从一个小任务开始：把已经确认是字符串的标题列表去掉首尾空白，并过滤空标题。
 

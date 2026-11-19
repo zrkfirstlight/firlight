@@ -1,22 +1,29 @@
 ---
-title: "Effective Python 实践 04：把流式处理写成可检查的小步骤"
-date: 2026-10-23
+title: Effective Python 实践 04：把流式处理写成可检查的小步骤
+date: '2026-10-23T00:00:00+08:00'
 draft: false
 slug: effective-python-04
 content_id: notes-effective-python-04
-description: "用一个小型笔记索引管线，连接解析、筛选与有限消费，并保留行号、异常和资源边界。"
-categories: [Python 学习]
-tags: [Python, 生成器, itertools, 数据管线]
-topics: [Python]
-series: [Effective Python 实践：推导式与生成器]
+description: 用一个小型笔记索引管线，连接解析、筛选与有限消费，并保留行号、异常和资源边界。
+categories:
+- Python 学习
+tags:
+- Python
+- 生成器
+- itertools
+- 数据管线
+topics:
+- Python
+series:
+- Effective Python 实践：推导式与生成器
 weight: 40
+lastmod: '2026-11-19T19:10:44.100210+08:00'
+author: firlight
 ---
 
 ## 每一步都能独立观察
 
-流式代码不必写成一行。把“读取、解析、筛选、收集”分开，每个阶段就有自己的输入约定和错误位置。本篇用一个人为定义的文本格式练习：每行 `标题|分钟数`，跳过空行，分钟数必须是正整数。这不是网站现有 Markdown 的导入格式，也不会修改真实文章。
-
-这是围绕《Effective Python》主题独立设计的练习，不复用书中代码。
+流式代码不必写成一行。把“读取、解析、筛选、收集”分开，每个阶段就有自己的输入约定和错误位置。本篇用一个人为定义的文本格式练习：每行 `标题|分钟数`，跳过空行，分钟数必须是正整数。
 
 ```python
 from io import StringIO

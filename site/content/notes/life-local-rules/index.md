@@ -1,16 +1,23 @@
 ---
-title: "从局部规则看见整体：元胞自动机入门"
-date: 2026-10-23
+title: 从局部规则看见整体：元胞自动机入门
+date: '2026-10-23T00:00:00+08:00'
 draft: false
 slug: life-local-rules
 content_id: life-local-rules
-description: "用康威生命游戏理解同步更新：每个格子只看邻居，整体仍能形成有趣的变化。"
-topics: [元胞自动机]
-series: [从规则到图案]
+description: 用康威生命游戏理解同步更新：每个格子只看邻居，整体仍能形成有趣的变化。
+topics:
+- 元胞自动机
+series:
+- 从规则到图案
 weight: 10
-categories: [学习笔记]
-tags: [算法, 可交互实验]
+categories:
+- 学习笔记
+tags:
+- 算法
+- 可交互实验
 project_ref: /project/life-lab
+lastmod: '2026-11-19T19:10:44.108184+08:00'
+author: firlight
 ---
 
 ## 先看一个小问题
@@ -45,5 +52,3 @@ old_grid = new_grid
 
 - [运行对应实验]({{< relref "/project/life-lab" >}})：切换预设，比较一代和多代之后的图案。
 - [返回学习书架]({{< relref "/page/learning" >}})：按专题而非日期寻找笔记。
-
-本篇是网站新增的入门讲解，不代表站主的研究经历或未经提供的个人故事。

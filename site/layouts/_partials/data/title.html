@@ -1,0 +1,9 @@
+{{- $paginator := partial "helper/paginator.html" . -}}
+{{- $title := .Site.Title -}}
+{{- if and (not .IsHome) (ne .Title .Site.Title) -}}
+  {{- $title = printf "%s - %s" .Title .Site.Title -}}
+{{- end -}}
+{{- if and $paginator $paginator.HasPrev -}}
+  {{- $title = printf "Page %d - %s" $paginator.PageNumber $title -}}
+{{- end -}}
+{{- return $title -}}

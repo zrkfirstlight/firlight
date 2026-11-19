@@ -29,9 +29,12 @@
   "motion": {
     "trail": true,
     "background": true,
-    "maxParticles": 16,
-    "lifetimeMs": 520,
-    "intensity": 0.32,
+    "maxParticles": 36,
+    "lifetimeMs": 850,
+    "intensity": 0.68,
+    "dawn": {
+      "enabled": true
+    },
     "sky": {
       "enabled": true,
       "stars": 40,
