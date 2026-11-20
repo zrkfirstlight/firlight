@@ -1,11 +1,10 @@
-// Scroll changes color, light height and opacity independently; no translated image.
+// Scroll changes mist height and color opacity independently; no translated image.
 const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
 const smooth=value=>{const t=clamp(value,0,1);return t*t*(3-2*t);};
 export function dawnState(progress) {
   const p=clamp(Number(progress)||0,0,2);
   const rise=smooth(p/1.6),mist=smooth(p/2);
-  return {sunY:72-92*rise,mistY:72-50*mist,night:1-rise,
-    sun:1-smooth((p-.85)/.75),mist:1-.62*mist};
+  return {mistY:72-50*mist,night:1-rise,mist:1-.62*mist};
 }
 export function mountDawn(config) {
   const layer=document.querySelector('.dawn-backdrop');
@@ -16,8 +15,8 @@ export function mountDawn(config) {
   let target=0,current=0,frame=0,previous=0;
   function paint(p){
     const s=dawnState(p);
-    for(const [key,value] of Object.entries({'--sun-y':s.sunY.toFixed(3)+'%','--mist-y':s.mistY.toFixed(3)+'%',
-      '--night-opacity':s.night.toFixed(4),'--sun-opacity':s.sun.toFixed(4),'--mist-opacity':s.mist.toFixed(4)}))layer.style.setProperty(key,value);
+    for(const [key,value] of Object.entries({'--mist-y':s.mistY.toFixed(3)+'%',
+      '--night-opacity':s.night.toFixed(4),'--mist-opacity':s.mist.toFixed(4)}))layer.style.setProperty(key,value);
   }
   function stop(){cancelAnimationFrame(frame);frame=0;previous=0;}
   function draw(now){
