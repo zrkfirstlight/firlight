@@ -17,14 +17,14 @@
 </section>
 <div id="home-content">
 <div class="desk-two-col" data-home-kinds="all post">
- <section class="desk-recent"><div class="desk-section-heading"><h2 data-home-recent-title>近期更新</h2><a href="{{ "archives/" | relURL }}">全部归档 ↗</a></div>
+ <section class="desk-recent" id="home-recent"><div class="desk-section-heading"><h2 data-home-recent-title>近期更新</h2><a href="{{ "archives/" | relURL }}">全部归档 ↗</a></div>
  {{ range $pages }}<div data-home-entry="{{ .Type }}">{{ partial "desk/entry.html" . }}</div>{{ end }}
  {{ if not (where $pages "Type" "post") }}<p data-home-post-empty hidden>暂时没有公开随笔。</p>{{ end }}
  </section>
- <aside class="desk-now"><span class="desk-kicker">阅读导览</span>{{ $now := hugo.Data.desk.now }}{{ with $now.reading }}<h3>在读</h3><p>{{ . }}</p>{{ end }}{{ with $now.making }}<h3>在做</h3><p>{{ . }}</p>{{ end }}{{ with $now.thinking }}<h3>在想</h3><p>{{ . }}</p>{{ end }}<h2>内容布局</h2><p>随笔按时间排序<br>学习按专栏汇总<br>项目请自行浏览</p><div class="desk-now-links"><a href="{{ "topics/" | relURL }}">主题索引</a><a href="{{ "about/" | relURL }}">关于网站</a></div></aside>
+ <aside class="desk-now desk-topic-guide home-reading-guide" data-home-guide><span class="desk-kicker">阅读导览</span><nav aria-label="首页内容索引"><a href="#home-recent">近期更新</a><a href="#home-learning">学习笔记</a><a href="#home-projects">项目</a><a href="#home-discoveries">最近发现</a></nav><div class="desk-now-links"><a href="{{ "topics/" | relURL }}">主题索引</a><a href="{{ "about/" | relURL }}">关于网站</a></div></aside>
 </div>
 <div class="desk-two-col desk-section" data-home-kinds="all notes">
- <section><div class="desk-section-heading"><h2>学习笔记</h2><a href="{{ "learning/" | relURL }}">打开书架 ↗</a></div>
+ <section id="home-learning"><div class="desk-section-heading"><h2>学习笔记</h2><a href="{{ "learning/" | relURL }}">打开书架 ↗</a></div>
  {{ range $i,$series := .Site.Taxonomies.series.Alphabetical }}{{ $chapters := where .Pages "Type" "notes" }}{{ if $chapters }}
  <article class="desk-entry desk-learning-series" id="home-series-{{ $i }}"><div class="desk-meta"><span>专题</span><span>{{ len $chapters }} 篇已公开</span></div><h3><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h3><ol>{{ range $chapters.ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ol></article>
  {{ end }}{{ end }}
@@ -34,12 +34,12 @@
  {{ with .Site.Taxonomies.series }}<aside class="desk-now desk-topic-guide"><span class="desk-kicker">专题目录</span><nav aria-label="学习专题">{{ range $i,$series := .Alphabetical }}{{ if where .Pages "Type" "notes" }}<a href="#home-series-{{ $i }}">{{ .Page.Title }}</a>{{ end }}{{ end }}</nav></aside>{{ end }}
 </div>
 <div class="desk-two-col desk-section" data-home-kinds="all project">
- <section><div class="desk-section-heading"><h2>项目</h2><a href="{{ "projects/" | relURL }}">项目索引 ↗</a></div>
+ <section id="home-projects"><div class="desk-section-heading"><h2>项目</h2><a href="{{ "projects/" | relURL }}">项目索引 ↗</a></div>
  {{ range where $pages "Type" "project" }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开项目。</p>{{ end }}
  </section>
 </div>
 <div class="desk-two-col desk-section" data-home-kinds="all">
- <section class="desk-discover"><div class="desk-section-heading"><h2>最近发现</h2><a href="{{ "discoveries/" | relURL }}">发现索引 ↗</a></div>{{ range where $pages "Type" "discovery" }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开条目。留给真正想推荐的事物，以及具体的理由。</p>{{ end }}</section>
+ <section class="desk-discover" id="home-discoveries"><div class="desk-section-heading"><h2>最近发现</h2><a href="{{ "discoveries/" | relURL }}">发现索引 ↗</a></div>{{ range where $pages "Type" "discovery" }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开条目。留给真正想推荐的事物，以及具体的理由。</p>{{ end }}</section>
 </div>
 </div>
 </div>

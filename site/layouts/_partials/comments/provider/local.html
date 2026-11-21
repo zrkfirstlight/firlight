@@ -1,4 +1,5 @@
 {{ if and (not .Params.account_page) (not .Params.content_id) }}{{ errorf "Comment-enabled page %s must declare content_id" .File.Path }}{{ end }}
+{{ if .Params.account_page }}
 <section class="community article-content" data-api="{{ .Site.Params.apiBase }}" data-thread="{{ .Params.content_id | default "" }}" data-kind="{{ if .Params.account_page }}account{{ else }}discussion{{ end }}" data-state="connecting">
 <h2>{{ if .Params.account_page }}账号与内容管理{{ else }}交流与留言{{ end }}</h2>
 <p class="service-status" role="status" aria-live="polite">正在检查动态服务…</p>
@@ -17,3 +18,18 @@
 <p class="list-heading"></p>
 <div class="comment-list" aria-live="polite"></div><button type="button" data-action="more" hidden>下一页</button>
 </section>
+{{ else }}
+<section class="community community-compact" data-api="{{ .Site.Params.apiBase }}" data-thread="{{ .Params.content_id }}" data-kind="discussion" data-state="connecting">
+<h2>交流与留言</h2>
+<p class="service-status" role="status" aria-live="polite">正在连接互动服务…</p><button type="button" data-action="retry">重试连接</button>
+<div hidden>
+  <div class="account"></div>
+  <form class="profile-form"><label>昵称<input name="nickname" maxlength="40"></label><button type="submit">保存昵称</button></form>
+  <details class="auth-box"><summary>登录</summary><form class="auth-form"><label>用户名<input name="username" autocomplete="username"></label><label>密码<input name="password" type="password" autocomplete="current-password"></label><label>昵称<input name="nickname"></label><button data-mode="login" type="submit">登录</button><button data-mode="register" type="submit">注册</button></form></details>
+  <p class="registration-note"></p>
+</div>
+<form class="comment-form"><div class="comment-compose"><label><span class="music-sr-only">留言或评论</span><textarea name="body" rows="2" maxlength="3000" placeholder="写下想法…" required></textarea></label><button type="submit" data-submit>提交审核</button></div><p class="reply-status" role="status"></p><button type="button" data-action="cancel-reply" hidden>取消回复</button></form>
+<div class="view-buttons" hidden><button type="button" data-action="public">本页评论</button><button type="button" data-action="mine">我的评论</button><button type="button" data-action="manage">审核评论</button><button type="button" data-action="users">管理用户</button></div>
+<p class="list-heading" hidden></p><div class="comment-list" aria-live="polite"></div><button type="button" data-action="more" hidden>更多评论</button>
+</section>
+{{ end }}

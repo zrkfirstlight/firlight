@@ -1,7 +1,7 @@
 /* Token is bounded to this tab session; passwords and drafts are never stored. */
 (() => {
   const root=document.querySelector('.community'); if (!root) return;
-  const $=s=>root.querySelector(s), accountOnly=root.dataset.kind==='account';
+  const $=s=>root.querySelector(s), accountOnly=root.dataset.kind==='account',compact=root.classList.contains('community-compact');
   const client=new window.BlogApiClient({base:root.dataset.api});
   let storage;try{storage=window.sessionStorage;}catch{storage={getItem:()=>null,setItem:()=>{throw Error();},removeItem:()=>{}};}
   const session=new window.BlogSession(root.dataset.api,storage);
@@ -23,6 +23,7 @@
     $('.registration-note').textContent=online?(root.registration?'注册已开放 · 阅读公开评论无需账号':'注册已关闭 · 已有账号仍可登录'):'';
     $('.profile-form button').disabled=!online||busy;
     $('[data-submit]').disabled=!online||busy||!user||!registered;
+    if(compact){$('[data-action="cancel-reply"]').hidden=!parent;$('.comment-form textarea').placeholder=user?'写下想法…':'登录后可提交评论';}
     $('[data-action="manage"]').hidden=!user?.admin;$('[data-action="users"]').hidden=!user?.admin;
     $('[data-action="mine"]').disabled=!user;
     root.querySelectorAll('[data-write="true"]').forEach(b=>b.disabled=!online||busy);
@@ -55,7 +56,7 @@
     try{result=await api(query());if(mode==='public')registered=true;}
     catch(e){if(e.status===404&&mode==='public'){registered=false;controls();}throw e;}
     if(mine!==revision||dead)return;next=!!result.next;list.replaceChildren();
-    if(!result.results.length)text(list,'p','暂无记录。');
+    if(!result.results.length)text(list,'p',compact?'暂无评论。':'暂无记录。');
     for(const c of result.results){
       const article=document.createElement('article');article.dataset.record=String(c.id);list.append(article);
       if(mode==='users'){
@@ -66,8 +67,8 @@
       text(article,'strong',`${c.nickname} · #${c.id}${c.parent?' 回复 #'+c.parent:''}`);
       text(article,'small',` · ${new Date(c.created).toLocaleString()} · ${{approved:'公开',pending:'待审核',hidden:'隐藏'}[c.status]}${mode!=='public'?' · '+c.thread:''}`);
       text(article,'p',c.body);
-      if(user&&!accountOnly&&!c.parent&&c.status==='approved'&&mode==='public')button(article,'回复',()=>{parent=c.id;$('.reply-status').textContent=`正在回复 #${c.id}`;$('.comment-form textarea').focus();});
-      if(user&&(c.author_id===user.id||user.admin)){
+      if(user&&!accountOnly&&!c.parent&&c.status==='approved'&&mode==='public')button(article,'回复',()=>{parent=c.id;$('.reply-status').textContent=`正在回复 #${c.id}`;if(compact)$('[data-action="cancel-reply"]').hidden=false;$('.comment-form textarea').focus();});
+      if(!compact&&user&&(c.author_id===user.id||user.admin)){
         button(article,'编辑',()=>edit(article,c));
         button(article,'删除',()=>{
           if(article.querySelector('.delete-confirm'))return;
@@ -75,7 +76,7 @@
           button(box,'确认删除',()=>write(async()=>{await api(`/comments/${c.id}/`,'DELETE');await load();state('记录已删除。');}),true);button(box,'取消',()=>box.remove());
         });
       }
-      if(user?.admin)for(const [status,label] of [['approved','通过'],['hidden','隐藏'],['pending','待审核']])button(article,label,()=>write(async()=>{await api(`/comments/${c.id}/`,'PATCH',{status});await load();state('审核状态已更新。');}),true);
+      if(!compact&&user?.admin)for(const [status,label] of [['approved','通过'],['hidden','隐藏'],['pending','待审核']])button(article,label,()=>write(async()=>{await api(`/comments/${c.id}/`,'PATCH',{status});await load();state('审核状态已更新。');}),true);
     }
     $('[data-action="more"]').hidden=!next;controls();
   }
@@ -94,7 +95,7 @@
     const invalid=client.validateBase(location.protocol);if(invalid){connecting=false;state(invalid,root.dataset.api?'failed':'unconfigured');return;}
     try{
       const h=await api('/health/','GET',null,'');if(h.api_version!==1)throw new Error('动态服务版本不兼容。');
-      online=true;root.registration=h.registration_open;if(token){try{user=await api('/me/');$('.profile-form input').value=user.nickname;}catch(e){if(e.status!==401)throw e;}}controls();state('动态服务正常 · 评论审核后公开');await load();
+      online=true;root.registration=h.registration_open;if(token){try{user=await api('/me/');$('.profile-form input').value=user.nickname;}catch(e){if(e.status!==401)throw e;}}controls();state(compact?'':'动态服务正常 · 评论审核后公开');await load();
     }catch(e){fail(e);}finally{connecting=false;if(Date.now()>=retryAfter)retry.disabled=false;}
   }
   $('.auth-form').addEventListener('submit',e=>{
@@ -115,7 +116,7 @@
   root.addEventListener('click',e=>{
     const action=e.target.dataset.action;
     if(action==='retry')connect();
-    if(action==='cancel-reply'){parent=null;$('.reply-status').textContent='';}
+    if(action==='cancel-reply'){parent=null;$('.reply-status').textContent='';if(compact)$('[data-action="cancel-reply"]').hidden=true;}
     if(['public','mine','manage','users'].includes(action)){mode=action;page=1;load().catch(fail);}
     if(action==='more'&&next){page++;load().catch(fail);}
   });

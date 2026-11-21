@@ -1,0 +1,2 @@
+{{ $related := (.Site.RegularPages.Related .) | first 5 }}
+{{ with $related }}<aside class="related-reading"><h2 class="desk-kicker">{{ T "article.relatedContent" }}</h2><div>{{ range . }}{{ partial "desk/entry.html" . }}{{ end }}</div></aside>{{ end }}

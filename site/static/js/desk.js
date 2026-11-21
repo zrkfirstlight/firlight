@@ -37,6 +37,7 @@
     const title=document.querySelector('[data-home-recent-title]');if(title)title.textContent=kind==='post'?'随笔':'近期更新';
     const caption=document.querySelector('[data-orbit-caption]');if(caption)caption.textContent=button.dataset.orbitDescription;
     const empty=document.querySelector('[data-home-post-empty]');if(empty)empty.hidden=kind!=='post';
+    const guide=document.querySelector('[data-home-guide]');if(guide)guide.hidden=kind==='post';
   }
   nodes.forEach(b=>on(b,'click',()=>selectHome(b)));
   on(document.querySelector('[data-desk-note]'),'click',e=>{const note=document.querySelector('.desk-paper-note');note.hidden=!note.hidden;e.currentTarget.setAttribute('aria-expanded',String(!note.hidden));});
