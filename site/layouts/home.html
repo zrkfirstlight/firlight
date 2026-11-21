@@ -1,24 +1,48 @@
 {{ define "main" }}
-{{ $paginator := partial "helper/paginator.html" . }}
-{{ if eq $paginator.PageNumber 1 }}
+{{ $pages := partial "helper/pages.html" .Site.Home }}
 <div class="desk-home">
 <section class="desk-hero">
- <div class="desk-hero-copy"><span class="desk-kicker">NOTES / LIFE / LITTLE EXPERIMENTS</span><h1>{{ hugo.Data.desk.intro }}</h1><p>{{ hugo.Data.desk.description }}</p><a class="desk-text-link" href="{{ "learning/" | relURL }}">从一篇笔记开始 →</a>
- <details class="desk-intro-links"><summary>初次来访 · 网站说明</summary><nav><a href="{{ relref . "/post/about-this-site" }}">关于这个网站</a><a href="{{ relref . "/post/start-here" }}">浏览指南</a><a href="{{ relref . "/post/how-to-interact" }}">互动说明</a></nav></details></div>
- <div class="orbit-stage" aria-label="四个内容方向的轨道装置">{{ if hugo.Data.experience.motion.background }}<div class="ambience-window" aria-hidden="true"><div class="ambience-orbit"></div></div>{{ end }}
- {{ if hugo.Data.experience.motion.sky.enabled }}<div class="sky-local sky-field" data-sky="local" aria-hidden="true"></div>{{ end }}
- <svg class="orbit-drawing" viewBox="0 0 360 300" aria-hidden="true"><ellipse cx="180" cy="145" rx="145" ry="95"/><ellipse cx="180" cy="145" rx="110" ry="70" transform="rotate(-35 180 145)"/><circle cx="180" cy="145" r="4"/></svg>
- <div class="orbit-nodes">{{ range $i,$channel := hugo.Data.desk.channels }}<button type="button" class="orbit-node node-{{ $i }}" data-orbit-url="{{ $channel.url | relURL }}" data-orbit-description="{{ $channel.description }}" aria-pressed="{{ if eq $i 0 }}true{{ else }}false{{ end }}">{{ $channel.name }}</button>{{ end }}</div>
- <div class="orbit-caption"><p data-orbit-caption aria-live="polite">短文、记录与网站说明。</p><a data-orbit-link href="{{ "essays/" | relURL }}">进入随笔 ↗</a></div></div>
+ <div class="desk-hero-copy">
+  <span class="desk-kicker">{{ $labels := slice }}{{ range $id := slice "home" "essays" "learning" "projects" "about" }}{{ range where $.Site.Menus.main "Identifier" $id }}{{ $labels = $labels | append .Name }}{{ end }}{{ end }}{{ delimit $labels " / " }}</span>
+  <h1>{{ hugo.Data.desk.intro }}</h1><p>{{ hugo.Data.desk.description }}</p>
+  <div class="desk-poem"><p>日出前后，天地朦胧。<br>远处一份光来。<br>视野寸寸舒展。<br>希冀在心中发芽。</p></div>
+ </div>
+ <div class="orbit-stage" aria-label="首页内容筛选">
+  {{ if hugo.Data.experience.motion.background }}<div class="ambience-window" aria-hidden="true"><div class="ambience-orbit"></div></div>{{ end }}
+  {{ if hugo.Data.experience.motion.sky.enabled }}<div class="sky-local sky-field" data-sky="local" aria-hidden="true"></div>{{ end }}
+  <svg class="orbit-drawing" viewBox="0 0 360 300" aria-hidden="true"><ellipse cx="180" cy="145" rx="145" ry="95"/><ellipse cx="180" cy="145" rx="110" ry="70" transform="rotate(-35 180 145)"/><circle cx="180" cy="145" r="4"/></svg>
+  <div class="orbit-nodes">{{ range $i,$channel := hugo.Data.desk.channels }}<button type="button" class="orbit-node node-{{ $i }}" data-home-filter="{{ $channel.type }}" data-orbit-description="{{ $channel.description }}" aria-controls="home-content" aria-pressed="{{ if eq $channel.type "all" }}true{{ else }}false{{ end }}">{{ $channel.name }}</button>{{ end }}</div>
+  <div class="orbit-caption"><p data-orbit-caption aria-live="polite">按时间与栏目浏览全部内容。</p></div>
+ </div>
 </section>
-<div class="desk-two-col"><section class="desk-recent"><div class="desk-section-heading"><h2>近期更新</h2><a href="{{ "archives/" | relURL }}">全部归档 ↗</a></div>{{ range $paginator.Pages }}{{ partial "desk/entry.html" . }}{{ end }}</section>
-<aside class="desk-now"><span class="desk-kicker">EXPLORE / 阅读路径</span>{{ $now := hugo.Data.desk.now }}{{ with $now.reading }}<h3>在读</h3><p>{{ . }}</p>{{ end }}{{ with $now.making }}<h3>在做</h3><p>{{ . }}</p>{{ end }}{{ with $now.thinking }}<h3>在想</h3><p>{{ . }}</p>{{ end }}<h2>顺着兴趣翻阅</h2><p>按时间找记录，按专题读笔记，或打开一个可以动手的实验。</p><div class="desk-now-links"><a href="{{ "topics/" | relURL }}">主题索引</a><a href="{{ "about/" | relURL }}">关于这里</a></div></aside></div>
-<section class="desk-section"><div class="desk-section-heading"><h2>学习专题</h2><a href="{{ "learning/" | relURL }}">打开书架 ↗</a></div><div class="desk-book-row">{{ range first 2 .Site.Taxonomies.series.Alphabetical }}<article class="desk-book"><span class="desk-kicker">{{ len .Pages }} 篇已公开</span><h3><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h3><ol>{{ range first 3 .Pages.ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ol></article>{{ end }}</div></section>
-<section class="desk-section"><div class="desk-section-heading"><h2>可以动手的项目</h2><a href="{{ "projects/" | relURL }}">项目索引 ↗</a></div>{{ range first 1 (where .Site.RegularPages "Type" "project") }}{{ $project := . }}<article class="desk-project-wide">{{ with .Resources.GetMatch .Params.image }}<a class="desk-project-cover" href="{{ $project.RelPermalink }}"><img src="{{ .RelPermalink }}" alt="生命游戏的格点与轨道示意" width="1200" height="600" loading="lazy"></a>{{ end }}<div>{{ partial "desk/entry.html" . }}<a class="desk-text-link" href="{{ .RelPermalink }}">进入实验 →</a></div></article>{{ end }}</section>
-<section class="desk-section desk-discover"><div class="desk-section-heading"><h2>最近发现</h2><a href="{{ "discoveries/" | relURL }}">发现索引 ↗</a></div>{{ range first 3 (where .Site.RegularPages "Type" "discovery") }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开条目。留给真正想推荐的事物，以及具体的理由。</p>{{ end }}</section>
+<div id="home-content">
+<div class="desk-two-col" data-home-kinds="all post">
+ <section class="desk-recent"><div class="desk-section-heading"><h2 data-home-recent-title>近期更新</h2><a href="{{ "archives/" | relURL }}">全部归档 ↗</a></div>
+ {{ range $pages }}<div data-home-entry="{{ .Type }}">{{ partial "desk/entry.html" . }}</div>{{ end }}
+ {{ if not (where $pages "Type" "post") }}<p data-home-post-empty hidden>暂时没有公开随笔。</p>{{ end }}
+ </section>
+ <aside class="desk-now"><span class="desk-kicker">阅读导览</span>{{ $now := hugo.Data.desk.now }}{{ with $now.reading }}<h3>在读</h3><p>{{ . }}</p>{{ end }}{{ with $now.making }}<h3>在做</h3><p>{{ . }}</p>{{ end }}{{ with $now.thinking }}<h3>在想</h3><p>{{ . }}</p>{{ end }}<h2>内容布局</h2><p>随笔按时间排序<br>学习按专栏汇总<br>项目请自行浏览</p><div class="desk-now-links"><a href="{{ "topics/" | relURL }}">主题索引</a><a href="{{ "about/" | relURL }}">关于网站</a></div></aside>
 </div>
-{{ else }}<header class="desk-page-heading"><h1>继续翻阅</h1></header><section class="article-list">{{ range $paginator.Pages }}{{ partial "article-list/default" . }}{{ end }}</section>{{ end }}
-{{ partial "pagination.html" . }}
+<div class="desk-two-col desk-section" data-home-kinds="all notes">
+ <section><div class="desk-section-heading"><h2>学习笔记</h2><a href="{{ "learning/" | relURL }}">打开书架 ↗</a></div>
+ {{ range $i,$series := .Site.Taxonomies.series.Alphabetical }}{{ $chapters := where .Pages "Type" "notes" }}{{ if $chapters }}
+ <article class="desk-entry desk-learning-series" id="home-series-{{ $i }}"><div class="desk-meta"><span>专题</span><span>{{ len $chapters }} 篇已公开</span></div><h3><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h3><ol>{{ range $chapters.ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ol></article>
+ {{ end }}{{ end }}
+ {{ range where (where $pages "Type" "notes") "Params.series" nil }}{{ partial "desk/entry.html" . }}{{ end }}
+ {{ if not (where $pages "Type" "notes") }}<p>暂时没有公开学习笔记。</p>{{ end }}
+ </section>
+ {{ with .Site.Taxonomies.series }}<aside class="desk-now desk-topic-guide"><span class="desk-kicker">专题目录</span><nav aria-label="学习专题">{{ range $i,$series := .Alphabetical }}{{ if where .Pages "Type" "notes" }}<a href="#home-series-{{ $i }}">{{ .Page.Title }}</a>{{ end }}{{ end }}</nav></aside>{{ end }}
+</div>
+<div class="desk-two-col desk-section" data-home-kinds="all project">
+ <section><div class="desk-section-heading"><h2>项目</h2><a href="{{ "projects/" | relURL }}">项目索引 ↗</a></div>
+ {{ range where $pages "Type" "project" }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开项目。</p>{{ end }}
+ </section>
+</div>
+<div class="desk-two-col desk-section" data-home-kinds="all">
+ <section class="desk-discover"><div class="desk-section-heading"><h2>最近发现</h2><a href="{{ "discoveries/" | relURL }}">发现索引 ↗</a></div>{{ range where $pages "Type" "discovery" }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开条目。留给真正想推荐的事物，以及具体的理由。</p>{{ end }}</section>
+</div>
+</div>
+</div>
 {{ partial "footer/footer" . }}
 {{ end }}
 {{ define "right-sidebar" }}{{ end }}

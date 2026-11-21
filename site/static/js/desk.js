@@ -1,6 +1,7 @@
 /* Original small utilities: no framework, no backend dependence, no tracking. */
 (() => {
   const indexURL=document.currentScript?.dataset.index;
+  function mountDesk(){
   const abort=new AbortController(),on=(el,event,fn,extra={})=>el?.addEventListener(event,fn,{...extra,signal:abort.signal});
   let dead=false,index=null,loading=null,searchController=null;
   const dialog=document.querySelector('.quick-search'),input=document.querySelector('[data-quick-input]'),results=document.querySelector('[data-quick-results]'),status=document.querySelector('[data-quick-status]');
@@ -24,8 +25,20 @@
   document.querySelectorAll('[data-quick-search]').forEach(b=>on(b,'click',openSearch));
   on(window,'keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'&&!e.target.matches('input[type=password]')){e.preventDefault();openSearch();}});
   on(input,'input',render);
-  const nodes=[...document.querySelectorAll('[data-orbit-url]')];
-  nodes.forEach(b=>on(b,'click',()=>{nodes.forEach(n=>n.setAttribute('aria-pressed',String(n===b)));document.querySelector('[data-orbit-caption]').textContent=b.dataset.orbitDescription;const link=document.querySelector('[data-orbit-link]');link.href=b.dataset.orbitUrl;link.textContent=`进入${b.textContent} ↗`;}));
+  const schemeLabel=document.querySelector('[data-color-scheme-label]');
+  function showScheme(){if(schemeLabel)schemeLabel.textContent=document.documentElement.dataset.scheme==='dark'?'夜间模式':'日间模式';}
+  showScheme();on(window,'onColorSchemeChange',showScheme);
+  const nodes=[...document.querySelectorAll('[data-home-filter]')];
+  function selectHome(button){
+    const kind=button.dataset.homeFilter;
+    nodes.forEach(n=>n.setAttribute('aria-pressed',String(n===button)));
+    document.querySelectorAll('[data-home-kinds]').forEach(panel=>{panel.hidden=!panel.dataset.homeKinds.split(' ').includes(kind);});
+    document.querySelectorAll('[data-home-entry]').forEach(entry=>{entry.hidden=kind!=='all'&&entry.dataset.homeEntry!==kind;});
+    const title=document.querySelector('[data-home-recent-title]');if(title)title.textContent=kind==='post'?'随笔':'近期更新';
+    const caption=document.querySelector('[data-orbit-caption]');if(caption)caption.textContent=button.dataset.orbitDescription;
+    const empty=document.querySelector('[data-home-post-empty]');if(empty)empty.hidden=kind!=='post';
+  }
+  nodes.forEach(b=>on(b,'click',()=>selectHome(b)));
   on(document.querySelector('[data-desk-note]'),'click',e=>{const note=document.querySelector('.desk-paper-note');note.hidden=!note.hidden;e.currentTarget.setAttribute('aria-expanded',String(!note.hidden));});
   on(document.querySelector('[data-find-orbit]'),'click',e=>{document.querySelector('.desk-lost').classList.add('found');document.querySelector('.orbit-answer').textContent='已找到方向。下面的首页和搜索入口一直都在。';e.currentTarget.textContent='节点已归位';});
   const filter=document.querySelector('.discovery-filter select');
@@ -38,5 +51,9 @@
     savePosition=()=>{const progress=Math.max(0,Math.min(1,(scrollY-(article.getBoundingClientRect().top+scrollY))/Math.max(1,article.offsetHeight-innerHeight)));try{localStorage.setItem(key,String(progress));}catch{}lastSaved=Date.now();};
     on(window,'scroll',()=>{if(!frame&&Date.now()-lastSaved>2000)frame=requestAnimationFrame(()=>{frame=0;savePosition();});},{passive:true});
   }
-  on(window,'pagehide',()=>{savePosition();dead=true;searchController?.abort();cancelAnimationFrame(frame);abort.abort();},{once:true});
+  return()=>{savePosition();dead=true;searchController?.abort();cancelAnimationFrame(frame);abort.abort();};
+  }
+  let destroy=mountDesk();
+  window.addEventListener('pagehide',()=>destroy());
+  window.addEventListener('pageshow',e=>{if(e.persisted)destroy=mountDesk();});
 })();

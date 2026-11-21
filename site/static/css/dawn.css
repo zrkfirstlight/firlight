@@ -17,10 +17,10 @@
   background:radial-gradient(ellipse 110% 32% at 50% var(--mist-y),var(--mist-core),var(--mist-edge) 48%,transparent 100%);
 }
 [data-scheme=dark] .dawn-backdrop {
-  --day-top:rgba(142,159,181,.10);--day-mid:rgba(100,123,151,.025);
+  --day-top:rgba(12,23,39,.32);--day-mid:rgba(24,39,60,.10);
   --night-top:rgba(8,13,21,.65);--night-mid:rgba(23,32,46,.19);--night-bottom:rgba(8,17,30,.14);
-  --mist-core:rgba(152,164,180,.12);--mist-edge:rgba(119,137,159,.04);
 }
+[data-scheme=dark] .dawn-mist{display:none}
 /* Static daylight composition when visitors request less motion. */
 html[data-motion=off] .dawn-backdrop{--mist-y:22%!important;--night-opacity:0!important;--mist-opacity:.38!important}
 @media(prefers-reduced-motion:reduce){.dawn-backdrop{--mist-y:22%!important;--night-opacity:0!important;--mist-opacity:.38!important}}

@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ "css/experience.css" | relURL }}">
-<link rel="stylesheet" href="{{ "css/desk.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/desk.css?v=20261121home" | relURL }}">
 <link rel="stylesheet" href="{{ "css/sky.css" | relURL }}">
-<link rel="stylesheet" href="{{ "css/dawn.css?v=20261119mist" | relURL }}">
+<link rel="stylesheet" href="{{ "css/dawn.css?v=20261121home" | relURL }}">
 {{ if not .Params.image }}{{ with .Site.Params.share_image }}{{ with resources.Get . }}<meta property="og:image" content="{{ .Permalink }}">{{ end }}{{ end }}{{ end }}
 {{ with .Site.Copyright }}<meta name="author" content="{{ . }}">{{ end }}

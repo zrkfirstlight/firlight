@@ -1,5 +1,5 @@
 {{- $result := slice -}}
-{{- if or .IsHome (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
+{{- if and (not .IsHome) (or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term")) -}}
   {{- $pages := partial "helper/pages.html" . -}}
   {{- with .Params.collection_type -}}
     {{- $pages = (where $.Site.RegularPages "Type" .).ByDate.Reverse -}}
