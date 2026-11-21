@@ -41,7 +41,7 @@
         try{return await response.json();}catch{const failure=new Error('互动服务当前不可用，请稍后再试。服务响应格式无效。');failure.unavailable=true;failure.status=502;throw failure;}
       } catch (error) {
         if (error.name === 'AbortError' || error instanceof TypeError) {
-          const failure = new Error('互动服务当前不可用，请稍后再试。'+(error.name === 'AbortError' ? '连接超时；提交结果未确认，请重连后查看我的评论，避免重复提交。' : '网络请求失败；输入仍留在本页，提交结果未确认。'));
+          const failure = new Error('互动服务当前不可用，请稍后再试。'+(error.name === 'AbortError' ? '连接超时；提交结果未确认，请重连后核对页面，避免重复提交。' : '网络请求失败；输入仍留在本页，提交结果未确认。'));
           failure.offline = true;
           throw failure;
         }

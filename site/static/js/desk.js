@@ -45,13 +45,11 @@
     document.querySelectorAll('[data-home-kinds]').forEach(panel=>{panel.hidden=!panel.dataset.homeKinds.split(' ').includes(kind);});
     document.querySelectorAll('[data-home-entry]').forEach(entry=>{entry.hidden=kind!=='all'&&entry.dataset.homeEntry!==kind;});
     const title=document.querySelector('[data-home-recent-title]');if(title)title.textContent=kind==='post'?'随笔':'近期更新';
-    const caption=document.querySelector('[data-orbit-caption]');if(caption)caption.textContent=button.dataset.orbitDescription;
     const empty=document.querySelector('[data-home-post-empty]');if(empty)empty.hidden=kind!=='post';
     const guide=document.querySelector('[data-home-guide]');if(guide)guide.hidden=kind==='post';
   }
   nodes.forEach(b=>on(b,'click',()=>selectHome(b)));
   on(document.querySelector('[data-desk-note]'),'click',e=>{const note=document.querySelector('.desk-paper-note');note.hidden=!note.hidden;e.currentTarget.setAttribute('aria-expanded',String(!note.hidden));});
-  on(document.querySelector('[data-find-orbit]'),'click',e=>{document.querySelector('.desk-lost').classList.add('found');document.querySelector('.orbit-answer').textContent='已找到方向。下面的首页和搜索入口一直都在。';e.currentTarget.textContent='节点已归位';});
   const filter=document.querySelector('.discovery-filter select');
   on(filter,'change',()=>{let count=0;document.querySelectorAll('[data-discovery-kind]').forEach(e=>{e.hidden=filter.value!=='all'&&e.dataset.discoveryKind!==filter.value;if(!e.hidden)count++;});document.querySelector('.filter-status').textContent=`本页显示${count}条。`;});
   const marker=document.querySelector('[data-reading-id]'),article=document.querySelector('.main-article .article-content');let frame=0,lastSaved=0;

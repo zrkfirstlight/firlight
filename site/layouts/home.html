@@ -7,13 +7,7 @@
   <h1>{{ hugo.Data.desk.intro }}</h1><p>{{ hugo.Data.desk.description }}</p>
   <div class="desk-poem"><p>日出前后，天地朦胧。<br>远处一份光来。<br>视野寸寸舒展。<br>希冀在心中发芽。</p></div>
  </div>
- <div class="orbit-stage" aria-label="首页内容筛选">
-  {{ if hugo.Data.experience.motion.background }}<div class="ambience-window" aria-hidden="true"><div class="ambience-orbit"></div></div>{{ end }}
-  {{ if hugo.Data.experience.motion.sky.enabled }}<div class="sky-local sky-field" data-sky="local" aria-hidden="true"></div>{{ end }}
-  <svg class="orbit-drawing" viewBox="0 0 360 300" aria-hidden="true"><ellipse cx="180" cy="145" rx="145" ry="95"/><ellipse cx="180" cy="145" rx="110" ry="70" transform="rotate(-35 180 145)"/><circle cx="180" cy="145" r="4"/></svg>
-  <div class="orbit-nodes">{{ range $i,$channel := hugo.Data.desk.channels }}<button type="button" class="orbit-node node-{{ $i }}" data-home-filter="{{ $channel.type }}" data-orbit-description="{{ $channel.description }}" aria-controls="home-content" aria-pressed="{{ if eq $channel.type "all" }}true{{ else }}false{{ end }}">{{ $channel.name }}</button>{{ end }}</div>
-  <div class="orbit-caption"><p data-orbit-caption aria-live="polite">按时间与栏目浏览全部内容。</p></div>
- </div>
+ <nav class="home-sections" aria-label="首页内容筛选">{{ range $i,$channel := hugo.Data.desk.channels }}<button type="button" data-home-filter="{{ $channel.type }}" aria-controls="home-content" aria-pressed="{{ if eq $channel.type "all" }}true{{ else }}false{{ end }}"><span class="home-section-number" aria-hidden="true">{{ printf "%02d" (add $i 1) }}</span><span>{{ $channel.name }}</span><span class="home-section-mark" aria-hidden="true">↗</span></button>{{ end }}</nav>
 </section>
 <div id="home-content">
 <div class="desk-two-col" data-home-kinds="all post">
@@ -21,7 +15,7 @@
  {{ range $pages }}<div data-home-entry="{{ .Type }}">{{ partial "desk/entry.html" . }}</div>{{ end }}
  {{ if not (where $pages "Type" "post") }}<p data-home-post-empty hidden>暂时没有公开随笔。</p>{{ end }}
  </section>
- <aside class="desk-now desk-topic-guide home-reading-guide" data-home-guide><span class="desk-kicker">阅读导览</span><nav aria-label="首页内容索引"><a href="#home-recent">近期更新</a><a href="#home-learning">学习笔记</a><a href="#home-projects">项目</a><a href="#home-discoveries">最近发现</a></nav><div class="desk-now-links"><a href="{{ "topics/" | relURL }}">主题索引</a><a href="{{ "about/" | relURL }}">关于网站</a></div></aside>
+ <aside class="desk-now desk-topic-guide home-reading-guide" data-home-guide><span class="desk-kicker">阅读导览</span><nav aria-label="首页内容索引"><a href="#home-recent">近期更新</a><a href="#home-learning">学习笔记</a><a href="#home-projects">项目</a><a href="#home-discoveries">最近发现</a></nav></aside>
 </div>
 <div class="desk-two-col desk-section" data-home-kinds="all notes">
  <section id="home-learning"><div class="desk-section-heading"><h2>学习笔记</h2><a href="{{ "learning/" | relURL }}">打开书架 ↗</a></div>

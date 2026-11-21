@@ -37,6 +37,8 @@ for f in root.rglob('*'):
     if f.is_file() and (f.suffix.lower() in ['.sqlite','.sqlite3','.db','.py','.pyc','.key','.pem'] or f.name.startswith('.env') or f.name=='requirements.txt' or '.git' in f.relative_to(root).parts):
         errors.append('公开产物包含内部文件 '+str(f))
 if release or connected:
+    for retired in ['design-lab/index.html','design-preview/index.html','post/delivery-qa-draft/index.html','audio/ancient/credits.html','js/design-lab.js','js/design-preview.js','css/design-lab.css','css/design-preview.css']:
+        if (root/retired).exists(): errors.append('正式产物包含已退役演示或验收内容 '+retired)
     try:
         rss=ET.parse(root/'index.xml').getroot()
         sitemap=ET.parse(root/'sitemap.xml').getroot()

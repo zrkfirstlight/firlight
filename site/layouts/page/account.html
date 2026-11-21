@@ -1,5 +1,15 @@
 {{ define "main" }}
-<article class="main-article"><header class="article-header"><div class="article-details"><h1 class="article-title">{{ .Title }}</h1></div></header><div class="article-content">{{ .Content }}</div></article>
-{{ partial "comments/provider/local.html" . }}
+<div class="desk-two-col desk-index account-page">
+<header class="desk-page-heading desk-index-heading"><h1>{{ .Title }}</h1><div>{{ .Content }}</div></header>
+<div class="desk-index-content">
+<div class="account-access" data-account-access data-api="{{ .Site.Params.apiBase }}" data-state="connecting">
+ <section class="account-network" aria-labelledby="account-network-title"><h2 id="account-network-title">网络监测</h2><div class="account-network-line"><p data-connection-status role="status" aria-live="polite">正在连接互动服务…</p><button type="button" data-account-retry>重新检测</button></div></section>
+ <section aria-labelledby="account-login-title"><h2 id="account-login-title">账号登录</h2>
+  <form class="account-login-form"><label>用户名<input name="username" autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z0-9_]+" required></label><label>密码<input name="password" type="password" autocomplete="current-password" maxlength="128" required></label><button type="submit">登录</button></form>
+  <div class="account-session" hidden><p data-current-account></p><button type="button" data-account-exit>退出登录</button></div>
+  <p data-login-status role="status" aria-live="polite"></p>
+ </section>
+</div>
+</div></div>
 {{ partial "footer/footer" . }}
 {{ end }}

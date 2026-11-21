@@ -9,23 +9,19 @@
   "channels": [
     {
       "type": "all",
-      "name": "探索",
-      "description": "按时间与栏目浏览全部内容。"
+      "name": "探索"
     },
     {
       "type": "post",
-      "name": "随笔",
-      "description": "按时间翻阅日常记录与随想。"
+      "name": "随笔"
     },
     {
       "type": "notes",
-      "name": "学习",
-      "description": "阅读学习笔记，也可以从专题目录进入。"
+      "name": "学习"
     },
     {
       "type": "project",
-      "name": "项目",
-      "description": "浏览作品、工具与可以动手的实验。"
+      "name": "项目"
     }
   ]
 }
