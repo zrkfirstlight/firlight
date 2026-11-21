@@ -54,7 +54,7 @@ body{font-weight:450}
 .container .main :is(h1,h2,h3,h4,h5,h6){color:var(--card-text-color-main)}
 .main :is(.desk-meta,.desk-kicker,.article-meta,.section-count,.section-title,.search-result--title),.right-sidebar :is(.widget-title,.toc-nav,.tagCloud-tags),.left-sidebar #main-menu a>span{font-weight:500}
 .left-sidebar #main-menu .current a>span{font-weight:600}
-.site-footer .copyright{color:var(--editorial-link)}
+.container footer.site-footer .copyright{color:var(--editorial-link)}
 .main :is(.desk-page-heading p,.desk-hero-copy>p,.desk-entry p,.desk-poem,.section-description,.article-preview,.article-subtitle){color:var(--card-text-color-secondary);font-weight:450}
 .container .main :is(input,textarea,select),.main :is(.community-compact button,.editorial-search button,.desk-lost button,.reading-resume){color:var(--card-text-color-main)}
 .main .desk-lost p{color:var(--card-text-color-secondary)}
