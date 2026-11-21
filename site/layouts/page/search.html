@@ -1,0 +1,13 @@
+{{ define "body-class" }}template-search{{ end }}
+{{ define "head" }}{{ with .OutputFormats.Get "json" }}<link rel="preload" href="{{ .RelPermalink }}" as="fetch" crossorigin="anonymous">{{ end }}{{ end }}
+{{ define "main" }}
+<div class="desk-two-col desk-index">
+<header class="desk-page-heading desk-index-heading"><h1>{{ .Title }}</h1></header>
+<div class="desk-index-content">
+<form action="{{ .RelPermalink }}" class="search-form editorial-search"{{ with .OutputFormats.Get "json" }} data-json="{{ .RelPermalink }}"{{ end }} role="search"><p><label for="site-search-input">{{ T "search.title" }}</label><input id="site-search-input" name="keyword" placeholder="{{ T `search.placeholder` }}" autocomplete="off"></p><button type="submit" title="{{ T `search.title` }}" aria-label="{{ T `search.title` }}">{{ partial "helper/icon" "search" }}</button></form>
+<div class="search-result hidden" aria-live="polite"><h2 class="search-result--title section-title"></h2><div class="search-result--list article-list--compact"></div></div>
+</div></div>
+<script>window.searchResultTitleTemplate = "找到 #PAGES_COUNT 篇相关内容"</script>
+{{ $opts := dict "minify" (or hugo.IsProduction (eq hugo.Environment "connected")) "JSXFactory" "createElement" }}{{ $script := resources.Get "ts/search.tsx" | js.Build $opts }}<script src="{{ $script.RelPermalink }}" defer></script>
+{{ partial "footer/footer" . }}
+{{ end }}

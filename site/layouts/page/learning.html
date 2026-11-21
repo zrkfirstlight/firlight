@@ -1,9 +1,14 @@
 {{ define "main" }}
-<header class="desk-page-heading"><span class="desk-kicker">LEARNING / SHELF</span><h1>{{ .Title }}</h1><div>{{ .Content }}</div><p><a href="{{ "topics/" | relURL }}">跨栏目主题 ↗</a></p></header>
+<div class="desk-two-col desk-index">
+<header class="desk-page-heading desk-index-heading"><span class="desk-kicker">LEARNING / SHELF</span><h1>{{ .Title }}</h1><div>{{ .Content }}</div><p><a href="{{ "topics/" | relURL }}">跨栏目主题 ↗</a></p></header>
+<div class="desk-index-content">
 {{ partial "article-manager.html" (dict "Page" . "Kind" "notes") }}
-<div class="learning-shelf">{{ range .Site.Taxonomies.series.Alphabetical }}{{ $chapters := where .Pages "Type" "notes" }}{{ if $chapters }}
-<section class="learning-book" id="{{ .Page.Title | urlize }}"><span class="desk-kicker">专题 · {{ len $chapters }} 篇已公开</span><h2>{{ .Page.Title }}</h2><ol>{{ range $chapters.ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a><p>{{ .Description }}</p></li>{{ end }}</ol></section>
+<div class="learning-shelf">{{ range $i,$series := .Site.Taxonomies.series.Alphabetical }}{{ $chapters := where .Pages "Type" "notes" }}{{ if $chapters }}
+<section class="desk-entry desk-learning-series" id="learning-series-{{ $i }}"><div class="desk-meta"><span>专题</span><span>{{ len $chapters }} 篇已公开</span></div><h2><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h2><ol>{{ range $chapters.ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ with .Description }}<p>{{ . }}</p>{{ end }}</li>{{ end }}</ol></section>
 {{ end }}{{ end }}</div>
 {{ $loose := where (where .Site.RegularPages "Type" "notes") "Params.series" nil }}{{ with $loose }}<h2>独立笔记</h2>{{ range . }}{{ partial "desk/entry.html" . }}{{ end }}{{ end }}
+</div>
+{{ with .Site.Taxonomies.series }}<aside class="desk-index-nav"><h2>专题</h2><nav aria-label="学习专题">{{ range $i,$series := .Alphabetical }}{{ if where .Pages "Type" "notes" }}<a href="#learning-series-{{ $i }}">{{ .Page.Title }}</a>{{ end }}{{ end }}</nav></aside>{{ end }}
+</div>
 {{ partial "footer/footer" . }}
 {{ end }}

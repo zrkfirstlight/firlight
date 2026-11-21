@@ -1,0 +1,10 @@
+{{ define "body-class" }}template-archives{{ end }}
+{{ define "main" }}
+{{ $pages := partial "helper/pages.html" .Site.Home }}
+<header class="desk-page-heading"><span class="desk-kicker">{{ len $pages }} 篇已公开</span><h1>{{ .Title }}</h1><p><a href="{{ "categories/" | relURL }}">分类</a> · <a href="{{ "tags/" | relURL }}">标签</a></p></header>
+{{ range $pages.GroupByDate "2006" }}
+<section class="archives-group" id="{{ .Key }}"><h2 class="archives-date"><a href="#{{ .Key }}">{{ .Key }}</a></h2><div class="article-list--compact">{{ range .Pages }}{{ partial "article-list/compact" . }}{{ end }}</div></section>
+{{ end }}
+{{ partial "footer/footer" . }}
+{{ end }}
+{{ define "right-sidebar" }}{{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}{{ end }}

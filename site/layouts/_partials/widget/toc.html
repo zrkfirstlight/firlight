@@ -1,0 +1,3 @@
+{{ if .Context.Scratch.Get "TOCEnabled" }}
+<section class="widget reading-navigation" aria-label="文章导航"><div class="widget--toc"><nav class="toc-nav" id="TableOfContents" aria-label="本文导航">{{ partial "article/components/toc" .Context | safeHTML }}</nav></div></section>
+{{ end }}
