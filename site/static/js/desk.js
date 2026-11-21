@@ -4,6 +4,16 @@
   function mountDesk(){
   const abort=new AbortController(),on=(el,event,fn,extra={})=>el?.addEventListener(event,fn,{...extra,signal:abort.signal});
   let dead=false,index=null,loading=null,searchController=null;
+  // Align the shared article/taxonomy rail to its own heading separator.
+  // Measure document coordinates so restoration at a scrolled position stays correct.
+  const rail=document.querySelector('.container.main-container > .right-sidebar');
+  const railHeading=document.querySelector('main.main > .main-article .article-header .article-details, main.main > header');
+  let railObserver;
+  if(rail&&railHeading){
+    const alignRail=()=>{const offset=railHeading.getBoundingClientRect().bottom-rail.parentElement.getBoundingClientRect().top;rail.style.setProperty('--rail-start',`${Math.max(0,offset)}px`);};
+    alignRail();on(window,'resize',alignRail,{passive:true});
+    if(typeof ResizeObserver==='function'){railObserver=new ResizeObserver(alignRail);railObserver.observe(railHeading);}
+  }
   const dialog=document.querySelector('.quick-search'),input=document.querySelector('[data-quick-input]'),results=document.querySelector('[data-quick-results]'),status=document.querySelector('[data-quick-status]');
   const txt=(parent,tag,text)=>{const el=document.createElement(tag);el.textContent=text;parent.append(el);return el;};
   function render(){
@@ -52,7 +62,7 @@
     savePosition=()=>{const progress=Math.max(0,Math.min(1,(scrollY-(article.getBoundingClientRect().top+scrollY))/Math.max(1,article.offsetHeight-innerHeight)));try{localStorage.setItem(key,String(progress));}catch{}lastSaved=Date.now();};
     on(window,'scroll',()=>{if(!frame&&Date.now()-lastSaved>2000)frame=requestAnimationFrame(()=>{frame=0;savePosition();});},{passive:true});
   }
-  return()=>{savePosition();dead=true;searchController?.abort();cancelAnimationFrame(frame);abort.abort();};
+  return()=>{savePosition();dead=true;searchController?.abort();railObserver?.disconnect();cancelAnimationFrame(frame);abort.abort();};
   }
   let destroy=mountDesk();
   window.addEventListener('pagehide',()=>destroy());

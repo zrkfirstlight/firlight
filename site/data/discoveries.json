@@ -1,0 +1,21 @@
+{
+  "groups": [
+    {
+      "title": "好用的网页",
+      "links": [
+        { "name": "OpenAI 官网", "url": "https://openai.com/" },
+        { "name": "DeepSeek 官网", "url": "https://www.deepseek.com/" },
+        { "name": "LeetCode 官网", "url": "https://leetcode.com/" },
+        { "name": "YouTube 官网", "url": "https://www.youtube.com/" },
+        { "name": "GitHub 官网", "url": "https://github.com/" },
+        { "name": "哔哩哔哩官网", "url": "https://www.bilibili.com/" }
+      ]
+    },
+    {
+      "title": "好用的工具",
+      "links": [
+        { "name": "OpenAI 官网", "url": "https://openai.com/" }
+      ]
+    }
+  ]
+}

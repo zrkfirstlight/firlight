@@ -39,7 +39,7 @@
  </section>
 </div>
 <div class="desk-two-col desk-section" data-home-kinds="all">
- <section class="desk-discover" id="home-discoveries"><div class="desk-section-heading"><h2>最近发现</h2><a href="{{ "discoveries/" | relURL }}">发现索引 ↗</a></div>{{ range where $pages "Type" "discovery" }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开条目。留给真正想推荐的事物，以及具体的理由。</p>{{ end }}</section>
+ <section class="desk-discover" id="home-discoveries"><div class="desk-section-heading"><h2>最近发现</h2><a href="{{ "discoveries/" | relURL }}">发现索引 ↗</a></div>{{ partial "desk/discovery-links.html" . }}{{ range where $pages "Type" "discovery" }}{{ partial "desk/entry.html" . }}{{ end }}</section>
 </div>
 </div>
 </div>

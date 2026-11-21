@@ -44,3 +44,19 @@ html:has(.desk-index,.home-reading-guide){scroll-behavior:smooth}
 .community-compact button{font:inherit;font-size:1.2rem;color:var(--accent-color);background:transparent;border:1px solid var(--dream-line);border-radius:3px;padding:5px 10px;margin:0}.community-compact .comment-compose button{margin-bottom:2px}.community-compact .service-status{border:0;padding:0;font-size:1.2rem;margin:8px 0}.community-compact .service-status:empty,.community-compact .reply-status:empty{display:none}.community-compact[data-state=online]>[data-action=retry],.community-compact[data-state=connecting]>[data-action=retry]{display:none}.community-compact>[data-action=retry]{border:0;padding:0;text-decoration:underline;text-underline-offset:4px;margin-bottom:10px}.community-compact .reply-status{font-size:1.2rem;margin:8px 0}.community-compact .comment-list{margin-top:18px}.community-compact .comment-list>p{font-size:1.2rem;color:var(--card-text-color-secondary);margin:8px 0}.community-compact .comment-list article{padding:14px 0}.community-compact .comment-list strong{font-weight:500}.community-compact .comment-list article p{margin:8px 0}.community-compact .comment-list button{border:0;padding:0;text-decoration:underline;text-underline-offset:4px}
 .music-page .music-source{padding:0;border:0;background:transparent;font-size:1.4rem}.music-page .music-lyrics{text-align:center}
 .pagination{background:transparent;box-shadow:none;border-radius:0;border-top:1px solid var(--dream-line)}.pagination a,.pagination span{background:transparent!important;box-shadow:none!important;border-radius:0}.desk-lost button{background:transparent;border-color:var(--dream-line);border-radius:3px}.section-title{font-weight:400;letter-spacing:.04em}
+
+/* Dark ink, modest weight: readability comes from text, not heavier panels. */
+:root{--editorial-link:var(--card-text-color-main)}
+:root:not([data-scheme=dark]){--card-text-color-main:#111318;--card-text-color-secondary:#292d33;--card-text-color-tertiary:#34383e;--body-text-color:#292d33;--editorial-link:#15181c}
+body{font-weight:450}
+.container .main a,.container .right-sidebar a,.left-sidebar .site-name a,.left-sidebar #main-menu a>span,.left-sidebar [data-color-scheme-label],.left-sidebar .sidebar-account,.left-sidebar #main-menu .sidebar-track{color:var(--editorial-link)}
+.article-page .article-category a{color:var(--editorial-link)!important}
+.container .main :is(h1,h2,h3,h4,h5,h6){color:var(--card-text-color-main)}
+.main :is(.desk-meta,.desk-kicker,.article-meta,.section-count,.section-title,.search-result--title),.right-sidebar :is(.widget-title,.toc-nav,.tagCloud-tags),.left-sidebar #main-menu a>span{font-weight:500}
+.left-sidebar #main-menu .current a>span{font-weight:600}
+.site-footer .copyright{color:var(--editorial-link)}
+.main :is(.desk-page-heading p,.desk-hero-copy>p,.desk-entry p,.desk-poem,.section-description,.article-preview,.article-subtitle){color:var(--card-text-color-secondary);font-weight:450}
+.container .main :is(input,textarea,select),.main :is(.community-compact button,.editorial-search button,.desk-lost button,.reading-resume){color:var(--card-text-color-main)}
+.main .desk-lost p{color:var(--card-text-color-secondary)}
+.discovery-links{padding-top:4px}.discovery-links section+section{margin-top:26px}.discovery-links h3{font-size:1.45rem;line-height:1.8;font-weight:550;margin:12px 0}.discovery-links ul{display:flex;flex-wrap:wrap;gap:12px 24px;list-style:none;margin:0;padding:0;font-size:1.35rem;line-height:1.9}.discovery-links a{text-decoration:underline;text-decoration-color:var(--dream-line);text-underline-offset:5px}.discovery-links a:hover{text-decoration-color:currentColor}.discovery-links+.desk-collection{margin-top:30px}
+@media(min-width:1024px){.container.main-container>.right-sidebar.sticky{top:70px;align-self:flex-start;padding-top:0;margin-top:var(--rail-start,240px)}}

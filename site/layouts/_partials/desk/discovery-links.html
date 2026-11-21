@@ -1,0 +1,5 @@
+{{ with hugo.Data.discoveries.groups }}
+<div class="discovery-links">
+  {{ range . }}<section><h3>{{ .title }}</h3><ul>{{ range .links }}<li><a href="{{ .url }}" target="_blank" rel="noopener noreferrer">{{ .name }}</a></li>{{ end }}</ul></section>{{ end }}
+</div>
+{{ end }}
