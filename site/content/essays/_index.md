@@ -6,4 +6,4 @@ layout: collection
 collection_type: post
 comments: false
 ---
-日常记录、随想，以及一路留下的文字。
+思绪凋落，留下一路文字，他日重拾。

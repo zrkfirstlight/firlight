@@ -6,4 +6,4 @@ layout: collection
 collection_type: discovery
 comments: false
 ---
-记录感兴趣的内容与发现，按网页与工具整理常用入口。
+心血来潮，终究兴尽而退，我到底想做什么？
