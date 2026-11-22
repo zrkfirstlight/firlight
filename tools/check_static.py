@@ -1,5 +1,5 @@
 """Check generated same-origin HTML references at root and repository base paths."""
-import sys,json,re,xml.etree.ElementTree as ET
+import sys,json,re,os,xml.etree.ElementTree as ET
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urljoin,urlsplit,unquote
@@ -39,7 +39,7 @@ for f in root.rglob('*'):
 if release or connected:
     for retired in ['design-lab/index.html','design-preview/index.html','post/delivery-qa-draft/index.html','audio/ancient/credits.html','js/design-lab.js','js/design-preview.js','css/design-lab.css','css/design-preview.css']:
         if (root/retired).exists(): errors.append('正式产物包含已退役演示或验收内容 '+retired)
-    music_config=Path(__file__).resolve().parents[1]/'site/data/experience.json'
+    music_config=Path(os.environ.get('BLOG_SITE_SOURCE',Path(__file__).resolve().parents[1]/'site'))/'data/experience.json'
     active_music={track.get('id') for track in json.loads(music_config.read_text(encoding='utf-8'))['music']['tracks']}
     for track in ['qifengle','yueguang']:
         if track not in active_music:
