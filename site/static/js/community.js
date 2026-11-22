@@ -23,6 +23,7 @@
     $('.registration-note').textContent=online?(root.registration?'注册已开放 · 阅读公开评论无需账号':'注册已关闭 · 已有账号仍可登录'):'';
     $('.profile-form button').disabled=!online||busy;
     $('[data-submit]').disabled=!online||busy||!user||!registered;
+    $('[data-submit]').textContent=user?.admin?'发表评论':'提交审核';
     if(compact){$('[data-action="cancel-reply"]').hidden=!parent;$('.comment-form textarea').placeholder=user?'写下想法…':'登录后可提交评论';}
     $('[data-action="manage"]').hidden=!user?.admin;$('[data-action="users"]').hidden=!user?.admin;
     $('[data-action="mine"]').disabled=!user;
@@ -68,8 +69,8 @@
       text(article,'small',` · ${new Date(c.created).toLocaleString()} · ${{approved:'公开',pending:'待审核',hidden:'隐藏'}[c.status]}${mode!=='public'?' · '+c.thread:''}`);
       text(article,'p',c.body);
       if(user&&!accountOnly&&!c.parent&&c.status==='approved'&&mode==='public')button(article,'回复',()=>{parent=c.id;$('.reply-status').textContent=`正在回复 #${c.id}`;if(compact)$('[data-action="cancel-reply"]').hidden=false;$('.comment-form textarea').focus();});
-      if(!compact&&user&&(c.author_id===user.id||user.admin)){
-        button(article,'编辑',()=>edit(article,c));
+      if(user&&(c.author_id===user.id||user.admin)){
+        if(!compact)button(article,'编辑',()=>edit(article,c));
         button(article,'删除',()=>{
           if(article.querySelector('.delete-confirm'))return;
           const box=document.createElement('div');box.className='delete-confirm';text(box,'p','确认永久删除这一条记录？回复不会连带删除。');article.append(box);
@@ -111,7 +112,7 @@
   $('.profile-form').addEventListener('submit',e=>{e.preventDefault();const nickname=e.currentTarget.elements.nickname.value;write(async()=>{user=await api('/me/','PATCH',{nickname});controls();await load();state('昵称已保存。');}).catch(fail);});
   $('.comment-form').addEventListener('submit',e=>{
     e.preventDefault();if(!user||!registered)return;const form=e.currentTarget,body=form.elements.body.value;
-    write(async()=>{await api('/comments/','POST',{thread:root.dataset.thread,body,parent});form.elements.body.value='';parent=null;$('.reply-status').textContent='';await load();state('提交成功，等待审核。');}).catch(fail);
+    write(async()=>{const result=await api('/comments/','POST',{thread:root.dataset.thread,body,parent});form.elements.body.value='';parent=null;$('.reply-status').textContent='';await load();state(result.status==='approved'?'评论已发表。':'提交成功，等待审核。');}).catch(fail);
   });
   root.addEventListener('click',e=>{
     const action=e.target.dataset.action;

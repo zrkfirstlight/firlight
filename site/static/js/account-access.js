@@ -14,6 +14,7 @@
     form.querySelector('button').disabled=!online||busy||checking;
     $('[data-account-exit]').disabled=busy;
     $('[data-current-account]').textContent=token?(user?`已登录 · ${user.nickname || user.username}`:'登录状态待确认'):'';
+    const ownerEntry=$('[data-owner-entry]');if(ownerEntry)ownerEntry.hidden=!user?.admin;
     window.dispatchEvent(new CustomEvent('blog:account',{detail:user?{nickname:user.nickname || user.username}:null}));
   }
   function clear(){session.clear();token='';user=null;clearTimeout(expiryTimer);render();}

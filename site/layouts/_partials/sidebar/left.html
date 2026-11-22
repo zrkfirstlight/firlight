@@ -96,6 +96,7 @@
                   {{ if .Site.Params.apiBase }}<a data-account-login href="{{ "account/" | relURL }}">登录</a><button type="button" data-account-logout hidden>退出</button>{{ else }}<button type="button" disabled title="互动服务尚未配置">登录</button>{{ end }}
                   <span data-account-status class="music-sr-only" role="status" aria-live="polite"></span>
                 </li>
+                {{ if .Site.Params.apiBase }}<li class="sidebar-visits" data-site-visits data-api="{{ .Site.Params.apiBase }}" aria-live="polite">总访问 · 读取中</li>{{ end }}
             </ol>
         </li>
     </ol>

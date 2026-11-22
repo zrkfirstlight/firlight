@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="desk-two-col desk-index owner-page" data-owner-tools data-api="{{ .Site.Params.apiBase }}">
+<header class="desk-page-heading desk-index-heading"><h1>{{ .Title }}</h1><div>{{ .Content }}</div></header>
+<div class="desk-index-content">
+<p data-owner-status role="status">正在确认管理权限…</p><a data-owner-login href="{{ "account/" | relURL }}">前往登录</a><button type="button" data-owner-retry>重试连接</button>
+<div data-owner-panels hidden>
+<nav class="owner-tabs" aria-label="管理工具"><a href="#articles">文章管理</a><a href="#comments">审核评论</a><a href="#users">管理账号</a></nav>
+<section id="articles"><h2>文章管理</h2>{{ partial "article-manager.html" (dict "Page" . "Kind" "all") }}</section>
+<section id="comments"><h2>审核评论</h2><form data-comment-search><label>筛选<select name="status"><option value="pending">待审核</option><option value="approved">已公开</option><option value="hidden">已隐藏</option><option value="">全部</option></select></label><label>查找<input type="search" name="q" maxlength="100" placeholder="正文、文章或账号"></label><button type="submit">查看</button></form><div data-comments-list></div></section>
+<section id="users"><h2>管理账号</h2><button type="button" data-load-users>刷新账号</button><div data-users-list></div><details><summary>添加朋友账号</summary><form data-new-user><label>用户名<input name="username" autocomplete="off" pattern="[a-zA-Z0-9_]{3,30}" minlength="3" maxlength="30" required></label><label>昵称<input name="nickname" maxlength="40" required></label><label>初始密码<input type="password" name="password" autocomplete="new-password" minlength="10" maxlength="128" required></label><label class="owner-check"><input name="can_publish" type="checkbox">允许发布及管理自己的文章</label><button type="submit">创建账号</button></form></details></section>
+</div></div></div>
+{{ partial "footer/footer" . }}
+{{ end }}

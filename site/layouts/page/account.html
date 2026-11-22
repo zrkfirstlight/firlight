@@ -7,6 +7,7 @@
  <section aria-labelledby="account-login-title"><h2 id="account-login-title">账号登录</h2>
   <form class="account-login-form"><label>用户名<input name="username" autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z0-9_]+" required></label><label>密码<input name="password" type="password" autocomplete="current-password" maxlength="128" required></label><button type="submit">登录</button></form>
   <div class="account-session" hidden><p data-current-account></p><button type="button" data-account-exit>退出登录</button></div>
+  <p data-owner-entry hidden><a href="{{ "manage/" | relURL }}">文章管理 · 审核评论 · 管理账号 →</a></p>
   <p data-login-status role="status" aria-live="polite"></p>
  </section>
 </div>

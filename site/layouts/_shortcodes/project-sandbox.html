@@ -1,0 +1,6 @@
+{{- $app := .Get "app" -}}
+{{- if ne (len (findRE `^[a-z0-9]+(-[a-z0-9]+)*$` $app)) 1 -}}{{ errorf "project-sandbox app must be a local project identifier" }}{{- end -}}
+{{- if not (fileExists (printf "static/projects/%s/index.html" $app)) -}}{{ errorf "Missing isolated project static/projects/%s/index.html" $app }}{{- end -}}
+{{- $height := int (.Get "height" | default 600) -}}
+{{- if or (lt $height 240) (gt $height 1200) -}}{{ errorf "project-sandbox height must be between 240 and 1200" }}{{- end -}}
+<iframe class="project-sandbox" title="{{ .Get "title" | default "项目体验" }}" src="{{ printf "projects/%s/" $app | relURL }}" height="{{ $height }}" loading="lazy" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe>

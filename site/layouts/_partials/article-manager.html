@@ -1,17 +1,20 @@
 {{ with .Page.Site.Params.apiBase }}
 {{ $.Page.Store.Set "articleManager" true }}
-<link rel="stylesheet" href="{{ "css/article-manager.css?v=20261119" | relURL }}">
+<link rel="stylesheet" href="{{ "css/article-manager.css?v=20261122manage" | relURL }}">
 <section class="article-manager" data-article-manager data-api="{{ . }}" data-kind="{{ $.Kind }}" hidden aria-label="文章管理">
   <div class="am-toolbar"><strong>文章管理</strong><button type="button" data-am-new>写文章</button><button type="button" data-am-list>管理文章</button><button type="button" data-am-retry hidden>重试连接</button></div>
   <p class="am-status" role="status" aria-live="polite"></p>
+  <form class="am-search"><label>查找文章<input type="search" name="q" maxlength="100" placeholder="标题、正文、短链接或内容标识"></label><button type="submit">搜索</button></form>
+  <label class="am-import">导入 Markdown<input type="file" accept=".md,text/markdown" data-am-import></label>
   <div class="am-list" hidden></div>
   <form class="am-editor" hidden>
     <h2 data-am-heading>写文章</h2>
+    {{ if eq $.Kind "all" }}<label>栏目<select name="kind"><option value="post">随笔</option><option value="notes">学习</option><option value="discovery">兴趣分享</option><option value="project">项目</option></select></label>{{ end }}
     <div class="am-fields"><label>标题<input name="title" required maxlength="200"></label><label>短链接（英文、数字和短横线）<input name="slug" required maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*"></label><label>摘要<textarea name="summary" maxlength="1000" rows="2"></textarea></label><label>发布日期<input name="date" type="datetime-local" required></label><label>分类（逗号分隔）<input name="categories" maxlength="1000"></label><label>标签（逗号分隔）<input name="tags" maxlength="1500"></label></div>
     <label>Markdown 正文<textarea class="am-body" name="body" rows="18" maxlength="500000" spellcheck="false"></textarea></label>
     <label class="am-check"><input type="checkbox" name="draft" checked>草稿（保存不会自动公开）</label>
     <p class="am-note">现有图片、专题与永久内容标识会保留。发布后由 GitHub Pages 构建，通常需要等待一会儿。</p>
-    <div class="am-actions"><button type="submit">保存到数据库</button><button type="button" data-am-publish>发布到网站</button><button type="button" data-am-close>收起</button></div>
+    <div class="am-actions"><button type="submit">保存到数据库</button><button type="button" data-am-publish>发布到网站</button><button type="button" data-am-export>下载 Markdown</button><button type="button" data-am-close>收起</button></div>
   </form>
   <div class="am-job" hidden><span data-am-job-status></span><button type="button" data-am-job-check>检查发布结果</button><button type="button" data-am-job-retry hidden>重试发布</button></div>
 </section>

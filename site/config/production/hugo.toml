@@ -1,7 +1,7 @@
 # GitHub Pages release: static only. No browser API requests or account UI.
 baseURL = "https://zrk123.cn/"
 # Planned API: https://api.zrk123.cn/api ; not connected, keep public interaction disabled.
-ignoreFiles = ['(^|[/\\])page[/\\](guestbook|account|design-lab|design-preview)([/\\]|$)', '(^|[/\\])post[/\\]delivery-qa-draft([/\\]|$)']
+ignoreFiles = ['(^|[/\\])page[/\\](guestbook|account|manage|design-lab|design-preview)([/\\]|$)', '(^|[/\\])post[/\\]delivery-qa-draft([/\\]|$)']
 [params]
 apiBase = ""
 [params.comments]
@@ -10,4 +10,4 @@ enabled = false
 [[module.mounts]]
 source = "static"
 target = "static"
-files = ["! js/community.js", "! js/community-api.js", "! js/community-session.js", "! js/sidebar-account.js", "! js/account-access.js", "! js/article-manager.js", "! css/article-manager.css", "! audio/ancient/**", "! images/music/**", "! images/landscape.svg", "! css/design-lab.css", "! css/design-preview.css", "! js/design-lab.js", "! js/design-preview.js"]
+files = ["! js/site-visits.js", "! js/owner-tools.js", "! js/community.js", "! js/community-api.js", "! js/community-session.js", "! js/sidebar-account.js", "! js/account-access.js", "! js/article-manager.js", "! css/article-manager.css", "! audio/ancient/**", "! images/music/**", "! images/landscape.svg", "! css/design-lab.css", "! css/design-preview.css", "! js/design-lab.js", "! js/design-preview.js"]

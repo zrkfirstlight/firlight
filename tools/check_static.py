@@ -39,6 +39,8 @@ for f in root.rglob('*'):
 if release or connected:
     for retired in ['design-lab/index.html','design-preview/index.html','post/delivery-qa-draft/index.html','audio/ancient/credits.html','js/design-lab.js','js/design-preview.js','css/design-lab.css','css/design-preview.css']:
         if (root/retired).exists(): errors.append('正式产物包含已退役演示或验收内容 '+retired)
+    for archived in ['music/qifengle/index.html','music/yueguang/index.html','media/music/qifengle','media/music/yueguang']:
+        if (root/archived).exists():errors.append('正式产物仍包含已归档音乐 '+archived)
     try:
         rss=ET.parse(root/'index.xml').getroot()
         sitemap=ET.parse(root/'sitemap.xml').getroot()
@@ -67,6 +69,11 @@ if release or connected:
         assert isinstance(search,list)
         if release:assert 'guestbook' not in json.dumps(search,ensure_ascii=False)
         assert all(str(row.get('permalink','')).startswith(prefix) for row in search)
+        if connected:
+            assert (root/'manage/index.html').is_file()
+            assert not any('/manage/' in (url or '') for url in urls)
+            assert not any('/manage/' in row['permalink'] for row in search)
+            assert re.search(r'name=["\']?robots["\']?\s+content=["\']?noindex',(root/'manage/index.html').read_text(encoding='utf-8'))
         if (root/'design-lab/index.html').exists():
             assert not any('/design-lab/' in (url or '') or '/design-preview/' in (url or '') for url in urls)
             assert not any('/design-lab/' in row['permalink'] or '/design-preview/' in row['permalink'] for row in search)
