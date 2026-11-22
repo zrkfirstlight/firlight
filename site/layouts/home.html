@@ -1,5 +1,14 @@
 {{ define "main" }}
 {{ $pages := partial "helper/pages.html" .Site.Home }}
+{{ $limits := hugo.Data.desk.homeLimits }}
+{{ $posts := first ($limits.essays | default 10) (where $pages "Type" "post").ByDate.Reverse }}
+{{ $learningSeries := slice }}
+{{ range .Site.Taxonomies.series.Alphabetical }}
+ {{ $chapters := (where .Pages "Type" "notes").ByDate.Reverse }}
+ {{ if $chapters }}{{ $learningSeries = $learningSeries | append (dict "term" .Page "chapters" $chapters "latest" (index $chapters 0).Date.Unix) }}{{ end }}
+{{ end }}
+{{ $learningSeries = first ($limits.learningSeries | default 2) (sort $learningSeries "latest" "desc") }}
+{{ $projects := first ($limits.projects | default 2) (where $pages "Type" "project").ByDate.Reverse }}
 <div class="desk-home">
 <section class="desk-hero">
  <div class="desk-hero-copy">
@@ -12,24 +21,23 @@
 <div id="home-content">
 <div class="desk-two-col" data-home-kinds="all post">
  <section class="desk-recent" id="home-recent"><div class="desk-section-heading"><h2 data-home-recent-title>近期更新</h2><a href="{{ "archives/" | relURL }}">全部归档 ↗</a></div>
- {{ range $pages }}<div data-home-entry="{{ .Type }}">{{ partial "desk/entry.html" . }}</div>{{ end }}
+ {{ range $posts }}<div data-home-entry="{{ .Type }}">{{ partial "desk/entry.html" . }}</div>{{ end }}
  {{ if not (where $pages "Type" "post") }}<p data-home-post-empty hidden>暂时没有公开随笔。</p>{{ end }}
  </section>
  <aside class="desk-now desk-topic-guide home-reading-guide" data-home-guide><span class="desk-kicker">阅读导览</span><nav aria-label="首页内容索引"><a href="#home-recent">近期更新</a><a href="#home-learning">学习笔记</a><a href="#home-projects">项目</a><a href="#home-discoveries">最近发现</a></nav></aside>
 </div>
 <div class="desk-two-col desk-section" data-home-kinds="all notes">
  <section id="home-learning"><div class="desk-section-heading"><h2>学习笔记</h2><a href="{{ "learning/" | relURL }}">打开书架 ↗</a></div>
- {{ range $i,$series := .Site.Taxonomies.series.Alphabetical }}{{ $chapters := where .Pages "Type" "notes" }}{{ if $chapters }}
- <article class="desk-entry desk-learning-series" id="home-series-{{ $i }}"><div class="desk-meta"><span>专题</span><span>{{ len $chapters }} 篇已公开</span></div><h3><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h3><ol>{{ range $chapters.ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ol></article>
- {{ end }}{{ end }}
- {{ range where (where $pages "Type" "notes") "Params.series" nil }}{{ partial "desk/entry.html" . }}{{ end }}
+ {{ range $i,$series := $learningSeries }}
+ <article class="desk-entry desk-learning-series" id="home-series-{{ $i }}"><div class="desk-meta"><span>专题</span><span>{{ len .chapters }} 篇已公开</span></div><h3><a href="{{ .term.RelPermalink }}">{{ .term.Title }}</a></h3><ol>{{ range first ($limits.chaptersPerSeries | default 5) .chapters }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ol></article>
+ {{ end }}
  {{ if not (where $pages "Type" "notes") }}<p>暂时没有公开学习笔记。</p>{{ end }}
  </section>
- {{ with .Site.Taxonomies.series }}<aside class="desk-now desk-topic-guide"><span class="desk-kicker">专题目录</span><nav aria-label="学习专题">{{ range $i,$series := .Alphabetical }}{{ if where .Pages "Type" "notes" }}<a href="#home-series-{{ $i }}">{{ .Page.Title }}</a>{{ end }}{{ end }}</nav></aside>{{ end }}
+ {{ with $learningSeries }}<aside class="desk-now desk-topic-guide"><span class="desk-kicker">专题目录</span><nav aria-label="学习专题">{{ range $i,$series := . }}<a href="#home-series-{{ $i }}">{{ .term.Title }}</a>{{ end }}</nav></aside>{{ end }}
 </div>
 <div class="desk-two-col desk-section" data-home-kinds="all project">
  <section id="home-projects"><div class="desk-section-heading"><h2>项目</h2><a href="{{ "projects/" | relURL }}">项目索引 ↗</a></div>
- {{ range where $pages "Type" "project" }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开项目。</p>{{ end }}
+ {{ range $projects }}{{ partial "desk/entry.html" . }}{{ else }}<p>暂时没有公开项目。</p>{{ end }}
  </section>
 </div>
 <div class="desk-two-col desk-section" data-home-kinds="all">

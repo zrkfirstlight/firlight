@@ -1,6 +1,12 @@
 {
   "intro": "firlight's blog",
   "description": "记录日常生活。",
+  "homeLimits": {
+    "essays": 10,
+    "learningSeries": 2,
+    "chaptersPerSeries": 5,
+    "projects": 2
+  },
   "now": {
     "reading": "",
     "making": "",
