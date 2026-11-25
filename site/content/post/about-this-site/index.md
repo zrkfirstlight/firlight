@@ -1,11 +1,11 @@
 ---
 title: 关于这个网站：记录、探索与分享
 date: '2026-10-22T00:00:00+08:00'
-lastmod: '2026-11-23T18:40:57.271197+08:00'
+lastmod: '2026-11-25T18:47:14.181806+08:00'
 draft: false
 slug: about-this-site
 content_id: about-this-site
-description: firlight's blog：读文章，翻项目，也留一点余地给小小的界面实验。
+description: firlight's blog：内容、分享、说明
 categories:
 - 网站说明
 tags:
